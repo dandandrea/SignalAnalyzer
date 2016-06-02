@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "SignalAnalyzer\Cli.csproj", "{14F59415-6705-4C18-AAA5-505F3D161A1F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "Cli\Cli.csproj", "{14F59415-6705-4C18-AAA5-505F3D161A1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{29D3CA05-7F96-4750-BA4D-B995D5389AC8}"
 EndProject
