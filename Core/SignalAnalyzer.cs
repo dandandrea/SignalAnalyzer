@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Numerics;
 using NAudio.Wave;
 using System.Diagnostics;
+using MathNet.Numerics;
+using MathNet.Numerics.IntegralTransforms;
 
 namespace Core
 {
@@ -27,16 +29,18 @@ namespace Core
                 j = j + 2;
             }
 
+            var window = Window.BlackmanHarris((int)sampleLengthInBytes);
+
             var complexes = new Complex[shorts.Length];
             for (var i = 0; i < shorts.Length; i++)
             {
-                complexes[i] = new Complex(shorts[i], 0);
+                complexes[i] = new Complex(shorts[i] * window[i], 0);
             }
 
             Debug.WriteLine("Performing FFT");
             var stopWatch = new Stopwatch();
             stopWatch.Start();
-            MathNet.Numerics.IntegralTransforms.Fourier.Forward(complexes);
+            Fourier.Forward(complexes);
             stopWatch.Stop();
             Debug.WriteLine($"Performed FFT in {stopWatch.ElapsedMilliseconds} milliseconds");
 

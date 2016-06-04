@@ -13,18 +13,17 @@ namespace Cli
             {
                 @"c:\Users\laptop\Desktop\SDR\Signal analysis\flex_long.wav",
                 @"c:\Users\laptop\Desktop\SDR\Signal analysis\flex_long_payload.wav",
-                @"c:\Users\laptop\Desktop\SDR\Signal analysis\SDRSharp_20160529_172631Z_929612500Hz_AF_short.wav",
                 @"c:\Users\laptop\Desktop\SDR\Signal analysis\2600.wav",
-                @"c:\Users\laptop\Desktop\SDR\Signal analysis\1450.wav",
-                @"c:\Users\laptop\Desktop\SDR\Signal analysis\pocsag_1.wav"
+                @"c:\Users\laptop\Desktop\SDR\Signal analysis\1450.wav"
             };
 
             foreach (var filename in filenames)
             {
+                Console.WriteLine("------------------------------------------------------------");
+                Console.WriteLine($"Analyzing {Path.GetFileName(filename)}");
+
                 var signalAnalysis = SignalAnalyzer.AnalyzeSignal(filename);
 
-                Console.WriteLine("------------------------------------------------------------");
-                Console.WriteLine($"Filename: {Path.GetFileName(filename)}");
                 Console.WriteLine($"Sample rate: {signalAnalysis.SampleRate:N0} Hz");
                 Console.WriteLine($"Sample length in bytes: {signalAnalysis.SampleLengthInBytes:N0} bytes");
                 Console.WriteLine($"Sample length in milliseconds: {signalAnalysis.SampleLengthInMilliseconds:N0} ms");
