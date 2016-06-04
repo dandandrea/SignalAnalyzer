@@ -29,7 +29,7 @@ namespace Cli
                 Console.WriteLine($"Bits per sample: {signalAnalysis.BitsPerSample:N0} bits/sample");
 
                 Console.WriteLine();
-                Console.WriteLine("Dominant frequencies:");
+                Console.WriteLine("Predominant frequencies:");
                 var i = 0;
                 foreach (var frequencyComponent in signalAnalysis.FrequencyComponents)
                 {
