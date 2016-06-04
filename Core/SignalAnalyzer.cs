@@ -1,100 +1,68 @@
-﻿using NAudio.Dsp;
-using NAudio.Wave;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
+using NAudio.Wave;
+using System.Diagnostics;
 
 namespace Core
 {
     public class SignalAnalyzer
     {
-        public static ICollection<FrequencyComponent> GetFrequencyComponents(string filename)
+        public static SignalAnalysis AnalyzeSignal(string filename)
         {
-            // Open the file
             var reader = new WaveFileReader(filename);
+            var bytes = new byte[reader.Length];
+            reader.Read(bytes, 0, (int)reader.Length);
 
-            // Wave file details
-            var numChannels = reader.WaveFormat.Channels;
             var sampleRate = reader.WaveFormat.SampleRate;
-            var bitDepth = reader.WaveFormat.BitsPerSample;
+            var bitsPerSample = reader.WaveFormat.BitsPerSample;
+            var sampleLengthInBytes = reader.Length;
+            var sampleLengthInMilliseconds = reader.TotalTime.Milliseconds;
 
-            // Play the file
-            // var waveOut = new WaveOut();
-            // waveOut.Init(waveFileReader);
-            // waveOut.Play();
-
-            // Read the data into an array
-            byte[] dataAllChannels = new byte[reader.Length];
-            reader.Read(dataAllChannels, 0, dataAllChannels.Length);
-
-            // Get the first channel
-            // TODO: Need to take into account bitDepth
-            // TODO: As bitDepth increasing, need to read in more successive bytes per channel
-            /*
-            byte[] dataFirstChannel = new byte[dataAllChannels.Length / numChannels];
+            var shorts = new short[bytes.Length / 2];
             var j = 0;
-            for (var i = 0; i < dataAllChannels.Length; i = i + numChannels)
+            for (var i = 0; i < shorts.Length; i++)
             {
-                dataFirstChannel[j] = dataAllChannels[i];
-                j++;
-            }
-            */
-
-            // Perform the sampling
-            // You don't have to fill the FFT buffer to get valid results.
-            // More noisy & smaller "magnitudes", but better freq. res.
-            var fftSize = 8192;
-            var sampledData = new NAudio.Dsp.Complex[fftSize];
-            int bytesPerChannelSample = bitDepth / 8;
-            var byteOffset = (int)Math.Floor((double)dataAllChannels.Length / bytesPerChannelSample / fftSize);
-            for (var i = 0; i < fftSize; i++)
-            {
-                var samplePosition = i * byteOffset;
-                sampledData[i] = new NAudio.Dsp.Complex();
-                sampledData[i].X = BitConverter.ToInt16(dataAllChannels, samplePosition);
+                shorts[i] = BitConverter.ToInt16(bytes, j);
+                j = j + 2;
             }
 
-            Console.WriteLine($"{numChannels} channel(s), {sampleRate} sample rate, {bitDepth} bits per sample");
-            Console.WriteLine($"Overall data length {dataAllChannels.Length}, 1st ch. data length {dataAllChannels.Length}");
-            Console.WriteLine($"# samples (FFT size) {fftSize}, channel data byte offset {byteOffset}");
-            Console.WriteLine("Performing FFT");
-            FastFourierTransform.FFT(true, (int)Math.Log(fftSize, 2), sampledData);
-
-            var freqs = new List<FrequencyComponent>();
-            for (int i = 0; i < sampledData.Length / 2; i++)
+            var complexes = new Complex[shorts.Length];
+            for (var i = 0; i < shorts.Length; i++)
             {
-                if (sampledData[i].Y == 0)
+                complexes[i] = new Complex(shorts[i], 0);
+            }
+
+            Debug.WriteLine("Performing FFT");
+            var stopWatch = new Stopwatch();
+            stopWatch.Start();
+            MathNet.Numerics.IntegralTransforms.Fourier.Forward(complexes);
+            stopWatch.Stop();
+            Debug.WriteLine($"Performed FFT in {stopWatch.ElapsedMilliseconds} milliseconds");
+
+            var frequencyComponents = new List<FrequencyComponent>();
+            for (var i = 0; i < complexes.Length / 2; i++)
+            {
+                var freq = i * sampleRate / complexes.Length;
+                var frequencyComponent = new FrequencyComponent
                 {
-                    continue;
-                }
-
-                var magnitude = Math.Sqrt(sampledData[i].X * sampledData[i].X + sampledData[i].Y * sampledData[i].Y);
-
-                // *** I assume we don't care about phase???
-                var freq = i * sampleRate / fftSize;
-                freqs.Add(new FrequencyComponent() { Frequency = freq, Magnitude = magnitude });
+                    Frequency = freq,
+                    Magnitude = complexes[i].Magnitude,
+                    BinNumber = i
+                };
+                frequencyComponents.Add(frequencyComponent);
             }
 
-            freqs.Sort((b, a) => a.Magnitude.CompareTo(b.Magnitude));
+            frequencyComponents.Sort((a, b) => b.Magnitude.CompareTo(a.Magnitude));
 
-            var j = 0;
-            foreach (var freq in freqs)
+            return new SignalAnalysis
             {
-                Console.WriteLine($"{freq.Frequency} Hz ({freq.Magnitude})");
-
-                if (j > 0 && j % 10 == 0)
-                {
-                    break;
-                    Console.WriteLine("Hit enter for more values");
-                    Console.ReadLine();
-                }
-
-                j++;
-            }
-
-            Console.WriteLine("Done");
-            Console.ReadLine();
-
-            return freqs;
+                SampleRate = sampleRate,
+                BitsPerSample = bitsPerSample,
+                SampleLengthInMilliseconds = sampleLengthInMilliseconds,
+                SampleLengthInBytes = (int)sampleLengthInBytes,
+                FrequencyComponents = frequencyComponents
+            };
         }
     }
 }
