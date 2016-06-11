@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Core.SignalAnalysis
 {
     public class FrequencyComponent
     {

@@ -1,7 +1,6 @@
-﻿using Core;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System;
+using System.Linq;
+using Core.BinaryFskAnalysis;
 
 namespace Cli
 {
@@ -9,45 +8,26 @@ namespace Cli
     {
         public static void Main(string[] args)
         {
-            var filenames = new List<string>
+            var filename = @"c:\Users\laptop\Desktop\SDR\Signal analysis\bell_103_payload.wav";
+
+            var windowPositionStart = 0;
+            var windowPositionEnd = 100;
+            var windowLengthStart = 3;
+            var windowLengthEnd = 5;
+
+            var windowSamples = BinaryFskAnalyzer.GetWindowedFrequencyCandidates(filename, windowPositionStart,
+                windowPositionEnd, windowLengthStart, windowLengthEnd);
+
+            var windowFrequencies = windowSamples.Select(x => x.FrequencyComponent).ToList();
+
+            var frequencyCandidates = BinaryFskAnalyzer.GetFrequencyCandidates(windowFrequencies);
+
+            foreach (var frequencyCandidate in frequencyCandidates)
             {
-                @"c:\Users\laptop\Desktop\SDR\Signal analysis\flex_long.wav",
-                @"c:\Users\laptop\Desktop\SDR\Signal analysis\flex_long_payload.wav",
-                @"c:\Users\laptop\Desktop\SDR\Signal analysis\2600.wav",
-                @"c:\Users\laptop\Desktop\SDR\Signal analysis\1450.wav"
-            };
-
-            foreach (var filename in filenames)
-            {
-                Console.WriteLine("------------------------------------------------------------");
-                Console.WriteLine($"Analyzing {Path.GetFileName(filename)}");
-
-                var signalAnalysis = SignalAnalyzer.AnalyzeSignal(filename);
-
-                Console.WriteLine($"Sample rate: {signalAnalysis.SampleRate:N0} Hz");
-                Console.WriteLine($"Sample length in bytes: {signalAnalysis.SampleLengthInBytes:N0} bytes");
-                Console.WriteLine($"Sample length in milliseconds: {signalAnalysis.SampleLengthInMilliseconds:N0} ms");
-                Console.WriteLine($"Bits per sample: {signalAnalysis.BitsPerSample:N0} bits/sample");
-
-                Console.WriteLine();
-                Console.WriteLine("Predominant frequencies");
-                Console.WriteLine("-----------------------");
-                var i = 0;
-                foreach (var frequencyComponent in signalAnalysis.FrequencyComponents)
-                {
-                    Console.WriteLine($"{frequencyComponent.Frequency:N0} Hz ({frequencyComponent.Magnitude:N2} magnitude)");
-
-                    if (i > 0 && i % 15 == 0)
-                    {
-                        Console.WriteLine();
-                        Console.WriteLine("Press enter to continue");
-                        Console.ReadLine();
-                        break;
-                    }
-
-                    i++;
-                }
+                Console.WriteLine($"(Looking for 2,025 Hz or 2,225 Hz) {frequencyCandidate} Hz");
             }
+
+            Console.ReadLine();
         }
     }
 }
