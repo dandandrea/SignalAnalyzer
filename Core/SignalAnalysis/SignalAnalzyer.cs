@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Numerics;
 using NAudio.Wave;
-using System.Diagnostics;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 
 namespace Core.SignalAnalysis
 {
-    public class SignalAnalyzer
+    public class SignalAnalyzer : ISignalAnalyzer
     {
-        public static SignalAnalysisResult AnalyzeSignal(string filename, double? startMilliseconds = null,
-            double? endMilliseconds = null, int minFftSize = 8192, int maxFftSize = 16384)
+        public SignalAnalysisResult AnalyzeSignal(string filename, double? startMilliseconds,
+            double? endMilliseconds, int minFftSize, int maxFftSize)
         {
             if ((startMilliseconds != null && endMilliseconds == null) || (startMilliseconds == null && endMilliseconds != null))
             {

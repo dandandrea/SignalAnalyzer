@@ -6,35 +6,40 @@ using System;
 
 namespace Core.BinaryFskAnalysis
 {
-    public class BinaryFskAnalyzer
+    public class BinaryFskAnalyzer : IBinaryFskAnalyzer
     {
-        public static ICollection<WindowSample> GetWindowedFrequencyCandidates(string filename,
-            int windowPositionStart, int windowPositionEnd, int windowLengthStart, int windowLengthEnd,
-            int numberOfClusters = 10, int cutoffFrequency = 4000)
+        private ISignalAnalyzer _signalAnalyzer;
+
+        public BinaryFskAnalyzer(ISignalAnalyzer signalAnalyzer)
         {
-            var windowSamples = new List<WindowSample>();
+            if (signalAnalyzer == null)
+            {
+                throw new ArgumentNullException(nameof(signalAnalyzer));
+            }
+
+            _signalAnalyzer = signalAnalyzer;
+        }
+
+        public ICollection<int> GetWindowedFrequencyCandidates(string filename,
+            int windowPositionStart, int windowPositionEnd, int windowLengthStart, int windowLengthEnd,
+            int numberOfClusters, int cutoffFrequency)
+        {
+            var frequencyComponents = new List<FrequencyComponent>();
 
             for (var windowStart = windowPositionStart; windowStart < windowPositionEnd; windowStart++)
             {
                 for (var windowLength = windowLengthStart; windowLength <= windowLengthEnd; windowLength++)
                 {
-                    var signalAnalysis = SignalAnalyzer.AnalyzeSignal(filename, windowStart, windowStart + windowLength);
+                    var signalAnalysis = _signalAnalyzer.AnalyzeSignal(filename, windowStart, windowStart + windowLength);
 
-                    windowSamples.Add(
-                        new WindowSample
-                        {
-                            WindowStart = windowStart,
-                            WindowLength = windowLength,
-                            FrequencyComponent = signalAnalysis.FrequencyComponents.First()
-                        }
-                    );
+                    frequencyComponents.Add(signalAnalysis.FrequencyComponents.First());
                 }
             }
 
-            return windowSamples;
+            return GetFrequencyCandidates(frequencyComponents);
         }
 
-        public static ICollection<int> GetFrequencyCandidates(IList<FrequencyComponent> frequencyComponents,
+        private static ICollection<int> GetFrequencyCandidates(IList<FrequencyComponent> frequencyComponents,
             int numberOfClusters = 10, int cutoffFrequency = 4000)
         {
             var filteredFrequencyComponents = frequencyComponents.Where(y => y.Frequency <= cutoffFrequency).ToList();

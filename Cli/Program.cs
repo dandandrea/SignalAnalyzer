@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Core.BinaryFskAnalysis;
+using Core.SignalAnalysis;
 
 namespace Cli
 {
@@ -15,12 +16,10 @@ namespace Cli
             var windowLengthStart = 3;
             var windowLengthEnd = 5;
 
-            var windowSamples = BinaryFskAnalyzer.GetWindowedFrequencyCandidates(filename, windowPositionStart,
+            var binaryFskAnalyzer = (IBinaryFskAnalyzer)new BinaryFskAnalyzer(new SignalAnalyzer());
+
+            var frequencyCandidates = binaryFskAnalyzer.GetWindowedFrequencyCandidates(filename, windowPositionStart,
                 windowPositionEnd, windowLengthStart, windowLengthEnd);
-
-            var windowFrequencies = windowSamples.Select(x => x.FrequencyComponent).ToList();
-
-            var frequencyCandidates = BinaryFskAnalyzer.GetFrequencyCandidates(windowFrequencies);
 
             foreach (var frequencyCandidate in frequencyCandidates)
             {
