@@ -20,7 +20,7 @@ namespace Core.BinaryFskAnalysis
             _signalAnalyzer = signalAnalyzer;
         }
 
-        public ICollection<int> GetWindowedFrequencyCandidates(string filename,
+        public ICollection<int> GetFrequencyCandidates(string filename,
             int windowPositionStart, int windowPositionEnd, int windowLengthStart, int windowLengthEnd,
             int numberOfClusters, int cutoffFrequency)
         {

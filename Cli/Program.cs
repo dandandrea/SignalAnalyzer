@@ -18,7 +18,7 @@ namespace Cli
 
             var binaryFskAnalyzer = (IBinaryFskAnalyzer)new BinaryFskAnalyzer(new SignalAnalyzer());
 
-            var frequencyCandidates = binaryFskAnalyzer.GetWindowedFrequencyCandidates(filename, windowPositionStart,
+            var frequencyCandidates = binaryFskAnalyzer.GetFrequencyCandidates(filename, windowPositionStart,
                 windowPositionEnd, windowLengthStart, windowLengthEnd);
 
             foreach (var frequencyCandidate in frequencyCandidates)
