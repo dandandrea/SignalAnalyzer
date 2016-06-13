@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Core.AudioAnalysis;
 using System.Diagnostics;
+using SignalAnalyzer.Properties;
 
 namespace Cli
 {
@@ -29,7 +30,7 @@ namespace Cli
             Console.WriteLine($"Window length start {windowLengthStart:N3}, window length end {windowLengthEnd:N3}, window length increment {windowLengthIncrement:N3}");
             Console.WriteLine();
 
-            var audioAnalyzer = (IAudioAnalyzer)new AudioAnalyzer(filename);
+            var audioAnalyzer = (IAudioAnalyzer)new AudioAnalyzer(Resources.Emergency_Alert_System_alternative);
 
             var n = 0;
             var bitNumber = 1;

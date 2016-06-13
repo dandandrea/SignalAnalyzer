@@ -1,5 +1,6 @@
 ﻿using NAudio.Wave;
 using System;
+using System.IO;
 using System.Threading;
 
 namespace Core.AudioAnalysis
@@ -13,8 +14,11 @@ namespace Core.AudioAnalysis
         private int _fileLengthInMilliseconds;
 
         public AudioAnalyzer(string filename, bool play = false, int? playTime = null)
+            : this(new StreamReader(filename).BaseStream, play, playTime) {}
+
+        public AudioAnalyzer(Stream fileInputStream, bool play = false, int? playTime = null)
         {
-            var reader = new WaveFileReader(filename);
+            var reader = new WaveFileReader(fileInputStream);
 
             _sampleRate = reader.WaveFormat.SampleRate;
             _bitsPerSample = reader.WaveFormat.BitsPerSample;
@@ -23,7 +27,7 @@ namespace Core.AudioAnalysis
 
             if (play == true)
             {
-                Play(filename, playTime);
+                Play(fileInputStream, playTime);
             }
 
             var buffer = new byte[reader.Length];
@@ -63,9 +67,10 @@ namespace Core.AudioAnalysis
             };
         }
 
-        private static void Play(string filename, int? playTime)
+        private static void Play(Stream fileInputStream, int? playTime)
         {
-            var reader = new WaveFileReader(filename);
+            fileInputStream.Seek(0, SeekOrigin.Begin);
+            var reader = new WaveFileReader(fileInputStream);
             var waveOut = new WaveOut();
             waveOut.Init(reader);
             waveOut.Play();
@@ -74,6 +79,7 @@ namespace Core.AudioAnalysis
             waveOut.Dispose();
             reader.Close();
             reader.Dispose();
+            fileInputStream.Seek(0, SeekOrigin.Begin);
         }
     }
 }
