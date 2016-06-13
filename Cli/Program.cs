@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Core.AudioAnalysis;
+using System.Diagnostics;
 
 namespace Cli
 {
@@ -12,11 +13,11 @@ namespace Cli
             var filename = @"c:\Users\laptop\Desktop\SDR\Signal analysis\Emergency Alert System alternative.wav";
 
             var baudRate = 520.83;
-            var spaceFrequency = 2083;
-            var markFrequency = 1563;
+            var spaceFrequency = 1563;
+            var markFrequency = 2083;
 
             var windowPositionStart = 0.0;
-            var windowPositionIncrement = 1.0 / baudRate * 1000.0 / 2.0;
+            var windowPositionIncrement = 1.0 / baudRate * 1000.0;
             var windowPositionEnd = 1000.0;
             var windowLengthStart = 1.0 / baudRate * 1000.0;
             var windowLengthIncrement = 1.0 / baudRate * 1000.0 / 2.0;
@@ -31,6 +32,7 @@ namespace Cli
             var audioAnalyzer = (IAudioAnalyzer)new AudioAnalyzer(filename);
 
             var n = 0;
+            var bitNumber = 1;
 
             for (var currentWindowStart = windowPositionStart; currentWindowStart <= windowPositionEnd; currentWindowStart += windowPositionIncrement)
             {
@@ -66,18 +68,36 @@ namespace Cli
                     var markOrSpace = MarkOrSpace(averageFrequency, spaceFrequency, markFrequency);
                     if (frequencyDifference <= frequencyDeviationTolerance)
                     {
-                        Console.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequencies.Average():N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> {markOrSpace}");
-                    }
+                        Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequencies.Average():N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> bit {bitNumber}: {markOrSpace}");
 
-                    if ((n + 1) % 20 == 0)
-                    {
-                        Console.ReadLine();
+                        // TODO: Remove this hack for swallowing the first bit
+                        if (bitNumber == 1)
+                        {
+                            bitNumber = 5;
+                            continue;
+                        }
+
+                        Console.Write(markOrSpace);
+
+                        if (bitNumber % 4 == 0)
+                        {
+                            Console.Write(" ");
+                        }
+
+                        if (bitNumber % 72 == 0)
+                        {
+                            Console.WriteLine();
+                        }
+
+                        bitNumber++;
                     }
 
                     n++;
                 }
             }
 
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Done");
             Console.ReadLine();
         }
