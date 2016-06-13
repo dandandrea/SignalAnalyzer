@@ -26,13 +26,13 @@ namespace Core.BinaryFskAnalysis
         {
             var frequencyComponents = new List<FrequencyComponent>();
 
-            for (var windowStart = windowPositionStart; windowStart < windowPositionEnd; windowStart++)
+            for (var currentWindowStart = windowPositionStart; currentWindowStart <= windowPositionEnd; currentWindowStart++)
             {
-                for (var windowLength = windowLengthStart; windowLength <= windowLengthEnd; windowLength++)
+                for (var currentWindowLength = windowLengthStart; currentWindowLength <= windowLengthEnd; currentWindowLength++)
                 {
-                    var signalAnalysis = _signalAnalyzer.AnalyzeSignal(filename, windowStart, windowStart + windowLength);
+                    var signalAnalysisResult = _signalAnalyzer.AnalyzeSignal(currentWindowStart, currentWindowStart + currentWindowLength);
 
-                    frequencyComponents.Add(signalAnalysis.FrequencyComponents.First());
+                    frequencyComponents.Add(signalAnalysisResult.FrequencyComponents.First());
                 }
             }
 
@@ -67,6 +67,14 @@ namespace Core.BinaryFskAnalysis
             }
 
             return weightedFrequencies;
+        }
+
+        private class WindowSample
+        {
+            public int Frequency { get; set; }
+            public int Distance { get; set; }
+            public int WindowStartPosition { get; set; }
+            public int WindowLength { get; set; }
         }
     }
 }

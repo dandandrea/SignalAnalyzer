@@ -71,10 +71,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioAnalysis\AudioAnalyzer.cs" />
+    <Compile Include="AudioAnalysis\IAudioAnalyzer.cs" />
     <Compile Include="BinaryFskAnalysis\BinaryFskAnalyzer.cs" />
     <Compile Include="BinaryFskAnalysis\IBinaryFskAnalyzer.cs" />
     <Compile Include="SignalAnalysis\FrequencyComponent.cs" />
     <Compile Include="SignalAnalysis\ISignalAnalyzer.cs" />
+    <Compile Include="AudioAnalysis\SamplingResult.cs" />
     <Compile Include="SignalAnalysis\SignalAnalzyer.cs" />
     <Compile Include="SignalAnalysis\SignalAnalysisResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

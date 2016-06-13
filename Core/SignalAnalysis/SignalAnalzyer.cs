@@ -1,15 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using NAudio.Wave;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
+using Core.AudioAnalysis;
 
 namespace Core.SignalAnalysis
 {
     public class SignalAnalyzer : ISignalAnalyzer
     {
-        public SignalAnalysisResult AnalyzeSignal(string filename, double? startMilliseconds,
+        private IAudioAnalyzer _audioAnalyzer;
+
+        public SignalAnalyzer(IAudioAnalyzer audioAnalyzer)
+        {
+            if (audioAnalyzer == null)
+            {
+                throw new ArgumentNullException(nameof(audioAnalyzer));
+            }
+
+            _audioAnalyzer = audioAnalyzer;
+        }
+
+        public SignalAnalysisResult AnalyzeSignal(double? startMilliseconds,
             double? endMilliseconds, int minFftSize, int maxFftSize)
         {
             if ((startMilliseconds != null && endMilliseconds == null) || (startMilliseconds == null && endMilliseconds != null))
@@ -22,41 +34,16 @@ namespace Core.SignalAnalysis
                 throw new ArgumentOutOfRangeException($"endMilliseconds ({endMilliseconds}) must be greater than startMilliseconds ({startMilliseconds})", (Exception)null);
             }
 
-            var reader = new WaveFileReader(filename);
-            var bytes = new byte[reader.Length];
-            reader.Read(bytes, 0, (int)reader.Length);
+            var samplingResult = _audioAnalyzer.GetSamples(startMilliseconds, endMilliseconds);
 
-            var sampleRate = reader.WaveFormat.SampleRate;
-            var bitsPerSample = reader.WaveFormat.BitsPerSample;
-            var fileLengthInBytes = reader.Length;
-            var fileLengthInMilliseconds = reader.TotalTime.Milliseconds;
-
-            if (startMilliseconds == null)
-            {
-                startMilliseconds = 0;
-                endMilliseconds = fileLengthInMilliseconds;
-            }
-
-            var sampleLengthInMilliseconds = endMilliseconds - startMilliseconds;
-            var numberOfSamples = (int)(sampleRate * sampleLengthInMilliseconds / 1000.0);
-            var firstSampleNumber = (int)(startMilliseconds / 1000.0 * sampleRate);
-            var lastSampleNumber = (int)(endMilliseconds / 1000.0 * sampleRate);
-            int fftSize = NextPowerOfTwo(numberOfSamples, minFftSize, maxFftSize);
-
-            var shorts = new short[numberOfSamples];
-            var j = firstSampleNumber;
-            for (var i = 0; i < numberOfSamples; i++)
-            {
-                shorts[i] = BitConverter.ToInt16(bytes, j);
-                j = j + 2;
-            }
+            int fftSize = NextPowerOfTwo(samplingResult.Samples.Count, minFftSize, maxFftSize);
 
             var window = Window.Hann(fftSize);
 
             var complexes = new Complex[fftSize];
-            for (var i = 0; i < (fftSize > numberOfSamples ? numberOfSamples : fftSize); i++)
+            for (var i = 0; i < (fftSize > samplingResult.Samples.Count ? samplingResult.Samples.Count : fftSize); i++)
             {
-                complexes[i] = new Complex(shorts[i] * window[i], 0);
+                complexes[i] = new Complex(samplingResult.Samples[i] * window[i], 0);
             }
 
             Fourier.Forward(complexes);
@@ -64,7 +51,7 @@ namespace Core.SignalAnalysis
             var frequencyComponents = new List<FrequencyComponent>();
             for (var i = 1; i < complexes.Length / 2; i++)
             {
-                var freq = i * sampleRate / complexes.Length;
+                var freq = i * samplingResult.SampleRate / complexes.Length;
 
                 var frequencyComponent = new FrequencyComponent
                 {
@@ -80,12 +67,9 @@ namespace Core.SignalAnalysis
 
             return new SignalAnalysisResult
             {
-                SampleRate = sampleRate,
-                BitsPerSample = bitsPerSample,
+                SamplingResult = samplingResult,
                 NumberOfBins = fftSize,
-                BinSizeInHertz = sampleRate / fftSize,
-                FileLengthInMilliseconds = fileLengthInMilliseconds,
-                FileLengthInBytes = (int)fileLengthInBytes,
+                BinSizeInHertz = samplingResult.SampleRate / fftSize,
                 FrequencyComponents = frequencyComponents
             };
         }
