@@ -9,18 +9,20 @@ namespace Cli
     {
         public static void Main(string[] args)
         {
-            var filename = @"c:\Users\laptop\Desktop\SDR\Signal analysis\Emergency Alert System preamble.wav";
+            var filename = @"c:\Users\laptop\Desktop\SDR\Signal analysis\Emergency Alert System alternative.wav";
 
             var baudRate = 520.83;
             var spaceFrequency = 2083;
             var markFrequency = 1563;
 
-            var windowPositionStart = 400.0;
+            var windowPositionStart = 0.0;
             var windowPositionIncrement = 1.0 / baudRate * 1000.0 / 2.0;
-            var windowPositionEnd = windowPositionIncrement * 500.0;
-            var windowLengthStart = 1.0 / baudRate * 1000.0 / 2.0;
+            var windowPositionEnd = 1000.0;
+            var windowLengthStart = 1.0 / baudRate * 1000.0;
             var windowLengthIncrement = 1.0 / baudRate * 1000.0 / 2.0;
-            var windowLengthEnd = windowLengthStart + windowLengthIncrement * 4.0;;
+            var windowLengthEnd = windowLengthStart;
+
+            var frequencyDeviationTolerance = 20.0;
 
             Console.WriteLine($"Window position start {windowPositionStart:N3}, window position end {windowPositionEnd:N3}, window position increment {windowPositionIncrement:N3}");
             Console.WriteLine($"Window length start {windowLengthStart:N3}, window length end {windowLengthEnd:N3}, window length increment {windowLengthIncrement:N3}");
@@ -61,7 +63,11 @@ namespace Cli
 
                     var averageFrequency = (int)frequencies.Average();
                     var frequencyDifference = FrequencyDifference(averageFrequency, spaceFrequency, markFrequency);
-                    Console.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequencies.Average():N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz]");
+                    var markOrSpace = MarkOrSpace(averageFrequency, spaceFrequency, markFrequency);
+                    if (frequencyDifference <= frequencyDeviationTolerance)
+                    {
+                        Console.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequencies.Average():N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> {markOrSpace}");
+                    }
 
                     if ((n + 1) % 20 == 0)
                     {
@@ -82,6 +88,14 @@ namespace Cli
             int distanceFromMarkFrequency = Math.Abs(frequency - markFrequency);
 
             return distanceFromSpaceFrequency <= distanceFromMarkFrequency ? distanceFromSpaceFrequency : distanceFromMarkFrequency;
+        }
+
+        private static int MarkOrSpace(int frequency, int spaceFrequency, int markFrequency)
+        {
+            int distanceFromSpaceFrequency = Math.Abs(frequency - spaceFrequency);
+            int distanceFromMarkFrequency = Math.Abs(frequency - markFrequency);
+
+            return distanceFromSpaceFrequency <= distanceFromMarkFrequency ? 0 : 1;
         }
     }
 }
