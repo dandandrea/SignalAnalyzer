@@ -3,6 +3,7 @@ using System.Linq;
 using Core.AudioAnalysis;
 using SignalAnalyzer.Properties;
 using Core.BinaryFskAnalysis;
+using System.Collections.Generic;
 
 namespace Cli
 {
@@ -32,31 +33,114 @@ namespace Cli
             var bits = binaryFskAnalyzer.AnalyzeSignal(baudRate, spaceFrequency, markFrequency, windowPositionStart, windowPositionIncrement,
                 windowPositionEnd, windowLengthStart, windowLengthEnd, windowLengthIncrement, frequencyDeviationTolerance);
 
-            foreach (var bit in bits.Select((value, index) => new { value, index }))
-            {
-                if (bit.index == 0)
-                {
-                    // Swallow first bit for now
-                    continue;
-                }
-
-                Console.Write(bit.value == true ? 1 : 0);
-
-                if (bit.index % 4 == 0)
-                {
-                    Console.Write(" ");
-                }
-
-                if (bit.index % 72 == 0)
-                {
-                    Console.WriteLine();
-                }
-            }
-
+            Console.WriteLine("Rendering rows");
+            Console.WriteLine();
+            RenderRows(BitsToBytes(SwallowFirstBit(bits)));
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("Done");
             Console.ReadLine();
+
+            Console.WriteLine("Rendering columns");
+            Console.WriteLine();
+            RenderColumns(BitsToBytes(SwallowFirstBit(bits)));
+            Console.WriteLine();
+            Console.WriteLine("Done");
+
+            Console.ReadLine();
+        }
+
+        private static void RenderRows(List<List<bool>> bytes, int blocksPerRow = 8)
+        {
+            foreach (var byteBlock in bytes.Select((value, index) => new { value, index }))
+            {
+                if ((byteBlock.index) % blocksPerRow == 0)
+                {
+                    Console.Write($"{byteBlock.index + 1,3}:  ");
+                }
+
+                foreach (var bit in byteBlock.value.Select((value, index) => new { value, index }))
+                {
+                    Console.Write(bit.value == true ? 1 : 0);
+
+                    if ((bit.index + 1) % 4 == 0)
+                    {
+                        Console.Write(" ");
+                    }
+
+                    if ((bit.index + 1) % 8 == 0)
+                    {
+                        Console.Write(" ");
+                    }
+                }
+
+                if ((byteBlock.index + 1) % (blocksPerRow) == 0)
+                {
+                    Console.WriteLine();
+                }
+            }
+        }
+
+        private static void RenderColumns(List<List<bool>> bytes, int rowsBeforePause = 20)
+        {
+            foreach (var byteBlock in bytes.Select((value, index) => new { value, index }))
+            {
+                Console.Write($"{byteBlock.index + 1, 3}: ");
+
+                foreach (var bit in byteBlock.value.Select((value, index) => new { value, index }))
+                {
+                    Console.Write(bit.value == true ? 1 : 0);
+                    
+                    if (bit.index == 3)
+                    {
+                        Console.Write(" ");
+                    }
+                }
+
+                Console.WriteLine();
+
+                if ((byteBlock.index + 1) % rowsBeforePause == 0)
+                {
+                    Console.ReadLine();
+                }
+            }
+        }
+
+        private static List<List<bool>> BitsToBytes(ICollection<bool> bits)
+        {
+            var bytes = new List<List<bool>>();
+
+            foreach (var bit in bits.Select((value, index) => new { value, index }))
+            {
+                if (bit.index == 0 || bit.index % 8 == 0)
+                {
+                    bytes.Add(new List<bool>());
+                }
+
+                bytes.ElementAt(bytes.Count - 1).Add(bit.value);
+            }
+
+            return bytes;
+        }
+
+        private static ICollection<bool> SwallowFirstBit(ICollection<bool> incomingBits)
+        {
+            var bits = new List<bool>();
+
+            var n = 0;
+            foreach (var bit in incomingBits)
+            {
+                n++;
+
+                if (n == 1)
+                {
+                    continue;
+                }
+
+                bits.Add(bit);
+            }
+
+            return bits;
         }
     }
 }
