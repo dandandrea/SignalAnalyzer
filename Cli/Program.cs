@@ -30,8 +30,30 @@ namespace Cli
             Console.WriteLine();
 
             var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(Resources.Emergency_Alert_System_alternative));
-            binaryFskAnalyzer.AnalyzeSignal(baudRate, spaceFrequency, markFrequency, windowPositionStart, windowPositionIncrement,
+
+            var bits = binaryFskAnalyzer.AnalyzeSignal(baudRate, spaceFrequency, markFrequency, windowPositionStart, windowPositionIncrement,
                 windowPositionEnd, windowLengthStart, windowLengthEnd, windowLengthIncrement, frequencyDeviationTolerance);
+
+            foreach (var bit in bits.Select((value, index) => new { value, index }))
+            {
+                if (bit.index == 0)
+                {
+                    // Swallow first bit for now
+                    continue;
+                }
+
+                Console.Write(bit.value == true ? 1 : 0);
+
+                if (bit.index % 4 == 0)
+                {
+                    Console.Write(" ");
+                }
+
+                if (bit.index % 72 == 0)
+                {
+                    Console.WriteLine();
+                }
+            }
 
             Console.WriteLine();
             Console.WriteLine();

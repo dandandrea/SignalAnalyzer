@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using System.Diagnostics;
 using Core.AudioAnalysis;
+using System.Collections;
 
 namespace Core.BinaryFskAnalysis
 {
@@ -20,14 +21,13 @@ namespace Core.BinaryFskAnalysis
             _audioAnalyzer = audioAnalyzer;
         }
 
-        public void AnalyzeSignal(double baudRate, int spaceFrequency, int markFrequency,
+        public ICollection<bool> AnalyzeSignal(double baudRate, int spaceFrequency, int markFrequency,
             double windowPositionStartMilliseconds, double windowPositionIncrementMilliseconds,
             double? windowPositionEndMilliseconds, double windowLengthStartMilliseconds,
             double windowLengthEndMilliseconds, double windowLengthIncrementMilliseconds,
             double frequencyDeviationTolerance)
         {
-            var n = 0;
-            var bitNumber = 1;
+            var bits = new List<bool>();
 
             for (var currentWindowStart = windowPositionStartMilliseconds; currentWindowStart <= windowPositionEndMilliseconds; currentWindowStart += windowPositionIncrementMilliseconds)
             {
@@ -43,33 +43,14 @@ namespace Core.BinaryFskAnalysis
 
                     if (frequencyDifference <= frequencyDeviationTolerance)
                     {
-                        Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> bit {bitNumber}: {markOrSpace}");
+                        Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
 
-                        // TODO: Remove this hack for swallowing the first bit
-                        if (bitNumber == 1)
-                        {
-                            bitNumber = 5;
-                            continue;
-                        }
-
-                        Console.Write(markOrSpace);
-
-                        if (bitNumber % 4 == 0)
-                        {
-                            Console.Write(" ");
-                        }
-
-                        if (bitNumber % 72 == 0)
-                        {
-                            Console.WriteLine();
-                        }
-
-                        bitNumber++;
+                        bits.Add(markOrSpace == 0 ? false : true);
                     }
-
-                    n++;
                 }
             }
+
+            return bits;
         }
 
         private static int FrequencyDifference(int frequency, int spaceFrequency, int markFrequency)
