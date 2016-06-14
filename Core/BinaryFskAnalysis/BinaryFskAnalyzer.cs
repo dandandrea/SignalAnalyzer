@@ -33,29 +33,27 @@ namespace Core.BinaryFskAnalysis
             {
                 for (var currentWindowLength = windowLengthStartMilliseconds; currentWindowLength <= windowLengthEndMilliseconds; currentWindowLength += windowLengthIncrementMilliseconds)
                 {
-                    var samples = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
+                    var samplingResult = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
+
+                    var signChangeDetector = new SignChangeDetector(samplingResult.SampleRate);
 
                     var frequencies = new List<int>();
 
-                    int? lastSign = null;
-                    double? lastSignChangeMilliseconds = null;
-                    for (var i = 0; i < samples.Samples.Count; i++)
+                    for (var i = 0; i < samplingResult.Samples.Count; i++)
                     {
-                        if (lastSign != null && (lastSign == 1 && samples.Samples[i] < 0) || (lastSign == 0 && samples.Samples[i] >= 0))
-                        {
-                            var currentTime = i * 1.0 / samples.SampleRate * 1000.0;
+                        var currentTimeMilliseconds = i * 1.0 / samplingResult.SampleRate * 1000.0;
 
-                            if (lastSignChangeMilliseconds != null)
+                        var signChangeResult = signChangeDetector.DetectSignChange(samplingResult.Samples[i], currentTimeMilliseconds);
+
+                        if (signChangeResult.SignChanged == true)
+                        {
+                            if (signChangeResult.TimeDifference != null)
+
                             {
-                                var timeDifference = currentTime - lastSignChangeMilliseconds;
-                                var frequency = (int)(1.0 / timeDifference * 1000.0);
+                                var frequency = (int)(1.0 / signChangeResult.TimeDifference * 1000.0);
                                 frequencies.Add(frequency);
                             }
-
-                            lastSignChangeMilliseconds = currentTime;
                         }
-
-                        lastSign = samples.Samples[i] >= 0 ? 1 : -1;
                     }
 
                     var averageFrequency = (int)frequencies.Average();
@@ -106,6 +104,49 @@ namespace Core.BinaryFskAnalysis
             int distanceFromMarkFrequency = Math.Abs(frequency - markFrequency);
 
             return distanceFromSpaceFrequency <= distanceFromMarkFrequency ? 0 : 1;
+        }
+
+        private class SignChangeDetector
+        {
+            private int _sampleRateSeconds;
+            private int? _lastSign = null;
+            private double? _lastSignChangeMilliseconds { get; set; } = null;
+
+            public SignChangeDetector(int sampleRateSeconds)
+            {
+                _sampleRateSeconds = sampleRateSeconds;
+            }
+
+            public SignChangeResult DetectSignChange(short sample, double currentTimeMilliseconds)
+            {
+                bool signChanged = false;
+
+                if (_lastSign != null && (_lastSign == 1 && sample < 0) || (_lastSign == 0 && sample >= 0))
+                {
+                    signChanged = true;
+                }
+
+                var signChangeResult = new SignChangeResult
+                {
+                    SignChanged = signChanged,
+                    TimeDifference = _lastSignChangeMilliseconds != null ? currentTimeMilliseconds - _lastSignChangeMilliseconds : null
+                };
+
+                if (signChanged == true)
+                {
+                    _lastSignChangeMilliseconds = currentTimeMilliseconds;
+                }
+
+                _lastSign = sample >= 0 ? 1 : -1;
+
+                return signChangeResult;
+            }
+        }
+
+        internal class SignChangeResult
+        {
+            public bool SignChanged { get; set; } = false;
+            public double? TimeDifference { get; set; }
         }
 
         private class WindowSample
