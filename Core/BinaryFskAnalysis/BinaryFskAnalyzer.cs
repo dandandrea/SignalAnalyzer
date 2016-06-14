@@ -35,29 +35,15 @@ namespace Core.BinaryFskAnalysis
                 {
                     var samplingResult = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
 
-                    var signChangeDetector = new SignChangeDetector(samplingResult.SampleRate);
+                    var frequencyDetector = new FrequencyDetector(new SignChangeDetector(samplingResult.SampleRate));
+                    var frequency = frequencyDetector.DetectFrequency(samplingResult.Samples);
 
-                    var frequencies = new List<int>();
+                    var frequencyDifference = FrequencyDifference(frequency, spaceFrequency, markFrequency);
+                    var markOrSpace = MarkOrSpace(frequency, spaceFrequency, markFrequency);
 
-                    for (var sampleNumber = 0; sampleNumber < samplingResult.Samples.Count; sampleNumber++)
-                    {
-                        var currentTimeMilliseconds = sampleNumber * 1.0 / samplingResult.SampleRate * 1000.0;
-
-                        var signChangeResult = signChangeDetector.DetectSignChange(samplingResult.Samples[sampleNumber], currentTimeMilliseconds);
-
-                        if (signChangeResult.SignChanged == true && signChangeResult.TimeDifferenceMilliseconds != null)
-                        {
-                            var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMilliseconds * 1000.0);
-                            frequencies.Add(frequency);
-                        }
-                    }
-
-                    var averageFrequency = (int)frequencies.Average();
-                    var frequencyDifference = FrequencyDifference(averageFrequency, spaceFrequency, markFrequency);
-                    var markOrSpace = MarkOrSpace(averageFrequency, spaceFrequency, markFrequency);
                     if (frequencyDifference <= frequencyDeviationTolerance)
                     {
-                        Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequencies.Average():N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> bit {bitNumber}: {markOrSpace}");
+                        Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> bit {bitNumber}: {markOrSpace}");
 
                         // TODO: Remove this hack for swallowing the first bit
                         if (bitNumber == 1)
@@ -102,15 +88,51 @@ namespace Core.BinaryFskAnalysis
             return distanceFromSpaceFrequency <= distanceFromMarkFrequency ? 0 : 1;
         }
 
+        private class FrequencyDetector
+        {
+            private SignChangeDetector _signChangeDetector;
+
+            public FrequencyDetector(SignChangeDetector signChangeDetector)
+            {
+                if (signChangeDetector == null)
+                {
+                    throw new ArgumentNullException(nameof(signChangeDetector));
+                }
+
+                _signChangeDetector = signChangeDetector;
+            }
+
+            public int DetectFrequency(IList<short> samples)
+            {
+                var frequencies = new List<int>();
+
+                for (var sampleNumber = 0; sampleNumber < samples.Count; sampleNumber++)
+                {
+                    var currentTimeMilliseconds = sampleNumber * 1.0 / _signChangeDetector.SampleRate * 1000.0;
+
+                    var signChangeResult = _signChangeDetector.DetectSignChange(samples[sampleNumber], currentTimeMilliseconds);
+
+                    if (signChangeResult.SignChanged == true && signChangeResult.TimeDifferenceMilliseconds != null)
+                    {
+                        var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMilliseconds * 1000.0);
+                        frequencies.Add(frequency);
+                    }
+                }
+
+                return (int)frequencies.Average();
+            }
+        }
+
         private class SignChangeDetector
         {
-            private int _sampleRateSeconds;
             private int? _lastSign = null;
             private double? _lastSignChangeMilliseconds { get; set; } = null;
 
-            public SignChangeDetector(int sampleRateSeconds)
+            public int SampleRate { get; }
+
+            public SignChangeDetector(int sampleRate)
             {
-                _sampleRateSeconds = sampleRateSeconds;
+                SampleRate = sampleRate;
             }
 
             public SignChangeResult DetectSignChange(short sample, double currentTimeMilliseconds)
