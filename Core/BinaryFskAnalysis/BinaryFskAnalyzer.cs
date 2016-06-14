@@ -39,20 +39,16 @@ namespace Core.BinaryFskAnalysis
 
                     var frequencies = new List<int>();
 
-                    for (var i = 0; i < samplingResult.Samples.Count; i++)
+                    for (var sampleNumber = 0; sampleNumber < samplingResult.Samples.Count; sampleNumber++)
                     {
-                        var currentTimeMilliseconds = i * 1.0 / samplingResult.SampleRate * 1000.0;
+                        var currentTimeMilliseconds = sampleNumber * 1.0 / samplingResult.SampleRate * 1000.0;
 
-                        var signChangeResult = signChangeDetector.DetectSignChange(samplingResult.Samples[i], currentTimeMilliseconds);
+                        var signChangeResult = signChangeDetector.DetectSignChange(samplingResult.Samples[sampleNumber], currentTimeMilliseconds);
 
-                        if (signChangeResult.SignChanged == true)
+                        if (signChangeResult.SignChanged == true && signChangeResult.TimeDifferenceMilliseconds != null)
                         {
-                            if (signChangeResult.TimeDifference != null)
-
-                            {
-                                var frequency = (int)(1.0 / signChangeResult.TimeDifference * 1000.0);
-                                frequencies.Add(frequency);
-                            }
+                            var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMilliseconds * 1000.0);
+                            frequencies.Add(frequency);
                         }
                     }
 
@@ -129,7 +125,7 @@ namespace Core.BinaryFskAnalysis
                 var signChangeResult = new SignChangeResult
                 {
                     SignChanged = signChanged,
-                    TimeDifference = _lastSignChangeMilliseconds != null ? currentTimeMilliseconds - _lastSignChangeMilliseconds : null
+                    TimeDifferenceMilliseconds = _lastSignChangeMilliseconds != null ? currentTimeMilliseconds - _lastSignChangeMilliseconds : null
                 };
 
                 if (signChanged == true)
@@ -146,7 +142,7 @@ namespace Core.BinaryFskAnalysis
         internal class SignChangeResult
         {
             public bool SignChanged { get; set; } = false;
-            public double? TimeDifference { get; set; }
+            public double? TimeDifferenceMilliseconds { get; set; }
         }
 
         private class WindowSample
