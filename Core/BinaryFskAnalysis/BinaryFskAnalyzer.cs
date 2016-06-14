@@ -142,7 +142,7 @@ namespace Core.BinaryFskAnalysis
             }
         }
 
-        internal class SignChangeResult
+        private class SignChangeResult
         {
             public bool SignChanged { get; set; } = false;
             public double? TimeDifferenceMilliseconds { get; set; }
