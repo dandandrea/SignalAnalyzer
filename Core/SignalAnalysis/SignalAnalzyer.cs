@@ -4,6 +4,8 @@ using System.Numerics;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using Core.AudioAnalysis;
+using Accord.MachineLearning;
+using System.Linq;
 
 namespace Core.SignalAnalysis
 {
@@ -72,6 +74,55 @@ namespace Core.SignalAnalysis
                 BinSizeInHertz = samplingResult.SampleRate / fftSize,
                 FrequencyComponents = frequencyComponents
             };
+        }
+
+        public ICollection<int> GetFrequencyCandidates(string filename,
+            int windowPositionStart, int windowPositionEnd, int windowLengthStart, int windowLengthEnd,
+            int numberOfClusters, int cutoffFrequency)
+        {
+            var frequencyComponents = new List<FrequencyComponent>();
+
+            for (var currentWindowStart = windowPositionStart; currentWindowStart <= windowPositionEnd; currentWindowStart++)
+            {
+                for (var currentWindowLength = windowLengthStart; currentWindowLength <= windowLengthEnd; currentWindowLength++)
+                {
+                    var signalAnalysisResult = ((ISignalAnalyzer)this).AnalyzeSignal(currentWindowStart, currentWindowStart + currentWindowLength);
+
+                    frequencyComponents.Add(signalAnalysisResult.FrequencyComponents.First());
+                }
+            }
+
+            return GetFrequencyCandidates(frequencyComponents);
+        }
+
+        private static ICollection<int> GetFrequencyCandidates(IList<FrequencyComponent> frequencyComponents,
+            int numberOfClusters = 10, int cutoffFrequency = 4000)
+        {
+            var filteredFrequencyComponents = frequencyComponents.Where(y => y.Frequency <= cutoffFrequency).ToList();
+
+            var weightedFrequencies = WeightFrequencyComponents(filteredFrequencyComponents);
+
+            var observations = weightedFrequencies.Select(x => new double[] { x }).ToArray();
+
+            var kMeans = new KMeans(numberOfClusters);
+            kMeans.Compute(observations);
+            return kMeans.Clusters.Select(x => (int)x.Mean[0]).ToList();
+        }
+
+        private static ICollection<double> WeightFrequencyComponents(ICollection<FrequencyComponent> frequencyComponents,
+            int magnitudeDivisonFactor = 10)
+        {
+            var weightedFrequencies = new List<double>();
+
+            foreach (var frequencyComponent in frequencyComponents)
+            {
+                for (int i = 0; i < frequencyComponent.Magnitude / magnitudeDivisonFactor; i++)
+                {
+                    weightedFrequencies.Add(frequencyComponent.Frequency);
+                }
+            }
+
+            return weightedFrequencies;
         }
 
         private static int NextPowerOfTwo(int n, int minPowerOfTwo, int maxPowerOfTwo)
