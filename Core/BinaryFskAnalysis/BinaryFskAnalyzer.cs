@@ -3,7 +3,6 @@ using System.Linq;
 using System;
 using System.Diagnostics;
 using Core.AudioAnalysis;
-using System.Collections;
 
 namespace Core.BinaryFskAnalysis
 {

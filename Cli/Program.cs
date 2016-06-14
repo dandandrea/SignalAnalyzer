@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
-using System.Collections.Generic;
 using Core.AudioAnalysis;
-using System.Diagnostics;
 using SignalAnalyzer.Properties;
 using Core.BinaryFskAnalysis;
 
