@@ -1,5 +1,6 @@
 ﻿using NAudio.Wave;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
@@ -7,11 +8,12 @@ namespace Core.AudioAnalysis
 {
     public class AudioAnalyzer : IAudioAnalyzer
     {
+        public double FileLengthInMilliseconds { get; }
+
         private short[] _samples;
         private int _sampleRate;
         private int _bitsPerSample;
         private long _fileLengthInBytes;
-        private int _fileLengthInMilliseconds;
 
         public AudioAnalyzer(string filename, bool play = false, int? playTime = null)
             : this(new StreamReader(filename).BaseStream, play, playTime) {}
@@ -23,7 +25,6 @@ namespace Core.AudioAnalysis
             _sampleRate = reader.WaveFormat.SampleRate;
             _bitsPerSample = reader.WaveFormat.BitsPerSample;
             _fileLengthInBytes = reader.Length;
-            _fileLengthInMilliseconds = reader.TotalTime.Milliseconds;
 
             if (play == true)
             {
@@ -32,7 +33,12 @@ namespace Core.AudioAnalysis
 
             var buffer = new byte[reader.Length];
             var read = reader.Read(buffer, 0, buffer.Length);
-            _samples = new short[read / 2];
+            _samples = new short[(int)Math.Ceiling(read / 2.0)];
+
+            FileLengthInMilliseconds = _samples.Length / (double)_sampleRate * 1000.0;
+
+            Debug.WriteLine($"_samples length {_samples.Length}, reader length {reader.Length}, _samples length * 2 = {_samples.Length * 2.0:N2}");
+
             Buffer.BlockCopy(buffer, 0, _samples, 0, read);
         }
 
@@ -41,8 +47,10 @@ namespace Core.AudioAnalysis
             if (startMilliseconds == null)
             {
                 startMilliseconds = 0;
-                endMilliseconds = _fileLengthInMilliseconds;
+                endMilliseconds = FileLengthInMilliseconds;
             }
+
+            endMilliseconds = endMilliseconds > FileLengthInMilliseconds ? FileLengthInMilliseconds : endMilliseconds;
 
             var desiredSampleLengthInMilliseconds = endMilliseconds - startMilliseconds;
             var firstSampleNumber = (int)(startMilliseconds / 1000.0 * _sampleRate);
@@ -62,7 +70,7 @@ namespace Core.AudioAnalysis
                 BitsPerSample = _bitsPerSample,
                 SampleRate = _sampleRate,
                 FileLengthInBytes = (int)_fileLengthInBytes,
-                FileLengthInMilliseconds = _fileLengthInMilliseconds,
+                FileLengthInMilliseconds = FileLengthInMilliseconds,
                 Samples = desiredSamples
             };
         }

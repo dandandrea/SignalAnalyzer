@@ -63,6 +63,15 @@ namespace SignalAnalyzer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream Bell_103_ten_z_chars {
+            get {
+                return ResourceManager.GetStream("Bell_103_ten_z_chars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream Emergency_Alert_System_alternative {
             get {
                 return ResourceManager.GetStream("Emergency_Alert_System_alternative", resourceCulture);

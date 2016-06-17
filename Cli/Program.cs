@@ -11,43 +11,69 @@ namespace Cli
     {
         public static void Main(string[] args)
         {
-            var baudRate = 520.83;
-            var spaceFrequency = 1563;
-            var markFrequency = 2083;
+            var baudRate = 300.0;
+            var spaceFrequency = 1060;
+            var markFrequency = 1250;
 
             var windowPositionStart = 0.0;
             var windowPositionIncrement = 1.0 / baudRate * 1000.0;
-            var windowPositionEnd = 1000.0;
+            double? windowPositionEnd = null;
             var windowLengthStart = 1.0 / baudRate * 1000.0;
             var windowLengthIncrement = 1.0 / baudRate * 1000.0 / 2.0;
             var windowLengthEnd = windowLengthStart;
 
-            var frequencyDeviationTolerance = 20.0;
+            var frequencyDeviationTolerance = 30.0;
+
+            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(Resources.Bell_103_ten_z_chars));
 
             Console.WriteLine($"Window position start {windowPositionStart:N3}, window position end {windowPositionEnd:N3}, window position increment {windowPositionIncrement:N3}");
             Console.WriteLine($"Window length start {windowLengthStart:N3}, window length end {windowLengthEnd:N3}, window length increment {windowLengthIncrement:N3}");
             Console.WriteLine();
 
-            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(Resources.Emergency_Alert_System_alternative));
-
             var bits = binaryFskAnalyzer.AnalyzeSignal(baudRate, spaceFrequency, markFrequency, windowPositionStart, windowPositionIncrement,
                 windowPositionEnd, windowLengthStart, windowLengthEnd, windowLengthIncrement, frequencyDeviationTolerance);
 
+            Console.WriteLine("Rendering unformatted");
+            Console.WriteLine();
+            RenderUnformatted(RemoveBit(bits, 1));
+            Console.WriteLine();
+
             Console.WriteLine("Rendering rows");
             Console.WriteLine();
-            RenderRows(BitsToBytes(SwallowFirstBit(bits)));
+            RenderRows(BitsToBytes(RemoveBit(bits, 1)));
             Console.WriteLine();
             Console.WriteLine();
+
+            Console.WriteLine("Rendering ASCII");
+            Console.WriteLine();
+            RenderAscii(BitsToBytes(bits));
+            Console.WriteLine();
+
             Console.WriteLine("Done");
             Console.ReadLine();
+        }
 
-            Console.WriteLine("Rendering columns");
-            Console.WriteLine();
-            RenderColumns(BitsToBytes(SwallowFirstBit(bits)));
-            Console.WriteLine();
-            Console.WriteLine("Done");
+        private static void RenderAscii(List<List<bool>> bytes)
+        {
+            foreach (var byteBlock in bytes)
+            {
+                if (byteBlock.Count < 8)
+                {
+                    break;
+                }
 
-            Console.ReadLine();
+                // var bits = ChangeBit(byteBlock, 8, 0);
+                // bits.Reverse();
+                Console.Write(ByteToChar(byteBlock));
+            }
+
+            Console.WriteLine();
+        }
+
+        private static void RenderUnformatted(ICollection<bool> bits)
+        {
+            bits.ToList().ForEach(bit => Console.Write(bit == true ? 1 : 0));
+            Console.WriteLine();
         }
 
         private static void RenderRows(List<List<bool>> bytes, int blocksPerRow = 8)
@@ -123,7 +149,7 @@ namespace Cli
             return bytes;
         }
 
-        private static ICollection<bool> SwallowFirstBit(ICollection<bool> incomingBits)
+        private static ICollection<bool> RemoveBit(ICollection<bool> incomingBits, int bitNumber)
         {
             var bits = new List<bool>();
 
@@ -132,7 +158,7 @@ namespace Cli
             {
                 n++;
 
-                if (n == 1)
+                if (n == bitNumber)
                 {
                     continue;
                 }
@@ -141,6 +167,23 @@ namespace Cli
             }
 
             return bits;
+        }
+
+        public static List<bool> ChangeBit(List<bool> bits, int bitNumber, int newValue)
+        {
+            bits[bitNumber -1] = (newValue == 1 ? true : false);
+            return bits;
+        }
+
+        public static char ByteToChar(List<bool> bits)
+        {
+            byte val = 0;
+            foreach (bool bit in bits)
+            {
+                val <<= 1;
+                if (bit) val |= 1;
+            }
+            return Convert.ToChar(val);
         }
     }
 }

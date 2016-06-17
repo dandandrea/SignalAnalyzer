@@ -28,6 +28,13 @@ namespace Core.BinaryFskAnalysis
         {
             var bits = new List<bool>();
 
+            if (windowPositionEndMilliseconds == null)
+            {
+                windowPositionEndMilliseconds = _audioAnalyzer.FileLengthInMilliseconds;
+
+                Debug.WriteLine($"Set window end position to total length of audio ({windowPositionEndMilliseconds} ms)");
+            }
+
             for (var currentWindowStart = windowPositionStartMilliseconds; currentWindowStart <= windowPositionEndMilliseconds; currentWindowStart += windowPositionIncrementMilliseconds)
             {
                 for (var currentWindowLength = windowLengthStartMilliseconds; currentWindowLength <= windowLengthEndMilliseconds; currentWindowLength += windowLengthIncrementMilliseconds)
@@ -40,12 +47,15 @@ namespace Core.BinaryFskAnalysis
                     var frequencyDifference = FrequencyDifference(frequency, spaceFrequency, markFrequency);
                     var markOrSpace = MarkOrSpace(frequency, spaceFrequency, markFrequency);
 
-                    if (frequencyDifference <= frequencyDeviationTolerance)
+                    if (frequencyDifference > frequencyDeviationTolerance)
                     {
-                        Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
-
-                        bits.Add(markOrSpace == 0 ? false : true);
+                        Debug.WriteLine($"Frequency outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {frequencyDeviationTolerance} Hz)");
+                        continue;
                     }
+
+                    Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {markFrequency:N0} Hz / {spaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
+
+                    bits.Add(markOrSpace == 0 ? false : true);
                 }
             }
 
@@ -99,7 +109,7 @@ namespace Core.BinaryFskAnalysis
                     }
                 }
 
-                return (int)frequencies.Average();
+                return frequencies.Count > 0 ? (int)frequencies.Average() : 0;
             }
         }
 
@@ -119,7 +129,7 @@ namespace Core.BinaryFskAnalysis
             {
                 bool signChanged = false;
 
-                if (_lastSign != null && (_lastSign == 1 && sample < 0) || (_lastSign == 0 && sample >= 0))
+                if (_lastSign != null && _lastSign == 1 && sample < 0)
                 {
                     signChanged = true;
                 }
