@@ -53,6 +53,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Ui\AsciiRenderer.cs" />
+    <Compile Include="Ui\BitManipulator.cs" />
+    <Compile Include="Ui\ColumnRenderer.cs" />
+    <Compile Include="Ui\IRenderer.cs" />
+    <Compile Include="Ui\RowRenderer.cs" />
+    <Compile Include="Ui\UnformattedRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
