@@ -73,6 +73,10 @@
   <ItemGroup>
     <Compile Include="AudioAnalysis\AudioAnalyzer.cs" />
     <Compile Include="AudioAnalysis\IAudioAnalyzer.cs" />
+    <Compile Include="AudioGeneration\AudioGenerator.cs" />
+    <Compile Include="AudioGeneration\FskAudioGenerator.cs" />
+    <Compile Include="AudioGeneration\IFskAudioGenerator.cs" />
+    <Compile Include="AudioGeneration\IAudioGenerator.cs" />
     <Compile Include="BinaryFskAnalysis\BinaryFskAnalyzer.cs" />
     <Compile Include="BinaryFskAnalysis\IBinaryFskAnalyzer.cs" />
     <Compile Include="SignalAnalysis\FrequencyComponent.cs" />

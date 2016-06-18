@@ -81,6 +81,30 @@
   <ItemGroup>
     <None Include="Resources\Bell_103_ten_z_chars.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hello_world.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\i.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\j.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\y.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\z.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\big_z.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\i_1200.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hello_150.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

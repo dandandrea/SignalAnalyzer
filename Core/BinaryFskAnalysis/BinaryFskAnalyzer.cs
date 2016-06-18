@@ -49,7 +49,7 @@ namespace Core.BinaryFskAnalysis
 
                     if (frequencyDifference > frequencyDeviationTolerance)
                     {
-                        Debug.WriteLine($"Frequency outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {frequencyDeviationTolerance} Hz)");
+                        Debug.WriteLine($"WARN: Frequency outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {frequencyDeviationTolerance} Hz)");
                         continue;
                     }
 

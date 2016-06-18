@@ -72,9 +72,90 @@ namespace SignalAnalyzer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        internal static System.IO.UnmanagedMemoryStream big_z {
+            get {
+                return ResourceManager.GetStream("big_z", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A way out west there was a fella, fella I want to tell you about, fella by the name of Jeff Lebowski. At least, that was the handle his lovin&apos; parents gave him, but he never had much use for it himself. This Lebowski, he called himself the Dude. Now, Dude, that&apos;s a name no one would self-apply where I come from. But then, there was a lot about the Dude that didn&apos;t make a whole lot of sense to me. And a lot about where he lived, like- wise. But then again, maybe that&apos;s why I found the place s&apos;durned innarest [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BigLebowskiQuote {
+            get {
+                return ResourceManager.GetString("BigLebowskiQuote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
         internal static System.IO.UnmanagedMemoryStream Emergency_Alert_System_alternative {
             get {
                 return ResourceManager.GetStream("Emergency_Alert_System_alternative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream hello_150 {
+            get {
+                return ResourceManager.GetStream("hello_150", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream hello_world {
+            get {
+                return ResourceManager.GetStream("hello_world", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream i {
+            get {
+                return ResourceManager.GetStream("i", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream i_1200 {
+            get {
+                return ResourceManager.GetStream("i_1200", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream j {
+            get {
+                return ResourceManager.GetStream("j", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream y {
+            get {
+                return ResourceManager.GetStream("y", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream z {
+            get {
+                return ResourceManager.GetStream("z", resourceCulture);
             }
         }
     }
