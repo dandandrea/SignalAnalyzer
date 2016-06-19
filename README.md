@@ -1,7 +1,7 @@
 # Signal Analyzer
 Software for analyzing [digital radio signals].
 
-Contains classes and methods for analyzing WAV recordings of digital radio signals, particularly those which use [FSK encoding].
+Contains classes and methods for analyzing WAV recordings of digital radio signals, particularly those which use [FSK encoding]. Also includes classes and methods for generating digital radio signals.
 
 Eventual goals include automatic determination of FSK mark and space frequencies and [baud rate] and then using this information to extract the binary data contained in a signal sample.
 
