@@ -15,17 +15,14 @@ namespace Core.AudioAnalysis
         private int _bitsPerSample;
         private long _fileLengthInBytes;
 
-        public AudioAnalyzer(string filename, bool play = false, int? playTime = null)
-            : this(new StreamReader(filename).BaseStream, play, playTime) {}
-
-        public AudioAnalyzer(Stream fileInputStream, bool play = false, int? playTime = null)
+        public AudioAnalyzer(Stream inputStream, bool play = false, int? playTime = null)
         {
-            if (fileInputStream == null)
+            if (inputStream == null)
             {
-                throw new ArgumentNullException(nameof(fileInputStream));
+                throw new ArgumentNullException(nameof(inputStream));
             }
 
-            var reader = new WaveFileReader(fileInputStream);
+            var reader = new WaveFileReader(inputStream);
 
             _sampleRate = reader.WaveFormat.SampleRate;
             _bitsPerSample = reader.WaveFormat.BitsPerSample;
@@ -33,7 +30,7 @@ namespace Core.AudioAnalysis
 
             if (play == true)
             {
-                Play(fileInputStream, playTime);
+                Play(inputStream, playTime);
             }
 
             var buffer = new byte[reader.Length];
@@ -46,6 +43,9 @@ namespace Core.AudioAnalysis
 
             Buffer.BlockCopy(buffer, 0, _samples, 0, read);
         }
+
+        public AudioAnalyzer(string filename, bool play = false, int? playTime = null)
+            : this(new StreamReader(filename).BaseStream, play, playTime) { }
 
         public SamplingResult GetSamples(double? startMilliseconds, double? endMilliseconds)
         {
@@ -82,30 +82,34 @@ namespace Core.AudioAnalysis
 
         public static void Play(string filename, int lengthInSeconds)
         {
-            var reader = new WaveFileReader(filename);
-            var waveOut = new WaveOut();
-            waveOut.Init(reader);
-            waveOut.Play();
-            Thread.Sleep(lengthInSeconds);
-            waveOut.Stop();
-            waveOut.Dispose();
-            reader.Close();
-            reader.Dispose();
+            if (string.IsNullOrEmpty(filename))
+            {
+                throw new ArgumentNullException(nameof(filename), "filename must not be null or empty");
+            }
+
+            using (var inputStream = new FileStream(filename, FileMode.Open))
+            {
+                Play(inputStream, lengthInSeconds);
+            }
         }
 
-        private static void Play(Stream fileInputStream, int? playTime)
+        public static void Play(Stream inputStream, int? playTime)
         {
-            fileInputStream.Seek(0, SeekOrigin.Begin);
-            var reader = new WaveFileReader(fileInputStream);
-            var waveOut = new WaveOut();
-            waveOut.Init(reader);
-            waveOut.Play();
-            Thread.Sleep(playTime == null ? 1000 : playTime.Value);
-            waveOut.Stop();
-            waveOut.Dispose();
-            reader.Close();
-            reader.Dispose();
-            fileInputStream.Seek(0, SeekOrigin.Begin);
+            if (inputStream == null)
+            {
+                throw new ArgumentNullException(nameof(inputStream));
+            }
+
+            inputStream.Seek(0, SeekOrigin.Begin);
+
+            using (var reader = new WaveFileReader(inputStream))
+            using (var waveOut = new WaveOut())
+            {
+                waveOut.Init(reader);
+                waveOut.Play();
+                Thread.Sleep(playTime == null ? 1000 : playTime.Value);
+                inputStream.Seek(0, SeekOrigin.Begin);
+            }
         }
     }
 }

@@ -25,8 +25,6 @@ namespace Core.AudioGeneration
 
                 _audioGenerator.AddInterval(frequency, intervalLengthInMilliseconds);
             }
-
-            _audioGenerator.Close();
         }
     }
 }

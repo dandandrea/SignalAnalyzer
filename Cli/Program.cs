@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using Core.AudioAnalysis;
 using SignalAnalyzer.Properties;
 using Core.BinaryFskAnalysis;
-using System.Collections.Generic;
 using SignalAnalyzer.Ui;
 using Core.AudioGeneration;
+using System.IO;
 
 namespace Cli
 {
@@ -20,14 +19,13 @@ namespace Cli
             var spaceFrequency = _spaceFrequency300Baud;
             var markFrequency = _markFrequency300Baud;
 
-            string filename = "some.wav";
-
             var bitManipulator = new BitManipulator();
             var myBits = bitManipulator.StringToBits(Resources.BigLebowskiQuote);
             Console.WriteLine($"Length of string in bits: {myBits.Count}");
 
-            // TODO: Work with audio in streams, not just files
-            var audioGenerator = new AudioGenerator(filename);
+            var audioStream = new MemoryStream();
+
+            var audioGenerator = new AudioGenerator(audioStream);
             var fskAudioGenerator = new FskAudioGenerator(audioGenerator);
             fskAudioGenerator.GenerateAudio(baudRate, spaceFrequency, markFrequency, myBits);
 
@@ -38,7 +36,7 @@ namespace Cli
             Console.WriteLine(Resources.BigLebowskiQuote);
             Console.WriteLine();
 
-            AudioAnalyzer.Play(filename, audioLengthInMillisecondsSeconds);
+            AudioAnalyzer.Play(audioStream, audioLengthInMillisecondsSeconds);
 
             var windowPositionStart = 0.0;
             var windowPositionIncrement = 1.0 / baudRate * 1000.0;
@@ -53,7 +51,7 @@ namespace Cli
             // var numberOfStartBits = 1;
             // var numberOfStopBits = 1;
 
-            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(filename));
+            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream));
 
             Console.WriteLine($"Window position start {windowPositionStart:N3} ms, window position end {windowPositionEnd:N3} ms, window position increment {windowPositionIncrement:N3} ms");
             Console.WriteLine($"Window length start {windowLengthStart:N3} ms, window length end {windowLengthEnd:N3} ms, window length increment {windowLengthIncrement:N3} ms");

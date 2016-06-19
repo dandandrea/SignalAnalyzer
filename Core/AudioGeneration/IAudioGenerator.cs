@@ -3,6 +3,5 @@
     public interface IAudioGenerator
     {
         void AddInterval(int frequency, double intervalMilliseconds);
-        void Close();
     }
 }
