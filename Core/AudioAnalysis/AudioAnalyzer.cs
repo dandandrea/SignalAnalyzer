@@ -22,6 +22,8 @@ namespace Core.AudioAnalysis
                 throw new ArgumentNullException(nameof(inputStream));
             }
 
+            inputStream.Position = 0;
+
             var reader = new WaveFileReader(inputStream);
 
             _sampleRate = reader.WaveFormat.SampleRate;

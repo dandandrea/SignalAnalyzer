@@ -4,6 +4,7 @@ using SignalAnalyzer.Properties;
 using Core.BinaryFskAnalysis;
 using SignalAnalyzer.Ui;
 using Core.AudioGeneration;
+using Core.BinaryData;
 using System.IO;
 
 namespace Cli
@@ -38,27 +39,27 @@ namespace Cli
 
             AudioAnalyzer.Play(audioStream, audioLengthInMillisecondsSeconds);
 
-            var windowPositionStart = 0.0;
-            var windowPositionIncrement = 1.0 / baudRate * 1000.0;
-            double? windowPositionEnd = null;
-            var windowLengthStart = 1.0 / baudRate * 1000.0;
-            var windowLengthIncrement = 1.0 / baudRate * 1000.0 / 2.0;
-            var windowLengthEnd = windowLengthStart;
-
             var frequencyDeviationTolerance = 30.0;
 
             // TODO: Add BitManipulator method to inject start and stop bits
             // var numberOfStartBits = 1;
             // var numberOfStopBits = 1;
 
-            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream), new ZeroCrossingsFrequencyDetector());
+            var binaryFskAnalyzerSettings = new BinaryFskAnalyzerSettings
+            {
+                BaudRate = baudRate,
+                SpaceFrequency = spaceFrequency,
+                MarkFrequency = markFrequency,
+                FrequencyDeviationTolerance = frequencyDeviationTolerance
+            };
 
-            Console.WriteLine($"Window position start {windowPositionStart:N3} ms, window position end {windowPositionEnd:N3} ms, window position increment {windowPositionIncrement:N3} ms");
-            Console.WriteLine($"Window length start {windowLengthStart:N3} ms, window length end {windowLengthEnd:N3} ms, window length increment {windowLengthIncrement:N3} ms");
+            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream), new ZeroCrossingsFrequencyDetector(), binaryFskAnalyzerSettings);
+
+            Console.WriteLine($"Window position start {binaryFskAnalyzerSettings.WindowPositionStartMilliseconds:N3} ms, window position end {binaryFskAnalyzerSettings.WindowPositionEndMilliseconds:N3} ms, window position increment {binaryFskAnalyzerSettings.WindowPositionIncrementMilliseconds:N3} ms");
+            Console.WriteLine($"Window length start {binaryFskAnalyzerSettings.WindowLengthStartMilliseconds:N3} ms, window length end {binaryFskAnalyzerSettings.WindowLengthEndMilliseconds:N3} ms, window length increment {binaryFskAnalyzerSettings.WindowLengthIncrementMilliseconds:N3} ms");
             Console.WriteLine();
 
-            var bits = binaryFskAnalyzer.AnalyzeSignal(baudRate, spaceFrequency, markFrequency, windowPositionStart, windowPositionIncrement,
-                windowPositionEnd, windowLengthStart, windowLengthEnd, windowLengthIncrement, frequencyDeviationTolerance);
+            var bits = binaryFskAnalyzer.AnalyzeSignal();
 
             Console.WriteLine("Rendering bytes");
             Console.WriteLine();

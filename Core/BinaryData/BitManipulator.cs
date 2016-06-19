@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
-namespace SignalAnalyzer.Ui
+namespace Core.BinaryData
 {
     public class BitManipulator
     {
@@ -192,6 +193,19 @@ namespace SignalAnalyzer.Ui
             }
 
             return bits;
+        }
+
+        public static string BitsToString(ICollection<bool> bits)
+        {
+            var outgoingBytes = BitsToBytes(bits);
+            var outgoingString = new StringBuilder();
+
+            foreach (var outgoingByte in outgoingBytes)
+            {
+                outgoingString.Append(ByteToChar(outgoingByte));
+            }
+
+            return outgoingString.ToString();
         }
 
         private Dictionary<char, List<bool>> GetAsciiTable()

@@ -77,7 +77,9 @@
     <Compile Include="AudioGeneration\FskAudioGenerator.cs" />
     <Compile Include="AudioGeneration\IFskAudioGenerator.cs" />
     <Compile Include="AudioGeneration\IAudioGenerator.cs" />
+    <Compile Include="BinaryData\BitManipulator.cs" />
     <Compile Include="BinaryFskAnalysis\BinaryFskAnalyzer.cs" />
+    <Compile Include="BinaryFskAnalysis\BinaryFskAnalyzerSettings.cs" />
     <Compile Include="BinaryFskAnalysis\IBinaryFskAnalyzer.cs" />
     <Compile Include="BinaryFskAnalysis\IFrequencyDetector.cs" />
     <Compile Include="BinaryFskAnalysis\ZeroCrossingsFrequencyDetector.cs" />
