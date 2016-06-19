@@ -9,15 +9,22 @@ namespace Core.BinaryFskAnalysis
     public class BinaryFskAnalyzer : IBinaryFskAnalyzer
     {
         private IAudioAnalyzer _audioAnalyzer;
+        private IFrequencyDetector _frequencyDetector;
 
-        public BinaryFskAnalyzer(IAudioAnalyzer audioAnalyzer)
+        public BinaryFskAnalyzer(IAudioAnalyzer audioAnalyzer, IFrequencyDetector frequencyDetector)
         {
             if (audioAnalyzer == null)
             {
-                throw new ArgumentNullException(nameof(_audioAnalyzer));
+                throw new ArgumentNullException(nameof(audioAnalyzer));
+            }
+
+            if (frequencyDetector == null)
+            {
+                throw new ArgumentNullException(nameof(frequencyDetector));
             }
 
             _audioAnalyzer = audioAnalyzer;
+            _frequencyDetector = frequencyDetector;
         }
 
         public ICollection<bool> AnalyzeSignal(double baudRate, int spaceFrequency, int markFrequency,
@@ -40,10 +47,7 @@ namespace Core.BinaryFskAnalysis
                 for (var currentWindowLength = windowLengthStartMilliseconds; currentWindowLength <= windowLengthEndMilliseconds; currentWindowLength += windowLengthIncrementMilliseconds)
                 {
                     var samplingResult = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
-
-                    var frequencyDetector = new FrequencyDetector(new SignChangeDetector(samplingResult.SampleRate));
-                    var frequency = frequencyDetector.DetectFrequency(samplingResult.Samples);
-
+                    var frequency = _frequencyDetector.DetectFrequency(samplingResult.Samples);
                     var frequencyDifference = FrequencyDifference(frequency, spaceFrequency, markFrequency);
                     var markOrSpace = MarkOrSpace(frequency, spaceFrequency, markFrequency);
 
@@ -76,87 +80,6 @@ namespace Core.BinaryFskAnalysis
             int distanceFromMarkFrequency = Math.Abs(frequency - markFrequency);
 
             return distanceFromSpaceFrequency <= distanceFromMarkFrequency ? 0 : 1;
-        }
-
-        // TODO: Find a better method of detecting frequency as this method does not
-        // TODO: work when the mark or space frequency is higher than the baud rate
-        private class FrequencyDetector
-        {
-            private SignChangeDetector _signChangeDetector;
-
-            public FrequencyDetector(SignChangeDetector signChangeDetector)
-            {
-                if (signChangeDetector == null)
-                {
-                    throw new ArgumentNullException(nameof(signChangeDetector));
-                }
-
-                _signChangeDetector = signChangeDetector;
-            }
-
-            public int DetectFrequency(IList<short> samples)
-            {
-                var frequencies = new List<int>();
-
-                for (var sampleNumber = 0; sampleNumber < samples.Count; sampleNumber++)
-                {
-                    var currentTimeMilliseconds = sampleNumber * 1.0 / _signChangeDetector.SampleRate * 1000.0;
-
-                    var signChangeResult = _signChangeDetector.DetectSignChange(samples[sampleNumber], currentTimeMilliseconds);
-
-                    if (signChangeResult.SignChanged == true && signChangeResult.TimeDifferenceMilliseconds != null)
-                    {
-                        var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMilliseconds * 1000.0);
-                        frequencies.Add(frequency);
-                    }
-                }
-
-                return frequencies.Count > 0 ? (int)frequencies.Average() : 0;
-            }
-        }
-
-        private class SignChangeDetector
-        {
-            private int? _lastSign = null;
-            private double? _lastSignChangeMilliseconds { get; set; } = null;
-
-            public int SampleRate { get; }
-
-            public SignChangeDetector(int sampleRate)
-            {
-                SampleRate = sampleRate;
-            }
-
-            public SignChangeResult DetectSignChange(short sample, double currentTimeMilliseconds)
-            {
-                bool signChanged = false;
-
-                if (_lastSign != null && _lastSign == 1 && sample < 0)
-                {
-                    signChanged = true;
-                }
-
-                var signChangeResult = new SignChangeResult
-                {
-                    SignChanged = signChanged,
-                    TimeDifferenceMilliseconds = _lastSignChangeMilliseconds != null ? currentTimeMilliseconds - _lastSignChangeMilliseconds : null
-                };
-
-                if (signChanged == true)
-                {
-                    _lastSignChangeMilliseconds = currentTimeMilliseconds;
-                }
-
-                _lastSign = sample >= 0 ? 1 : -1;
-
-                return signChangeResult;
-            }
-        }
-
-        private class SignChangeResult
-        {
-            public bool SignChanged { get; set; } = false;
-            public double? TimeDifferenceMilliseconds { get; set; }
         }
 
         private class WindowSample

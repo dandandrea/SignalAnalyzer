@@ -51,7 +51,7 @@ namespace Cli
             // var numberOfStartBits = 1;
             // var numberOfStopBits = 1;
 
-            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream));
+            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream), new ZeroCrossingsFrequencyDetector());
 
             Console.WriteLine($"Window position start {windowPositionStart:N3} ms, window position end {windowPositionEnd:N3} ms, window position increment {windowPositionIncrement:N3} ms");
             Console.WriteLine($"Window length start {windowLengthStart:N3} ms, window length end {windowLengthEnd:N3} ms, window length increment {windowLengthIncrement:N3} ms");

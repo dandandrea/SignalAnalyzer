@@ -79,6 +79,8 @@
     <Compile Include="AudioGeneration\IAudioGenerator.cs" />
     <Compile Include="BinaryFskAnalysis\BinaryFskAnalyzer.cs" />
     <Compile Include="BinaryFskAnalysis\IBinaryFskAnalyzer.cs" />
+    <Compile Include="BinaryFskAnalysis\IFrequencyDetector.cs" />
+    <Compile Include="BinaryFskAnalysis\ZeroCrossingsFrequencyDetector.cs" />
     <Compile Include="SignalAnalysis\FrequencyComponent.cs" />
     <Compile Include="SignalAnalysis\ISignalAnalyzer.cs" />
     <Compile Include="AudioAnalysis\SamplingResult.cs" />
