@@ -47,18 +47,5 @@ namespace Core.AudioGeneration
 
             return samples;
         }
-
-        public static void Play(string filename, int lengthInSeconds)
-        {
-            var reader = new WaveFileReader(filename);
-            var waveOut = new WaveOut();
-            waveOut.Init(reader);
-            waveOut.Play();
-            Thread.Sleep(lengthInSeconds);
-            waveOut.Stop();
-            waveOut.Dispose();
-            reader.Close();
-            reader.Dispose();
-        }
     }
 }

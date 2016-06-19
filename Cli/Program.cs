@@ -41,7 +41,7 @@ namespace Cli
             Console.WriteLine(Resources.BigLebowskiQuote);
             Console.WriteLine();
 
-            AudioGenerator.Play(filename, audioLengthInMillisecondsSeconds);
+            AudioAnalyzer.Play(filename, audioLengthInMillisecondsSeconds);
 
             var windowPositionStart = 0.0;
             var windowPositionIncrement = 1.0 / baudRate * 1000.0;

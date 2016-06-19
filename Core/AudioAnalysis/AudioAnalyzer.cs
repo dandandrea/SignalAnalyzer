@@ -20,6 +20,11 @@ namespace Core.AudioAnalysis
 
         public AudioAnalyzer(Stream fileInputStream, bool play = false, int? playTime = null)
         {
+            if (fileInputStream == null)
+            {
+                throw new ArgumentNullException(nameof(fileInputStream));
+            }
+
             var reader = new WaveFileReader(fileInputStream);
 
             _sampleRate = reader.WaveFormat.SampleRate;
@@ -73,6 +78,19 @@ namespace Core.AudioAnalysis
                 FileLengthInMilliseconds = FileLengthInMilliseconds,
                 Samples = desiredSamples
             };
+        }
+
+        public static void Play(string filename, int lengthInSeconds)
+        {
+            var reader = new WaveFileReader(filename);
+            var waveOut = new WaveOut();
+            waveOut.Init(reader);
+            waveOut.Play();
+            Thread.Sleep(lengthInSeconds);
+            waveOut.Stop();
+            waveOut.Dispose();
+            reader.Close();
+            reader.Dispose();
         }
 
         private static void Play(Stream fileInputStream, int? playTime)
