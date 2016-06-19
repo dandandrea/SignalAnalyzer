@@ -78,6 +78,8 @@ namespace Core.BinaryFskAnalysis
             return distanceFromSpaceFrequency <= distanceFromMarkFrequency ? 0 : 1;
         }
 
+        // TODO: Find a better method of detecting frequency as this method does not
+        // TODO: work when the mark or space frequency is higher than the baud rate
         private class FrequencyDetector
         {
             private SignChangeDetector _signChangeDetector;
