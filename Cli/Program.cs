@@ -20,13 +20,15 @@ namespace Cli
             var spaceFrequency = _spaceFrequency300Baud;
             var markFrequency = _markFrequency300Baud;
 
+            string filename = "some.wav";
+
             var bitManipulator = new BitManipulator();
             var myBits = bitManipulator.StringToBits(Resources.BigLebowskiQuote);
             Console.WriteLine($"Length of string in bits: {myBits.Count}");
             Console.WriteLine();
 
             // TODO: Work with audio in streams, not just files
-            var audioGenerator = new AudioGenerator("some.wav");
+            var audioGenerator = new AudioGenerator(filename);
             var fskAudioGenerator = new FskAudioGenerator(audioGenerator);
             fskAudioGenerator.GenerateAudio(baudRate, spaceFrequency, markFrequency, myBits);
 
@@ -39,7 +41,7 @@ namespace Cli
             Console.WriteLine(Resources.BigLebowskiQuote);
             Console.WriteLine();
 
-            AudioGenerator.Play("some.wav", audioLengthInMillisecondsSeconds);
+            AudioGenerator.Play(filename, audioLengthInMillisecondsSeconds);
 
             var windowPositionStart = 0.0;
             var windowPositionIncrement = 1.0 / baudRate * 1000.0;
@@ -54,7 +56,7 @@ namespace Cli
             // var numberOfStartBits = 1;
             // var numberOfStopBits = 1;
 
-            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer("some.wav"));
+            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(filename));
 
             Console.WriteLine($"Window position start {windowPositionStart:N3}, window position end {windowPositionEnd:N3}, window position increment {windowPositionIncrement:N3}");
             Console.WriteLine($"Window length start {windowLengthStart:N3}, window length end {windowLengthEnd:N3}, window length increment {windowLengthIncrement:N3}");
