@@ -11,26 +11,22 @@ namespace Cli
 {
     public class Program
     {
-        private static readonly int _spaceFrequency300Baud = 1060;
-        private static readonly int _markFrequency300Baud = 1250;
-
         public static void Main(string[] args)
         {
-            var baudRate = 300.0;
-            var spaceFrequency = _spaceFrequency300Baud;
-            var markFrequency = _markFrequency300Baud;
-
             var bitManipulator = new BitManipulator();
             var myBits = bitManipulator.StringToBits(Resources.BigLebowskiQuote);
             Console.WriteLine($"Length of string in bits: {myBits.Count}");
 
             var audioStream = new MemoryStream();
 
+            var binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings();
+
             var audioGenerator = new AudioGenerator(audioStream);
             var fskAudioGenerator = new FskAudioGenerator(audioGenerator);
-            fskAudioGenerator.GenerateAudio(baudRate, spaceFrequency, markFrequency, myBits);
+            fskAudioGenerator.GenerateAudio(binaryFskAnalyzerSettings.BaudRate,
+                binaryFskAnalyzerSettings.SpaceFrequency, binaryFskAnalyzerSettings.MarkFrequency, myBits);
 
-            var audioLengthInMillisecondsSeconds = (int)(myBits.Count * 1000.0 / baudRate);
+            var audioLengthInMillisecondsSeconds = (int)(myBits.Count * 1000.0 / binaryFskAnalyzerSettings.BaudRate);
             Console.WriteLine($"Length of audio in seconds: {audioLengthInMillisecondsSeconds / 1000.0:N1}");
             Console.WriteLine();
 
@@ -39,19 +35,9 @@ namespace Cli
 
             AudioAnalyzer.Play(audioStream, audioLengthInMillisecondsSeconds);
 
-            var frequencyDeviationTolerance = 30.0;
-
             // TODO: Add BitManipulator method to inject start and stop bits
             // var numberOfStartBits = 1;
             // var numberOfStopBits = 1;
-
-            var binaryFskAnalyzerSettings = new BinaryFskAnalyzerSettings
-            {
-                BaudRate = baudRate,
-                SpaceFrequency = spaceFrequency,
-                MarkFrequency = markFrequency,
-                FrequencyDeviationTolerance = frequencyDeviationTolerance
-            };
 
             var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream), new ZeroCrossingsFrequencyDetector(), binaryFskAnalyzerSettings);
 
