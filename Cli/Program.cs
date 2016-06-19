@@ -25,7 +25,6 @@ namespace Cli
             var bitManipulator = new BitManipulator();
             var myBits = bitManipulator.StringToBits(Resources.BigLebowskiQuote);
             Console.WriteLine($"Length of string in bits: {myBits.Count}");
-            Console.WriteLine();
 
             // TODO: Work with audio in streams, not just files
             var audioGenerator = new AudioGenerator(filename);
@@ -35,8 +34,6 @@ namespace Cli
             var audioLengthInMillisecondsSeconds = (int)(myBits.Count * 1000.0 / baudRate);
             Console.WriteLine($"Length of audio in seconds: {audioLengthInMillisecondsSeconds / 1000.0:N1}");
             Console.WriteLine();
-            Console.WriteLine("Hit enter to continue");
-            Console.ReadLine();
 
             Console.WriteLine(Resources.BigLebowskiQuote);
             Console.WriteLine();
@@ -58,34 +55,16 @@ namespace Cli
 
             var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(filename));
 
-            Console.WriteLine($"Window position start {windowPositionStart:N3}, window position end {windowPositionEnd:N3}, window position increment {windowPositionIncrement:N3}");
-            Console.WriteLine($"Window length start {windowLengthStart:N3}, window length end {windowLengthEnd:N3}, window length increment {windowLengthIncrement:N3}");
+            Console.WriteLine($"Window position start {windowPositionStart:N3} ms, window position end {windowPositionEnd:N3} ms, window position increment {windowPositionIncrement:N3} ms");
+            Console.WriteLine($"Window length start {windowLengthStart:N3} ms, window length end {windowLengthEnd:N3} ms, window length increment {windowLengthIncrement:N3} ms");
             Console.WriteLine();
 
             var bits = binaryFskAnalyzer.AnalyzeSignal(baudRate, spaceFrequency, markFrequency, windowPositionStart, windowPositionIncrement,
                 windowPositionEnd, windowLengthStart, windowLengthEnd, windowLengthIncrement, frequencyDeviationTolerance);
 
-            var renderer = (IRenderer)new UnformattedRenderer();
-            renderer.Render(BitManipulator.BitsToBytes(bits));
+            Console.WriteLine("Rendering bytes");
             Console.WriteLine();
-
-            renderer = new UnformattedRenderer();
-            renderer.Render(BitManipulator.BitsToBytes(bits));
-            Console.WriteLine();
-
-            renderer = new UnformattedRenderer();
-            renderer.Render(BitManipulator.BitsToBytes(bits));
-            Console.WriteLine();
-
-            Console.WriteLine("Rendering unformatted");
-            Console.WriteLine();
-            renderer = (IRenderer)new UnformattedRenderer();
-            renderer.Render(BitManipulator.BitsToBytes(bits));
-            Console.WriteLine();
-
-            Console.WriteLine("Rendering rows");
-            Console.WriteLine();
-            renderer = new RowRenderer();
+            var renderer = (IRenderer)new RowRenderer();
             renderer.Render(BitManipulator.BitsToBytes(bits));
             Console.WriteLine();
             Console.WriteLine();
