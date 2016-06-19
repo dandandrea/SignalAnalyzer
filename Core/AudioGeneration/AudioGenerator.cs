@@ -11,6 +11,11 @@ namespace Core.AudioGeneration
 
         public AudioGenerator(Stream outputStream, int sampleRate = 44100)
         {
+            if (outputStream == null)
+            {
+                throw new ArgumentNullException(nameof(outputStream));
+            }
+
             _waveFileWriter = new WaveFileWriter(outputStream, new WaveFormat(sampleRate, 1));
             _sampleRate = sampleRate;
         }

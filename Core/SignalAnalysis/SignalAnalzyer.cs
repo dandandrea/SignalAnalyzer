@@ -80,6 +80,11 @@ namespace Core.SignalAnalysis
             int windowPositionStart, int windowPositionEnd, int windowLengthStart, int windowLengthEnd,
             int numberOfClusters, int cutoffFrequency)
         {
+            if (string.IsNullOrEmpty(filename))
+            {
+                throw new ArgumentNullException(nameof(filename), "filename must not be null or empty");
+            }
+
             var frequencyComponents = new List<FrequencyComponent>();
 
             for (var currentWindowStart = windowPositionStart; currentWindowStart <= windowPositionEnd; currentWindowStart++)

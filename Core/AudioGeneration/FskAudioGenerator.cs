@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Core.AudioGeneration
 {
@@ -8,6 +9,11 @@ namespace Core.AudioGeneration
 
         public FskAudioGenerator(AudioGenerator audioGenerator)
         {
+            if (audioGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(audioGenerator));
+            }
+
             _audioGenerator = audioGenerator;
         }
 
