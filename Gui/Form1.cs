@@ -16,32 +16,38 @@ namespace Gui
 
             mainDataGrid.AutoGenerateColumns = false;
             mainDataGrid.ColumnCount = 5;
+            mainDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             mainDataGrid.Columns[0].Name = "Boost (Hz)";
             mainDataGrid.Columns[0].HeaderText = "Boost (Hz)";
             mainDataGrid.Columns[0].DataPropertyName = "BoostFrequencyAmount";
             mainDataGrid.Columns[0].Frozen = false;
+            mainDataGrid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             mainDataGrid.Columns[1].Name = "Freq. diff. (Hz)";
             mainDataGrid.Columns[1].HeaderText = "Freq. diff. (Hz)";
             mainDataGrid.Columns[1].DataPropertyName = "AverageFrequencyDifference";
             mainDataGrid.Columns[1].Frozen = false;
             mainDataGrid.Columns[1].DefaultCellStyle.Format = "0.0";
+            mainDataGrid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             mainDataGrid.Columns[2].Name = "# miss";
             mainDataGrid.Columns[2].HeaderText = "# miss";
             mainDataGrid.Columns[2].DataPropertyName = "NumberOfMissedFrequencies";
             mainDataGrid.Columns[2].Frozen = false;
+            mainDataGrid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             mainDataGrid.Columns[3].Name = "Output";
             mainDataGrid.Columns[3].HeaderText = "Output";
             mainDataGrid.Columns[3].DataPropertyName = "ResultingString";
             mainDataGrid.Columns[3].Frozen = false;
+            mainDataGrid.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             mainDataGrid.Columns[4].Name = "Match?";
             mainDataGrid.Columns[4].HeaderText = "Match?";
             mainDataGrid.Columns[4].DataPropertyName = "Matched";
             mainDataGrid.Columns[4].Frozen = false;
+            mainDataGrid.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             _analysisResults = new BindingList<AnalysisResultEventArgs>();
             mainDataGrid.DataSource = _analysisResults;
