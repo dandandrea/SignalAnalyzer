@@ -53,8 +53,6 @@ namespace Gui
         {
             startButton.Enabled = false;
             _analysisResults.Clear();
-            mainDataGrid.DataSource = null;
-            mainDataGrid.DataSource = _analysisResults;
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -122,8 +120,16 @@ namespace Gui
         {
             var analysisResult = (AnalysisResultEventArgs)e.UserState;
             _analysisResults.Add(analysisResult);
-            mainDataGrid.DataSource = null;
-            mainDataGrid.DataSource = _analysisResults;
+
+            if (analysisResult.Matched == true)
+            {
+                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[4].Style.BackColor = System.Drawing.Color.Green;
+            }
+            else
+            {
+                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[4].Style.BackColor = System.Drawing.Color.Red;
+            }
+
             mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
         }
 
