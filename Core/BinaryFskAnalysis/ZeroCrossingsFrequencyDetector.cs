@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Core.BinaryFskAnalysis
@@ -8,12 +7,12 @@ namespace Core.BinaryFskAnalysis
     {
         private SignChangeDetector _signChangeDetector;
 
-        public ZeroCrossingsFrequencyDetector(int sampleRate = 44100)
+        public ZeroCrossingsFrequencyDetector(int sampleRate = 88200)
         {
             _signChangeDetector = new SignChangeDetector(sampleRate);
         }
 
-        public int DetectFrequency(IList<short> samples)
+        public int DetectFrequency(IList<float> samples)
         {
             var frequencies = new List<int>();
 
@@ -47,7 +46,7 @@ namespace Core.BinaryFskAnalysis
                 SampleRate = sampleRate;
             }
 
-            public SignChangeResult DetectSignChange(short sample, double currentTimeMilliseconds)
+            public SignChangeResult DetectSignChange(float sample, double currentTimeMilliseconds)
             {
                 bool signChanged = false;
 

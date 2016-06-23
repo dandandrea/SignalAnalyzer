@@ -8,7 +8,14 @@ namespace Core.BinaryFskAnalysis
 {
     public class DerivativeFrequencyDetector : IFrequencyDetector
     {
-        public int DetectFrequency(IList<short> samples)
+        private double _sampleRate;
+
+        public DerivativeFrequencyDetector(double sampleRate = 88200.0)
+        {
+            _sampleRate = sampleRate;
+        }
+
+        public int DetectFrequency(IList<float> samples)
         {
             /*
             def freq_from_der(sig, srate):
@@ -49,7 +56,7 @@ namespace Core.BinaryFskAnalysis
             var gradientRms = Math.Sqrt(gradient.Select(x => Math.Pow(x, 2)).Average());
             var samplesRms = Math.Sqrt(samples.Select(x => Math.Pow(x, 2)).Average());
 
-            var frequency = (44100.0 / (2 * Math.PI)) * (gradientRms / samplesRms);
+            var frequency = (_sampleRate / (2 * Math.PI)) * (gradientRms / samplesRms);
 
             return (int)frequency;
         }

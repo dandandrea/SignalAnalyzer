@@ -2,16 +2,24 @@
 using System;
 using System.Diagnostics;
 using Core.AudioAnalysis;
+using System.Linq;
+using Core.BinaryData;
 
 namespace Core.BinaryFskAnalysis
 {
-    public class BinaryFskAnalyzer : IBinaryFskAnalyzer
+    public class BinaryFskAnalyzer : BinaryFskAnalyzerEventSource, IBinaryFskAnalyzer
     {
         private IAudioAnalyzer _audioAnalyzer;
         private IFrequencyDetector _frequencyDetector;
         private BinaryFskAnalyzerSettings _settings;
 
         public BinaryFskAnalyzer(IAudioAnalyzer audioAnalyzer, IFrequencyDetector frequencyDetector,
+            BinaryFskAnalyzerSettings binaryFskAnalzyerSettings)
+        {
+            Initialize(audioAnalyzer, frequencyDetector, binaryFskAnalzyerSettings);
+        }
+
+        public void Initialize(IAudioAnalyzer audioAnalyzer, IFrequencyDetector frequencyDetector,
             BinaryFskAnalyzerSettings binaryFskAnalzyerSettings)
         {
             if (audioAnalyzer == null)
@@ -34,15 +42,18 @@ namespace Core.BinaryFskAnalysis
             _settings = ProcessSettings(binaryFskAnalzyerSettings);
         }
 
-        public ICollection<bool> AnalyzeSignal()
+        public ICollection<bool> AnalyzeSignal(string testString = null)
         {
             var bits = new List<bool>();
+
+            var numberOfFrequencyDifferences = new List<int>();
+            int numberOfMissedFrequencies = 0;
 
             if (_settings.WindowPositionEndMilliseconds == null)
             {
                 _settings.WindowPositionEndMilliseconds = _audioAnalyzer.FileLengthInMilliseconds;
 
-                Debug.WriteLine($"Set window end position to total length of audio ({_settings.WindowPositionEndMilliseconds} ms)");
+                Debug.WriteLine($"No window end position specified, setting to total length of audio ({_settings.WindowPositionEndMilliseconds} ms)");
             }
 
             for (var currentWindowStart = _settings.WindowPositionStartMilliseconds; currentWindowStart <= _settings.WindowPositionEndMilliseconds; currentWindowStart += _settings.WindowPositionIncrementMilliseconds.Value)
@@ -56,15 +67,35 @@ namespace Core.BinaryFskAnalysis
 
                     if (frequencyDifference > _settings.FrequencyDeviationTolerance)
                     {
-                        Debug.WriteLine($"WARN: Frequency outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {_settings.FrequencyDeviationTolerance} Hz)");
+                        // Debug.WriteLine($"WARN: Frequency outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {_settings.FrequencyDeviationTolerance} Hz)");
+                        numberOfMissedFrequencies++;
                         continue;
                     }
 
-                    Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {_settings.MarkFrequency:N0} Hz / {_settings.SpaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
+                    // Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {_settings.MarkFrequency:N0} Hz / {_settings.SpaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
+                    numberOfFrequencyDifferences.Add(frequencyDifference);
 
                     bits.Add(markOrSpace == 0 ? false : true);
                 }
             }
+
+            var averageFrequencyDifference = numberOfFrequencyDifferences.Count() > 0 ? numberOfFrequencyDifferences.Average() : 0;
+
+            bool? match = null;
+            string resultingString = null;
+            if (testString != null)
+            {
+                resultingString = BitManipulator.BitsToString(bits);
+                match = false;
+                if (resultingString == testString)
+                {
+                    match = true;
+                }
+            }
+
+            // Debug.WriteLine($"Boost freq.: {_audioAnalyzer.BoostFrequencyAmount} Hz, avg. freq. diff.: {averageFrequencyDifference}, # missed freqs.: {missedFrequencies}");
+
+            AnalysisComplete(_audioAnalyzer.BoostFrequencyAmount, averageFrequencyDifference, numberOfMissedFrequencies, resultingString, match);
 
             return bits;
         }

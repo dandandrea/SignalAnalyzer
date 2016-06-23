@@ -1,5 +1,6 @@
 ﻿using NAudio.Wave;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Core.AudioGeneration
@@ -9,18 +10,18 @@ namespace Core.AudioGeneration
         private WaveFileWriter _waveFileWriter;
         private int _sampleRate;
 
-        public AudioGenerator(Stream outputStream, int sampleRate = 44100)
+        public AudioGenerator(Stream outputStream, int sampleRate = 88200)
         {
             if (outputStream == null)
             {
                 throw new ArgumentNullException(nameof(outputStream));
             }
 
-            _waveFileWriter = new WaveFileWriter(outputStream, new WaveFormat(sampleRate, 1));
+            _waveFileWriter = new WaveFileWriter(outputStream, WaveFormat.CreateIeeeFloatWaveFormat(sampleRate, 1));
             _sampleRate = sampleRate;
         }
 
-        public AudioGenerator(string filename, int sampleRate = 44100)
+        public AudioGenerator(string filename, int sampleRate = 88200)
             : this(new StreamWriter(filename).BaseStream, sampleRate) {}
 
         public void AddInterval(int frequency, double intervalMilliseconds)
@@ -34,15 +35,15 @@ namespace Core.AudioGeneration
             _waveFileWriter.Flush();
         }
 
-        private short[] GenerateSamples(int frequency, int sampleCount, int sampleRate)
+        public float[] GenerateSamples(int frequency, int sampleCount, int sampleRate)
         {
             // TODO: How to determine best value for amplitude?
-            var amplitude = 10000.0f;
+            var amplitude = 100.0f;
 
-            var samples = new short[sampleCount];
+            var samples = new float[sampleCount];
             for (int i = 0; i < sampleCount; i++)
             {
-                samples[i] = (short)(amplitude * Math.Sin((2 * Math.PI * i * frequency) / sampleRate));
+                samples[i] = (float)(amplitude * Math.Sin((2 * Math.PI * i * frequency) / sampleRate));
             }
 
             return samples;

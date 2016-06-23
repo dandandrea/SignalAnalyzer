@@ -86,5 +86,14 @@ namespace SignalAnalyzer.Properties {
                 return ResourceManager.GetStream("Emergency_Alert_System_alternative", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ABCDEFGH.
+        /// </summary>
+        internal static string TestString {
+            get {
+                return ResourceManager.GetString("TestString", resourceCulture);
+            }
+        }
     }
 }

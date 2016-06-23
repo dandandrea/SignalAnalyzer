@@ -5,9 +5,9 @@ namespace Core.AudioGeneration
 {
     public class FskAudioGenerator : IFskAudioGenerator
     {
-        private AudioGenerator _audioGenerator;
+        private IAudioGenerator _audioGenerator;
 
-        public FskAudioGenerator(AudioGenerator audioGenerator)
+        public FskAudioGenerator(IAudioGenerator audioGenerator)
         {
             if (audioGenerator == null)
             {

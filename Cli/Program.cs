@@ -6,6 +6,7 @@ using SignalAnalyzer.Ui;
 using Core.AudioGeneration;
 using Core.BinaryData;
 using System.IO;
+using System.Diagnostics;
 
 namespace Cli
 {
@@ -35,11 +36,12 @@ namespace Cli
 
             AudioAnalyzer.Play(audioStream, audioLengthInMillisecondsSeconds);
 
-            // TODO: Add BitManipulator method to inject start and stop bits
-            // var numberOfStartBits = 1;
-            // var numberOfStopBits = 1;
+            audioGenerator = new AudioGenerator(audioStream);
+            fskAudioGenerator = new FskAudioGenerator(audioGenerator);
+            fskAudioGenerator.GenerateAudio(binaryFskAnalyzerSettings.BaudRate,
+                binaryFskAnalyzerSettings.SpaceFrequency, binaryFskAnalyzerSettings.MarkFrequency, myBits);
 
-            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream), new ZeroCrossingsFrequencyDetector(), binaryFskAnalyzerSettings);
+            var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream, audioGenerator), new ZeroCrossingsFrequencyDetector(), binaryFskAnalyzerSettings);
 
             Console.WriteLine($"Window position start {binaryFskAnalyzerSettings.WindowPositionStartMilliseconds:N3} ms, window position end {binaryFskAnalyzerSettings.WindowPositionEndMilliseconds:N3} ms, window position increment {binaryFskAnalyzerSettings.WindowPositionIncrementMilliseconds:N3} ms");
             Console.WriteLine($"Window length start {binaryFskAnalyzerSettings.WindowLengthStartMilliseconds:N3} ms, window length end {binaryFskAnalyzerSettings.WindowLengthEndMilliseconds:N3} ms, window length increment {binaryFskAnalyzerSettings.WindowLengthIncrementMilliseconds:N3} ms");

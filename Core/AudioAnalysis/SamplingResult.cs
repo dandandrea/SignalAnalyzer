@@ -4,7 +4,7 @@ namespace Core.AudioAnalysis
 {
     public class SamplingResult
     {
-        public IList<short> Samples { get; set; }
+        public IList<float> Samples { get; set; }
         public int SampleRate { get; set; }
         public int BitsPerSample { get; set; }
         public double FileLengthInMilliseconds { get; set; }

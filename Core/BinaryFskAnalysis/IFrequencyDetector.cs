@@ -4,6 +4,6 @@ namespace Core.BinaryFskAnalysis
 {
     public interface IFrequencyDetector
     {
-        int DetectFrequency(IList<short> samples);
+        int DetectFrequency(IList<float> samples);
     }
 }

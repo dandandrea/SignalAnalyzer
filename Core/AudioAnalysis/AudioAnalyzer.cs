@@ -1,4 +1,5 @@
-﻿using NAudio.Wave;
+﻿using Core.AudioGeneration;
+using NAudio.Wave;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,17 +10,24 @@ namespace Core.AudioAnalysis
     public class AudioAnalyzer : IAudioAnalyzer
     {
         public double FileLengthInMilliseconds { get; }
+        public int BoostFrequencyAmount { get; private set; }
 
-        private short[] _samples;
+        private float[] _samples;
         private int _sampleRate;
         private int _bitsPerSample;
         private long _fileLengthInBytes;
+        private IAudioGenerator _audioGenerator;
 
-        public AudioAnalyzer(Stream inputStream, bool play = false, int? playTime = null)
+        public AudioAnalyzer(Stream inputStream, IAudioGenerator audioGenerator, int boostFrequency = 0, bool play = false, int? playTime = null)
         {
             if (inputStream == null)
             {
                 throw new ArgumentNullException(nameof(inputStream));
+            }
+
+            if (audioGenerator == null)
+            {
+                throw new ArgumentNullException(nameof(audioGenerator));
             }
 
             inputStream.Position = 0;
@@ -29,6 +37,8 @@ namespace Core.AudioAnalysis
             _sampleRate = reader.WaveFormat.SampleRate;
             _bitsPerSample = reader.WaveFormat.BitsPerSample;
             _fileLengthInBytes = reader.Length;
+            _audioGenerator = audioGenerator;
+            BoostFrequencyAmount = boostFrequency;
 
             if (play == true)
             {
@@ -37,17 +47,21 @@ namespace Core.AudioAnalysis
 
             var buffer = new byte[reader.Length];
             var read = reader.Read(buffer, 0, buffer.Length);
-            _samples = new short[(int)Math.Ceiling(read / 2.0)];
+            _samples = new float[(int)Math.Ceiling(read / 4.0)];
 
             FileLengthInMilliseconds = _samples.Length / (double)_sampleRate * 1000.0;
 
-            Debug.WriteLine($"_samples length {_samples.Length}, reader length {reader.Length}, _samples length * 2 = {_samples.Length * 2.0:N2}");
-
             Buffer.BlockCopy(buffer, 0, _samples, 0, read);
+
+            if (boostFrequency != 0)
+            {
+                BoostFrequency(boostFrequency);
+            }
         }
 
-        public AudioAnalyzer(string filename, bool play = false, int? playTime = null)
-            : this(new StreamReader(filename).BaseStream, play, playTime) { }
+        public AudioAnalyzer(string filename, IAudioGenerator audioGenerator, int boostFrequency = 0, bool play = false,
+            int? playTime = null)
+            : this(new StreamReader(filename).BaseStream, audioGenerator, boostFrequency, play, playTime) { }
 
         public SamplingResult GetSamples(double? startMilliseconds, double? endMilliseconds)
         {
@@ -64,7 +78,7 @@ namespace Core.AudioAnalysis
             var lastSampleNumber = (int)(endMilliseconds / 1000.0 * _sampleRate);
             var desiredNumberOfSamples = lastSampleNumber - firstSampleNumber;
 
-            var desiredSamples = new short[desiredNumberOfSamples];
+            var desiredSamples = new float[desiredNumberOfSamples];
             var j = 0;
             for (var i = firstSampleNumber; i < lastSampleNumber; i++)
             {
@@ -80,6 +94,16 @@ namespace Core.AudioAnalysis
                 FileLengthInMilliseconds = FileLengthInMilliseconds,
                 Samples = desiredSamples
             };
+        }
+
+        public void BoostFrequency(int frequency)
+        {
+            var boostSamples = _audioGenerator.GenerateSamples(frequency, _samples.Length, _sampleRate);
+
+            for (var i = 0; i < _samples.Length; i++)
+            {
+                _samples[i] = _samples[i] * boostSamples[i];
+            }
         }
 
         public static void Play(string filename, int lengthInSeconds)
@@ -102,16 +126,19 @@ namespace Core.AudioAnalysis
                 throw new ArgumentNullException(nameof(inputStream));
             }
 
-            inputStream.Seek(0, SeekOrigin.Begin);
+            var previousPosition = inputStream.Position;
+            inputStream.Position = 0;
 
             using (var reader = new WaveFileReader(inputStream))
             using (var waveOut = new WaveOut())
             {
                 waveOut.Init(reader);
+                waveOut.Volume = 1.0F;
                 waveOut.Play();
                 Thread.Sleep(playTime == null ? 1000 : playTime.Value);
-                inputStream.Seek(0, SeekOrigin.Begin);
             }
+
+            inputStream.Position = previousPosition;
         }
     }
 }

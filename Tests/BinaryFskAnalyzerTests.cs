@@ -66,7 +66,7 @@ namespace Tests
                 _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency,
                 _bitManipulator.StringToBits(Resources.LoremIpsumTestString));
 
-            var audioAnalyzer = new AudioAnalyzer(audioStream);
+            var audioAnalyzer = new AudioAnalyzer(audioStream, audioGenerator);
             var binaryFskAnalyzer = (IBinaryFskAnalyzer)new BinaryFskAnalyzer(audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
             var bits = binaryFskAnalyzer.AnalyzeSignal();
 
