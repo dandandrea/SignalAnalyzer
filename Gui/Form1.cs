@@ -1,17 +1,50 @@
 ﻿using Core.BinaryFskAnalysis;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Gui
 {
     public partial class Form1 : Form
     {
+        private IList<AnalysisResultEventArgs> _analysisResults;
+
         public Form1()
         {
             InitializeComponent();
+
+            mainDataGrid.AutoGenerateColumns = false;
+            mainDataGrid.ColumnCount = 5;
+
+            mainDataGrid.Columns[0].Name = "Boost (Hz)";
+            mainDataGrid.Columns[0].HeaderText = "Boost (Hz)";
+            mainDataGrid.Columns[0].DataPropertyName = "BoostFrequencyAmount";
+            mainDataGrid.Columns[0].Frozen = false;
+
+            mainDataGrid.Columns[1].Name = "Freq. diff. (Hz)";
+            mainDataGrid.Columns[1].HeaderText = "Freq. diff. (Hz)";
+            mainDataGrid.Columns[1].DataPropertyName = "AverageFrequencyDifference";
+            mainDataGrid.Columns[1].Frozen = false;
+            mainDataGrid.Columns[1].DefaultCellStyle.Format = "0.0";
+
+            mainDataGrid.Columns[2].Name = "# miss";
+            mainDataGrid.Columns[2].HeaderText = "# miss";
+            mainDataGrid.Columns[2].DataPropertyName = "NumberOfMissedFrequencies";
+            mainDataGrid.Columns[2].Frozen = false;
+
+            mainDataGrid.Columns[3].Name = "Output";
+            mainDataGrid.Columns[3].HeaderText = "Output";
+            mainDataGrid.Columns[3].DataPropertyName = "ResultingString";
+            mainDataGrid.Columns[3].Frozen = false;
+
+            mainDataGrid.Columns[4].Name = "Match?";
+            mainDataGrid.Columns[4].HeaderText = "Match?";
+            mainDataGrid.Columns[4].DataPropertyName = "Matched";
+            mainDataGrid.Columns[4].Frozen = false;
+
+            _analysisResults = new List<AnalysisResultEventArgs>();
+            mainDataGrid.DataSource = _analysisResults;
 
             backgroundWorker1.ProgressChanged += BackgroundWorker1_ProgressChanged;
         }
@@ -19,7 +52,9 @@ namespace Gui
         private void startButton_Click(object sender, EventArgs e)
         {
             startButton.Enabled = false;
-            mainOutput.Clear();
+            _analysisResults = new List<AnalysisResultEventArgs>();
+            mainDataGrid.DataSource = null;
+            mainDataGrid.DataSource = _analysisResults;
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -86,21 +121,10 @@ namespace Gui
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var analysisResult = (AnalysisResultEventArgs)e.UserState;
-            mainOutput.AppendText($"Boost amount: {analysisResult.BoostFrequencyAmount} Hz, ");
-            mainOutput.AppendText($"avg. freq. diff.: {analysisResult.AverageFrequencyDifference:N1}, ");
-            mainOutput.AppendText($"# miss. freq.: {analysisResult.NumberOfMissedFrequencies}");
-
-            if (analysisResult.ResultingString != null)
-            {
-                mainOutput.AppendText($", resulting string: [{analysisResult.ResultingString}]");
-
-                if (analysisResult.Matched == true)
-                {
-                    mainOutput.AppendText("   MATCHED");
-                }
-            }
-
-            mainOutput.AppendText(Environment.NewLine);
+            _analysisResults.Add(analysisResult);
+            mainDataGrid.DataSource = null;
+            mainDataGrid.DataSource = _analysisResults;
+            mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
         }
 
         private void AnalysisCompletedHandler(object sender, AnalysisResultEventArgs e)
@@ -110,9 +134,18 @@ namespace Gui
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            mainOutput.SelectionStart = 0;
-            mainOutput.ScrollToCaret();
+            mainDataGrid.FirstDisplayedScrollingRowIndex = 0;
             startButton.Enabled = true;
+        }
+
+        private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void form1BindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void Form1_Load(object sender, EventArgs e) { }

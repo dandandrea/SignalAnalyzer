@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainOutput = new System.Windows.Forms.TextBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.markFrequency = new System.Windows.Forms.TextBox();
             this.baudRate = new System.Windows.Forms.TextBox();
@@ -43,20 +42,9 @@
             this.boostEndLabel = new System.Windows.Forms.Label();
             this.boostEnd = new System.Windows.Forms.TextBox();
             this.startButton = new System.Windows.Forms.Button();
+            this.mainDataGrid = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.SuspendLayout();
-            // 
-            // mainOutput
-            // 
-            this.mainOutput.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.mainOutput.Location = new System.Drawing.Point(12, 12);
-            this.mainOutput.MaxLength = 2147483647;
-            this.mainOutput.Multiline = true;
-            this.mainOutput.Name = "mainOutput";
-            this.mainOutput.ReadOnly = true;
-            this.mainOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.mainOutput.Size = new System.Drawing.Size(760, 350);
-            this.mainOutput.TabIndex = 7;
-            this.mainOutput.TabStop = false;
             // 
             // backgroundWorker1
             // 
@@ -176,11 +164,25 @@
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
+            // mainDataGrid
+            // 
+            this.mainDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mainDataGrid.Location = new System.Drawing.Point(12, 12);
+            this.mainDataGrid.Name = "mainDataGrid";
+            this.mainDataGrid.ReadOnly = true;
+            this.mainDataGrid.RowHeadersVisible = false;
+            this.mainDataGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.mainDataGrid.Size = new System.Drawing.Size(760, 350);
+            this.mainDataGrid.TabIndex = 100;
+            this.mainDataGrid.TabStop = false;
+            this.mainDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellContentClick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
+            this.Controls.Add(this.mainDataGrid);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.boostEnd);
             this.Controls.Add(this.boostEndLabel);
@@ -194,21 +196,19 @@
             this.Controls.Add(this.spaceFrequency);
             this.Controls.Add(this.baudRate);
             this.Controls.Add(this.markFrequency);
-            this.Controls.Add(this.mainOutput);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "Signal Analyzer";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox mainOutput;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.TextBox markFrequency;
         private System.Windows.Forms.TextBox baudRate;
@@ -223,6 +223,7 @@
         private System.Windows.Forms.Label boostEndLabel;
         private System.Windows.Forms.TextBox boostEnd;
         private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.DataGridView mainDataGrid;
     }
 }
 
