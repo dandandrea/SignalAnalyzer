@@ -53,7 +53,7 @@ namespace Core.BinaryFskAnalysis
             {
                 _settings.WindowPositionEndMilliseconds = _audioAnalyzer.FileLengthInMilliseconds;
 
-                Debug.WriteLine($"No window end position specified, setting to total length of audio ({_settings.WindowPositionEndMilliseconds} ms)");
+                // Debug.WriteLine($"No window end position specified, setting to total length of audio ({_settings.WindowPositionEndMilliseconds} ms)");
             }
 
             for (var currentWindowStart = _settings.WindowPositionStartMilliseconds; currentWindowStart <= _settings.WindowPositionEndMilliseconds; currentWindowStart += _settings.WindowPositionIncrementMilliseconds.Value)

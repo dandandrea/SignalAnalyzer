@@ -43,7 +43,7 @@ namespace Gui
             mainDataGrid.Columns[4].DataPropertyName = "Matched";
             mainDataGrid.Columns[4].Frozen = false;
 
-            _analysisResults = new List<AnalysisResultEventArgs>();
+            _analysisResults = new BindingList<AnalysisResultEventArgs>();
             mainDataGrid.DataSource = _analysisResults;
 
             backgroundWorker1.ProgressChanged += BackgroundWorker1_ProgressChanged;
@@ -52,7 +52,7 @@ namespace Gui
         private void startButton_Click(object sender, EventArgs e)
         {
             startButton.Enabled = false;
-            _analysisResults = new List<AnalysisResultEventArgs>();
+            _analysisResults.Clear();
             mainDataGrid.DataSource = null;
             mainDataGrid.DataSource = _analysisResults;
             backgroundWorker1.RunWorkerAsync();
@@ -138,16 +138,8 @@ namespace Gui
             startButton.Enabled = true;
         }
 
-        private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void form1BindingSource_CurrentChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e) { }
+        private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {}
+        private void form1BindingSource_CurrentChanged(object sender, EventArgs e) {}
+        private void Form1_Load(object sender, EventArgs e) {}
     }
 }

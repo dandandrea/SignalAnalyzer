@@ -166,7 +166,10 @@
             // 
             // mainDataGrid
             // 
+            this.mainDataGrid.AllowUserToAddRows = false;
+            this.mainDataGrid.AllowUserToDeleteRows = false;
             this.mainDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.mainDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.mainDataGrid.Location = new System.Drawing.Point(12, 12);
             this.mainDataGrid.Name = "mainDataGrid";
             this.mainDataGrid.ReadOnly = true;
