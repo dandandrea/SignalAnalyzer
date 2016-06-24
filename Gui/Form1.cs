@@ -25,45 +25,59 @@ namespace Gui
             mainDataGrid.Columns[0].DataPropertyName = "BoostFrequencyAmount";
             mainDataGrid.Columns[0].Frozen = false;
             mainDataGrid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[0].ToolTipText = "Amount (in Hz) that the original space and mark frequencies were increased by";
+            mainDataGrid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            mainDataGrid.Columns[1].Name = "Avg freq diff";
-            mainDataGrid.Columns[1].HeaderText = "Avg freq diff";
+            mainDataGrid.Columns[1].Name = "Avg diff (Hz)";
+            mainDataGrid.Columns[1].HeaderText = "Avg diff (Hz)";
             mainDataGrid.Columns[1].DataPropertyName = "AverageFrequencyDifference";
             mainDataGrid.Columns[1].Frozen = false;
             mainDataGrid.Columns[1].DefaultCellStyle.Format = "0.0";
             mainDataGrid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[1].ToolTipText = "Average difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            mainDataGrid.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            mainDataGrid.Columns[2].Name = "Min freq diff";
-            mainDataGrid.Columns[2].HeaderText = "Min freq diff";
+            mainDataGrid.Columns[2].Name = "Min diff (Hz)";
+            mainDataGrid.Columns[2].HeaderText = "Min diff (Hz)";
             mainDataGrid.Columns[2].DataPropertyName = "MinimumFrequencyDifference";
             mainDataGrid.Columns[2].Frozen = false;
             mainDataGrid.Columns[2].DefaultCellStyle.Format = "0.0";
             mainDataGrid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[2].ToolTipText = "Minimum difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            mainDataGrid.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            mainDataGrid.Columns[3].Name = "Max freq diff";
-            mainDataGrid.Columns[3].HeaderText = "Max freq diff";
+            mainDataGrid.Columns[3].Name = "Max diff (Hz)";
+            mainDataGrid.Columns[3].HeaderText = "Max diff (Hz)";
             mainDataGrid.Columns[3].DataPropertyName = "MaximumFrequencyDifference";
             mainDataGrid.Columns[3].Frozen = false;
             mainDataGrid.Columns[3].DefaultCellStyle.Format = "0.0";
             mainDataGrid.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[3].ToolTipText = "Maximum difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            mainDataGrid.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            mainDataGrid.Columns[4].Name = "# miss";
-            mainDataGrid.Columns[4].HeaderText = "# miss";
+            mainDataGrid.Columns[4].Name = "# > tolerance";
+            mainDataGrid.Columns[4].HeaderText = "# > tolerance";
             mainDataGrid.Columns[4].DataPropertyName = "NumberOfMissedFrequencies";
             mainDataGrid.Columns[4].Frozen = false;
             mainDataGrid.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[4].ToolTipText = "Number of times that the detected frequency was outside of the supplied frequency deviation tolerance";
+            mainDataGrid.Columns[4].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             mainDataGrid.Columns[5].Name = "Output";
             mainDataGrid.Columns[5].HeaderText = "Output";
             mainDataGrid.Columns[5].DataPropertyName = "ResultingString";
             mainDataGrid.Columns[5].Frozen = false;
             mainDataGrid.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[5].ToolTipText = "The string that resulted from decoding the encoded signal";
+            mainDataGrid.Columns[5].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             mainDataGrid.Columns[6].Name = "Match?";
             mainDataGrid.Columns[6].HeaderText = "Match?";
             mainDataGrid.Columns[6].DataPropertyName = "Matched";
             mainDataGrid.Columns[6].Frozen = false;
             mainDataGrid.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[6].ToolTipText = "Whether or not the decoded signal matched the encoded signal";
+            mainDataGrid.Columns[6].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             _analysisResults = new BindingList<AnalysisResultEventArgs>();
             mainDataGrid.DataSource = _analysisResults;

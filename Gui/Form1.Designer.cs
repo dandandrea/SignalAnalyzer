@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.markFrequency = new System.Windows.Forms.TextBox();
             this.baudRate = new System.Windows.Forms.TextBox();
@@ -171,6 +172,14 @@
             // 
             this.mainDataGrid.AllowUserToAddRows = false;
             this.mainDataGrid.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.mainDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.mainDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.mainDataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.mainDataGrid.Location = new System.Drawing.Point(12, 12);
@@ -178,7 +187,7 @@
             this.mainDataGrid.ReadOnly = true;
             this.mainDataGrid.RowHeadersVisible = false;
             this.mainDataGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.mainDataGrid.Size = new System.Drawing.Size(720, 350);
+            this.mainDataGrid.Size = new System.Drawing.Size(765, 350);
             this.mainDataGrid.TabIndex = 100;
             this.mainDataGrid.TabStop = false;
             this.mainDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellContentClick);
