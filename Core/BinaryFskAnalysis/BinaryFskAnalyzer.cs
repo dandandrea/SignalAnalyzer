@@ -79,6 +79,8 @@ namespace Core.BinaryFskAnalysis
                 }
             }
 
+            var minimumFrequencyDifference = numberOfFrequencyDifferences.Count() > 0 ? numberOfFrequencyDifferences.Min() : 0;
+            var maximumFrequencyDifference = numberOfFrequencyDifferences.Count() > 0 ? numberOfFrequencyDifferences.Max() : 0;
             var averageFrequencyDifference = numberOfFrequencyDifferences.Count() > 0 ? numberOfFrequencyDifferences.Average() : 0;
 
             bool? match = null;
@@ -95,7 +97,8 @@ namespace Core.BinaryFskAnalysis
 
             // Debug.WriteLine($"Boost freq.: {_audioAnalyzer.BoostFrequencyAmount} Hz, avg. freq. diff.: {averageFrequencyDifference}, # missed freqs.: {missedFrequencies}");
 
-            AnalysisComplete(_audioAnalyzer.BoostFrequencyAmount, averageFrequencyDifference, numberOfMissedFrequencies, resultingString, match);
+            AnalysisComplete(_audioAnalyzer.BoostFrequencyAmount, minimumFrequencyDifference, maximumFrequencyDifference,
+                averageFrequencyDifference, numberOfMissedFrequencies, resultingString, match);
 
             return bits;
         }

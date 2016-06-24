@@ -159,7 +159,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(580, 311);
+            this.startButton.Location = new System.Drawing.Point(815, 386);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
             this.startButton.TabIndex = 8;
@@ -178,7 +178,7 @@
             this.mainDataGrid.ReadOnly = true;
             this.mainDataGrid.RowHeadersVisible = false;
             this.mainDataGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.mainDataGrid.Size = new System.Drawing.Size(520, 350);
+            this.mainDataGrid.Size = new System.Drawing.Size(720, 350);
             this.mainDataGrid.TabIndex = 100;
             this.mainDataGrid.TabStop = false;
             this.mainDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellContentClick);
@@ -186,7 +186,7 @@
             // exportToCsvButton
             // 
             this.exportToCsvButton.Enabled = false;
-            this.exportToCsvButton.Location = new System.Drawing.Point(706, 311);
+            this.exportToCsvButton.Location = new System.Drawing.Point(815, 311);
             this.exportToCsvButton.Name = "exportToCsvButton";
             this.exportToCsvButton.Size = new System.Drawing.Size(111, 51);
             this.exportToCsvButton.TabIndex = 9;
@@ -215,11 +215,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(856, 461);
+            this.ClientSize = new System.Drawing.Size(956, 461);
             this.Controls.Add(this.toleranceLabel);
             this.Controls.Add(this.tolerance);
             this.Controls.Add(this.exportToCsvButton);
-            this.Controls.Add(this.mainDataGrid);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.boostEnd);
             this.Controls.Add(this.boostEndLabel);
@@ -233,6 +232,7 @@
             this.Controls.Add(this.spaceFrequency);
             this.Controls.Add(this.baudRate);
             this.Controls.Add(this.markFrequency);
+            this.Controls.Add(this.mainDataGrid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "Form1";

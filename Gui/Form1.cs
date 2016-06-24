@@ -17,7 +17,7 @@ namespace Gui
             InitializeComponent();
 
             mainDataGrid.AutoGenerateColumns = false;
-            mainDataGrid.ColumnCount = 5;
+            mainDataGrid.ColumnCount = 7;
             mainDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             mainDataGrid.Columns[0].Name = "Boost (Hz)";
@@ -26,30 +26,44 @@ namespace Gui
             mainDataGrid.Columns[0].Frozen = false;
             mainDataGrid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            mainDataGrid.Columns[1].Name = "Freq. diff. (Hz)";
-            mainDataGrid.Columns[1].HeaderText = "Freq. diff. (Hz)";
+            mainDataGrid.Columns[1].Name = "Avg freq diff";
+            mainDataGrid.Columns[1].HeaderText = "Avg freq diff";
             mainDataGrid.Columns[1].DataPropertyName = "AverageFrequencyDifference";
             mainDataGrid.Columns[1].Frozen = false;
             mainDataGrid.Columns[1].DefaultCellStyle.Format = "0.0";
             mainDataGrid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            mainDataGrid.Columns[2].Name = "# miss";
-            mainDataGrid.Columns[2].HeaderText = "# miss";
-            mainDataGrid.Columns[2].DataPropertyName = "NumberOfMissedFrequencies";
+            mainDataGrid.Columns[2].Name = "Min freq diff";
+            mainDataGrid.Columns[2].HeaderText = "Min freq diff";
+            mainDataGrid.Columns[2].DataPropertyName = "MinimumFrequencyDifference";
             mainDataGrid.Columns[2].Frozen = false;
+            mainDataGrid.Columns[2].DefaultCellStyle.Format = "0.0";
             mainDataGrid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            mainDataGrid.Columns[3].Name = "Output";
-            mainDataGrid.Columns[3].HeaderText = "Output";
-            mainDataGrid.Columns[3].DataPropertyName = "ResultingString";
+            mainDataGrid.Columns[3].Name = "Max freq diff";
+            mainDataGrid.Columns[3].HeaderText = "Max freq diff";
+            mainDataGrid.Columns[3].DataPropertyName = "MaximumFrequencyDifference";
             mainDataGrid.Columns[3].Frozen = false;
+            mainDataGrid.Columns[3].DefaultCellStyle.Format = "0.0";
             mainDataGrid.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            mainDataGrid.Columns[4].Name = "Match?";
-            mainDataGrid.Columns[4].HeaderText = "Match?";
-            mainDataGrid.Columns[4].DataPropertyName = "Matched";
+            mainDataGrid.Columns[4].Name = "# miss";
+            mainDataGrid.Columns[4].HeaderText = "# miss";
+            mainDataGrid.Columns[4].DataPropertyName = "NumberOfMissedFrequencies";
             mainDataGrid.Columns[4].Frozen = false;
             mainDataGrid.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            mainDataGrid.Columns[5].Name = "Output";
+            mainDataGrid.Columns[5].HeaderText = "Output";
+            mainDataGrid.Columns[5].DataPropertyName = "ResultingString";
+            mainDataGrid.Columns[5].Frozen = false;
+            mainDataGrid.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+
+            mainDataGrid.Columns[6].Name = "Match?";
+            mainDataGrid.Columns[6].HeaderText = "Match?";
+            mainDataGrid.Columns[6].DataPropertyName = "Matched";
+            mainDataGrid.Columns[6].Frozen = false;
+            mainDataGrid.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             _analysisResults = new BindingList<AnalysisResultEventArgs>();
             mainDataGrid.DataSource = _analysisResults;
@@ -142,11 +156,11 @@ namespace Gui
 
             if (analysisResult.Matched == true)
             {
-                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[4].Style.BackColor = System.Drawing.Color.Green;
+                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[6].Style.BackColor = System.Drawing.Color.Green;
             }
             else
             {
-                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[4].Style.BackColor = System.Drawing.Color.Red;
+                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[6].Style.BackColor = System.Drawing.Color.Red;
             }
 
             mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
