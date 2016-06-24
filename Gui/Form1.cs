@@ -169,7 +169,7 @@ namespace Gui
             foreach (DataGridViewRow row in mainDataGrid.Rows)
             {
                 var cells = row.Cells.Cast<DataGridViewCell>();
-                csvStringBuilder.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
+                csvStringBuilder.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value.ToString().Replace("\"", "") + "\"").ToArray()));
             }
 
             var saveFileDialog = new SaveFileDialog();
