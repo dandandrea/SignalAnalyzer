@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.markFrequency = new System.Windows.Forms.TextBox();
             this.baudRate = new System.Windows.Forms.TextBox();
@@ -160,12 +161,13 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(815, 386);
+            this.startButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.startButton.Location = new System.Drawing.Point(853, 386);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
             this.startButton.TabIndex = 8;
             this.startButton.Text = "Analyze";
-            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.UseVisualStyleBackColor = false;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // mainDataGrid
@@ -187,7 +189,7 @@
             this.mainDataGrid.ReadOnly = true;
             this.mainDataGrid.RowHeadersVisible = false;
             this.mainDataGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.mainDataGrid.Size = new System.Drawing.Size(765, 350);
+            this.mainDataGrid.Size = new System.Drawing.Size(820, 350);
             this.mainDataGrid.TabIndex = 100;
             this.mainDataGrid.TabStop = false;
             this.mainDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellContentClick);
@@ -195,7 +197,7 @@
             // exportToCsvButton
             // 
             this.exportToCsvButton.Enabled = false;
-            this.exportToCsvButton.Location = new System.Drawing.Point(815, 311);
+            this.exportToCsvButton.Location = new System.Drawing.Point(853, 311);
             this.exportToCsvButton.Name = "exportToCsvButton";
             this.exportToCsvButton.Size = new System.Drawing.Size(111, 51);
             this.exportToCsvButton.TabIndex = 9;
@@ -224,7 +226,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(956, 461);
+            this.ClientSize = new System.Drawing.Size(984, 461);
             this.Controls.Add(this.toleranceLabel);
             this.Controls.Add(this.tolerance);
             this.Controls.Add(this.exportToCsvButton);
@@ -243,9 +245,9 @@
             this.Controls.Add(this.markFrequency);
             this.Controls.Add(this.mainDataGrid);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.ShowIcon = false;
             this.Text = "Signal Analyzer";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).EndInit();

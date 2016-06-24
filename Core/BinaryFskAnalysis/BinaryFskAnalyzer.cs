@@ -46,8 +46,8 @@ namespace Core.BinaryFskAnalysis
         {
             var bits = new List<bool>();
 
-            var numberOfFrequencyDifferences = new List<int>();
-            int numberOfMissedFrequencies = 0;
+            var frequencyDifferences = new List<int>();
+            int numberOfZeroFrequencies = 0;
 
             if (_settings.WindowPositionEndMilliseconds == null)
             {
@@ -65,23 +65,29 @@ namespace Core.BinaryFskAnalysis
                     var frequencyDifference = FrequencyDifference(frequency, _settings.SpaceFrequency, _settings.MarkFrequency);
                     var markOrSpace = MarkOrSpace(frequency, _settings.SpaceFrequency, _settings.MarkFrequency);
 
+                    if (frequency <= 0)
+                    {
+                        numberOfZeroFrequencies++;
+                        continue;
+                    }
+
                     if (frequencyDifference > _settings.FrequencyDeviationTolerance)
                     {
                         // Debug.WriteLine($"WARN: Frequency outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {_settings.FrequencyDeviationTolerance} Hz)");
-                        numberOfMissedFrequencies++;
+                        frequencyDifferences.Add(frequencyDifference);
+
                         continue;
                     }
 
                     // Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {_settings.MarkFrequency:N0} Hz / {_settings.SpaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
-                    numberOfFrequencyDifferences.Add(frequencyDifference);
 
                     bits.Add(markOrSpace == 0 ? false : true);
                 }
             }
 
-            var minimumFrequencyDifference = numberOfFrequencyDifferences.Count() > 0 ? numberOfFrequencyDifferences.Min() : 0;
-            var maximumFrequencyDifference = numberOfFrequencyDifferences.Count() > 0 ? numberOfFrequencyDifferences.Max() : 0;
-            var averageFrequencyDifference = numberOfFrequencyDifferences.Count() > 0 ? numberOfFrequencyDifferences.Average() : 0;
+            var minimumFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Min() : 0;
+            var maximumFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Max() : 0;
+            var averageFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Average() : 0;
 
             bool? match = null;
             string resultingString = null;
@@ -98,7 +104,7 @@ namespace Core.BinaryFskAnalysis
             // Debug.WriteLine($"Boost freq.: {_audioAnalyzer.BoostFrequencyAmount} Hz, avg. freq. diff.: {averageFrequencyDifference}, # missed freqs.: {missedFrequencies}");
 
             AnalysisComplete(_audioAnalyzer.BoostFrequencyAmount, minimumFrequencyDifference, maximumFrequencyDifference,
-                averageFrequencyDifference, numberOfMissedFrequencies, resultingString, match);
+                averageFrequencyDifference, numberOfZeroFrequencies, frequencyDifferences.Count(), resultingString, match);
 
             return bits;
         }

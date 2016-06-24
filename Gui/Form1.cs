@@ -17,7 +17,7 @@ namespace Gui
             InitializeComponent();
 
             mainDataGrid.AutoGenerateColumns = false;
-            mainDataGrid.ColumnCount = 7;
+            mainDataGrid.ColumnCount = 8;
             mainDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             mainDataGrid.Columns[0].Name = "Boost (Hz)";
@@ -63,21 +63,29 @@ namespace Gui
             mainDataGrid.Columns[4].ToolTipText = "Number of times that the detected frequency was outside of the supplied frequency deviation tolerance";
             mainDataGrid.Columns[4].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            mainDataGrid.Columns[5].Name = "Output";
-            mainDataGrid.Columns[5].HeaderText = "Output";
-            mainDataGrid.Columns[5].DataPropertyName = "ResultingString";
+            mainDataGrid.Columns[5].Name = "# zero freq";
+            mainDataGrid.Columns[5].HeaderText = "# zero freq";
+            mainDataGrid.Columns[5].DataPropertyName = "NumberOfZeroFrequencies";
             mainDataGrid.Columns[5].Frozen = false;
             mainDataGrid.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[5].ToolTipText = "The string that resulted from decoding the encoded signal";
+            mainDataGrid.Columns[5].ToolTipText = "Number of times that the detected frequency was zero";
             mainDataGrid.Columns[5].SortMode = DataGridViewColumnSortMode.NotSortable;
 
-            mainDataGrid.Columns[6].Name = "Match?";
-            mainDataGrid.Columns[6].HeaderText = "Match?";
-            mainDataGrid.Columns[6].DataPropertyName = "Matched";
+            mainDataGrid.Columns[6].Name = "Output";
+            mainDataGrid.Columns[6].HeaderText = "Output";
+            mainDataGrid.Columns[6].DataPropertyName = "ResultingString";
             mainDataGrid.Columns[6].Frozen = false;
             mainDataGrid.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[6].ToolTipText = "Whether or not the decoded signal matched the encoded signal";
+            mainDataGrid.Columns[6].ToolTipText = "The string that resulted from decoding the encoded signal";
             mainDataGrid.Columns[6].SortMode = DataGridViewColumnSortMode.NotSortable;
+
+            mainDataGrid.Columns[7].Name = "Match?";
+            mainDataGrid.Columns[7].HeaderText = "Match?";
+            mainDataGrid.Columns[7].DataPropertyName = "Matched";
+            mainDataGrid.Columns[7].Frozen = false;
+            mainDataGrid.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[7].ToolTipText = "Whether or not the decoded signal matched the encoded signal";
+            mainDataGrid.Columns[7].SortMode = DataGridViewColumnSortMode.NotSortable;
 
             _analysisResults = new BindingList<AnalysisResultEventArgs>();
             mainDataGrid.DataSource = _analysisResults;
@@ -170,11 +178,11 @@ namespace Gui
 
             if (analysisResult.Matched == true)
             {
-                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[6].Style.BackColor = System.Drawing.Color.Green;
+                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Green;
             }
             else
             {
-                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[6].Style.BackColor = System.Drawing.Color.Red;
+                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Red;
             }
 
             mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
