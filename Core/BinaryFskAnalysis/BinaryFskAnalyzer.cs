@@ -104,7 +104,7 @@ namespace Core.BinaryFskAnalysis
             // Debug.WriteLine($"Boost freq.: {_audioAnalyzer.BoostFrequencyAmount} Hz, avg. freq. diff.: {averageFrequencyDifference}, # missed freqs.: {missedFrequencies}");
 
             AnalysisComplete(_audioAnalyzer.BoostFrequencyAmount, minimumFrequencyDifference, maximumFrequencyDifference,
-                averageFrequencyDifference, numberOfZeroFrequencies, frequencyDifferences.Count(), resultingString, match);
+                averageFrequencyDifference, frequencyDifferences.Count(), numberOfZeroFrequencies, resultingString, match);
 
             return bits;
         }

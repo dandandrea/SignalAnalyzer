@@ -48,6 +48,10 @@
             this.exportToCsvButton = new System.Windows.Forms.Button();
             this.toleranceLabel = new System.Windows.Forms.Label();
             this.tolerance = new System.Windows.Forms.TextBox();
+            this.numberOfBitsLabel = new System.Windows.Forms.Label();
+            this.numberOfBits = new System.Windows.Forms.TextBox();
+            this.audioLengthMillisecondsLabel = new System.Windows.Forms.Label();
+            this.audioLengthMilliseconds = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,6 +59,7 @@
             // 
             this.backgroundWorker1.WorkerReportsProgress = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.BackgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
             // markFrequency
@@ -222,11 +227,57 @@
             this.tolerance.TabIndex = 7;
             this.tolerance.Text = "25";
             // 
+            // numberOfBitsLabel
+            // 
+            this.numberOfBitsLabel.AutoSize = true;
+            this.numberOfBitsLabel.Enabled = false;
+            this.numberOfBitsLabel.Location = new System.Drawing.Point(872, 26);
+            this.numberOfBitsLabel.Name = "numberOfBitsLabel";
+            this.numberOfBitsLabel.Size = new System.Drawing.Size(75, 13);
+            this.numberOfBitsLabel.TabIndex = 105;
+            this.numberOfBitsLabel.Text = "Number of bits";
+            // 
+            // numberOfBits
+            // 
+            this.numberOfBits.Enabled = false;
+            this.numberOfBits.Location = new System.Drawing.Point(861, 42);
+            this.numberOfBits.Name = "numberOfBits";
+            this.numberOfBits.ReadOnly = true;
+            this.numberOfBits.Size = new System.Drawing.Size(100, 20);
+            this.numberOfBits.TabIndex = 104;
+            this.numberOfBits.TabStop = false;
+            this.numberOfBits.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // audioLengthMillisecondsLabel
+            // 
+            this.audioLengthMillisecondsLabel.AutoSize = true;
+            this.audioLengthMillisecondsLabel.Enabled = false;
+            this.audioLengthMillisecondsLabel.Location = new System.Drawing.Point(863, 80);
+            this.audioLengthMillisecondsLabel.Name = "audioLengthMillisecondsLabel";
+            this.audioLengthMillisecondsLabel.Size = new System.Drawing.Size(96, 13);
+            this.audioLengthMillisecondsLabel.TabIndex = 107;
+            this.audioLengthMillisecondsLabel.Text = "Interval length (ms)";
+            // 
+            // audioLengthMilliseconds
+            // 
+            this.audioLengthMilliseconds.Enabled = false;
+            this.audioLengthMilliseconds.Location = new System.Drawing.Point(861, 96);
+            this.audioLengthMilliseconds.Name = "audioLengthMilliseconds";
+            this.audioLengthMilliseconds.ReadOnly = true;
+            this.audioLengthMilliseconds.Size = new System.Drawing.Size(100, 20);
+            this.audioLengthMilliseconds.TabIndex = 106;
+            this.audioLengthMilliseconds.TabStop = false;
+            this.audioLengthMilliseconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 461);
+            this.Controls.Add(this.audioLengthMillisecondsLabel);
+            this.Controls.Add(this.audioLengthMilliseconds);
+            this.Controls.Add(this.numberOfBitsLabel);
+            this.Controls.Add(this.numberOfBits);
             this.Controls.Add(this.toleranceLabel);
             this.Controls.Add(this.tolerance);
             this.Controls.Add(this.exportToCsvButton);
@@ -275,6 +326,10 @@
         private System.Windows.Forms.Button exportToCsvButton;
         private System.Windows.Forms.Label toleranceLabel;
         private System.Windows.Forms.TextBox tolerance;
+        private System.Windows.Forms.Label numberOfBitsLabel;
+        private System.Windows.Forms.TextBox numberOfBits;
+        private System.Windows.Forms.Label audioLengthMillisecondsLabel;
+        private System.Windows.Forms.TextBox audioLengthMilliseconds;
     }
 }
 

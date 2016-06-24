@@ -2,6 +2,7 @@
 using Core.AudioGeneration;
 using Core.BinaryData;
 using Core.BinaryFskAnalysis;
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -9,6 +10,9 @@ namespace Gui
 {
     public class TestRunner
     {
+        public delegate void SignalGenerationCompleteEventHandler(object sender, SignalGenerationResultEventArgs e);
+        public event SignalGenerationCompleteEventHandler SignalGenerationCompleted;
+
         public IBinaryFskAnalyzer FskAnalyzer { get; private set; }
         private MemoryStream _audioStream;
         private IAudioGenerator _audioGenerator;
@@ -38,7 +42,6 @@ namespace Gui
         {
             var bitManipulator = new BitManipulator();
             var bits = bitManipulator.StringToBits(_testString);
-            Debug.WriteLine($"Length of string in bits: {bits.Count}");
 
             _binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings
             {
@@ -55,9 +58,9 @@ namespace Gui
             _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
                 _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
 
-            var audioLengthInMillisecondsSeconds = (int)(bits.Count * 1000.0 / _binaryFskAnalyzerSettings.BaudRate);
-            Debug.WriteLine($"Length of audio in seconds: {audioLengthInMillisecondsSeconds / 1000.0:N1}");
-            Debug.WriteLine(string.Empty);
+            var audioLengthInMilliseconds = (int)(bits.Count * 1000.0 / _binaryFskAnalyzerSettings.BaudRate);
+
+            SignalGenerationComplete(bits.Count, audioLengthInMilliseconds);
 
             for (var loopBoostFrequency = boostStartFrequency; loopBoostFrequency <= boostEndFrequency;
                 loopBoostFrequency += boostIncrement)
@@ -90,5 +93,22 @@ namespace Gui
                 FskAnalyzer.AnalyzeSignal(_testString);
             }
         }
+
+        private void SignalGenerationComplete(int numberOfBits, int audioLengthInMilliseconds)
+        {
+            var e = new SignalGenerationResultEventArgs
+            {
+                NumberOfBits = numberOfBits,
+                AudioLengthInMilliseconds = audioLengthInMilliseconds
+            };
+
+            SignalGenerationCompleted?.Invoke(this, e);
+        }
+    }
+
+    public class SignalGenerationResultEventArgs : EventArgs
+    {
+        public int NumberOfBits { get; set; }
+        public int AudioLengthInMilliseconds { get; set; }
     }
 }

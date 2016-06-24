@@ -91,13 +91,24 @@ namespace Gui
             mainDataGrid.DataSource = _analysisResults;
 
             backgroundWorker1.ProgressChanged += BackgroundWorker1_ProgressChanged;
+
+            startButton.Select();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
             startButton.Enabled = false;
             exportToCsvButton.Enabled = false;
+
             _analysisResults.Clear();
+
+            numberOfBitsLabel.Enabled = false;
+            numberOfBits.Enabled = false;
+            audioLengthMillisecondsLabel.Enabled = false;
+            audioLengthMilliseconds.Enabled = false;
+            numberOfBits.Text = string.Empty;
+            audioLengthMilliseconds.Text = string.Empty;
+
             backgroundWorker1.RunWorkerAsync();
         }
 
@@ -167,25 +178,39 @@ namespace Gui
 
             var testRunner = new TestRunner();
             testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
+            testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
             testRunner.Run(spaceFrequencyDoubleValue, markFrequencyDoubleValue, baudRateIntValue,
                 boostStartDoubleValue, boostIncrementDoubleValue, boostEndDoubleValue, toleranceDoubleValue);
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            var analysisResult = (AnalysisResultEventArgs)e.UserState;
-            _analysisResults.Add(analysisResult);
-
-            if (analysisResult.Matched == true)
+            if (e.UserState is AnalysisResultEventArgs)
             {
-                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Green;
+                var analysisResult = (AnalysisResultEventArgs)e.UserState;
+                _analysisResults.Add(analysisResult);
+
+                if (analysisResult.Matched == true)
+                {
+                    mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Green;
+                }
+                else
+                {
+                    mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Red;
+                }
+
+                mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
             }
             else
             {
-                mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Red;
+                var signalGenerationResult = (SignalGenerationResultEventArgs)e.UserState;
+                numberOfBits.Text = signalGenerationResult.NumberOfBits.ToString();
+                audioLengthMilliseconds.Text = (signalGenerationResult.AudioLengthInMilliseconds / 1000.0).ToString();
+                numberOfBitsLabel.Enabled = true;
+                numberOfBits.Enabled = true;
+                audioLengthMillisecondsLabel.Enabled = true;
+                audioLengthMilliseconds.Enabled = true;
             }
-
-            mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -200,6 +225,11 @@ namespace Gui
         }
 
         private void AnalysisCompletedHandler(object sender, AnalysisResultEventArgs e)
+        {
+            backgroundWorker1.ReportProgress(0, e);
+        }
+
+        private void SignalGenerationCompletedHandler(object sender, SignalGenerationResultEventArgs e)
         {
             backgroundWorker1.ReportProgress(0, e);
         }
