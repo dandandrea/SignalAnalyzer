@@ -2,7 +2,6 @@
 using Core.AudioGeneration;
 using Core.BinaryData;
 using Core.BinaryFskAnalysis;
-using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -35,7 +34,7 @@ namespace Gui
         }
 
         public void Run(double spaceFrequency, double markFrequency, int baudRate, double boostStartFrequency,
-            double boostIncrement, double boostEndFrequency)
+            double boostIncrement, double boostEndFrequency, double tolerance)
         {
             var bitManipulator = new BitManipulator();
             var bits = bitManipulator.StringToBits(_testString);
@@ -45,7 +44,8 @@ namespace Gui
             {
                 SpaceFrequency = (int)spaceFrequency,
                 MarkFrequency = (int)markFrequency,
-                BaudRate = baudRate
+                BaudRate = baudRate,
+                FrequencyDeviationTolerance = tolerance
             };
 
             _audioStream = new MemoryStream();
@@ -66,7 +66,8 @@ namespace Gui
                 {
                     SpaceFrequency = (int)spaceFrequency,
                     MarkFrequency = (int)markFrequency,
-                    BaudRate = baudRate
+                    BaudRate = baudRate,
+                    FrequencyDeviationTolerance = tolerance
                 };
 
                 _audioStream = new MemoryStream();
@@ -80,7 +81,7 @@ namespace Gui
                     SpaceFrequency = (int)(spaceFrequency + loopBoostFrequency),
                     MarkFrequency = (int)(markFrequency + loopBoostFrequency),
                     BaudRate = baudRate,
-                    FrequencyDeviationTolerance = 100
+                    FrequencyDeviationTolerance = tolerance
                 };
 
                 _audioAnalyzer = new AudioAnalyzer(_audioStream, _audioGenerator, (int)loopBoostFrequency);

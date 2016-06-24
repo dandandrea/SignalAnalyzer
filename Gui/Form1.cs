@@ -75,6 +75,8 @@ namespace Gui
             var boostIncrementStringValue = boostIncrement.Text;
             var boostEndStringValue = boostEnd.Text;
 
+            var toleranceStringValue = tolerance.Text;
+
             if (string.IsNullOrWhiteSpace(spaceFrequencyStringValue))
             {
                 MessageBox.Show("Space frequency cannot be empty", "Input required");
@@ -111,6 +113,12 @@ namespace Gui
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(toleranceStringValue))
+            {
+                MessageBox.Show("Tolerance cannot be empty", "Input required");
+                return;
+            }
+
             var spaceFrequencyDoubleValue = double.Parse(spaceFrequencyStringValue);
             var markFrequencyDoubleValue = double.Parse(markFrequencyStringValue);
             var baudRateIntValue = int.Parse(baudRateStringValue);
@@ -119,10 +127,12 @@ namespace Gui
             double boostIncrementDoubleValue = double.Parse(boostIncrementStringValue);
             double boostEndDoubleValue = double.Parse(boostEndStringValue);
 
+            double toleranceDoubleValue = double.Parse(toleranceStringValue);
+
             var testRunner = new TestRunner();
             testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
             testRunner.Run(spaceFrequencyDoubleValue, markFrequencyDoubleValue, baudRateIntValue,
-                boostStartDoubleValue, boostIncrementDoubleValue, boostEndDoubleValue);
+                boostStartDoubleValue, boostIncrementDoubleValue, boostEndDoubleValue, toleranceDoubleValue);
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -144,9 +154,13 @@ namespace Gui
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            mainDataGrid.FirstDisplayedScrollingRowIndex = 0;
+            if (mainDataGrid.RowCount > 0)
+            {
+                mainDataGrid.FirstDisplayedScrollingRowIndex = 0;
+                exportToCsvButton.Enabled = true;
+            }
+
             startButton.Enabled = true;
-            exportToCsvButton.Enabled = true;
         }
 
         private void AnalysisCompletedHandler(object sender, AnalysisResultEventArgs e)

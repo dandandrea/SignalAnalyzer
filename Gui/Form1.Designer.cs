@@ -44,6 +44,8 @@
             this.startButton = new System.Windows.Forms.Button();
             this.mainDataGrid = new System.Windows.Forms.DataGridView();
             this.exportToCsvButton = new System.Windows.Forms.Button();
+            this.toleranceLabel = new System.Windows.Forms.Label();
+            this.tolerance = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -157,10 +159,10 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(600, 386);
+            this.startButton.Location = new System.Drawing.Point(580, 311);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
-            this.startButton.TabIndex = 7;
+            this.startButton.TabIndex = 8;
             this.startButton.Text = "Analyze";
             this.startButton.UseVisualStyleBackColor = true;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
@@ -184,19 +186,38 @@
             // exportToCsvButton
             // 
             this.exportToCsvButton.Enabled = false;
-            this.exportToCsvButton.Location = new System.Drawing.Point(726, 386);
+            this.exportToCsvButton.Location = new System.Drawing.Point(706, 311);
             this.exportToCsvButton.Name = "exportToCsvButton";
             this.exportToCsvButton.Size = new System.Drawing.Size(111, 51);
-            this.exportToCsvButton.TabIndex = 101;
+            this.exportToCsvButton.TabIndex = 9;
             this.exportToCsvButton.Text = "Export to CSV";
             this.exportToCsvButton.UseVisualStyleBackColor = true;
             this.exportToCsvButton.Click += new System.EventHandler(this.exportToCsvButton_Click);
+            // 
+            // toleranceLabel
+            // 
+            this.toleranceLabel.AutoSize = true;
+            this.toleranceLabel.Location = new System.Drawing.Point(619, 386);
+            this.toleranceLabel.Name = "toleranceLabel";
+            this.toleranceLabel.Size = new System.Drawing.Size(55, 13);
+            this.toleranceLabel.TabIndex = 103;
+            this.toleranceLabel.Text = "Tolerance";
+            // 
+            // tolerance
+            // 
+            this.tolerance.Location = new System.Drawing.Point(678, 383);
+            this.tolerance.Name = "tolerance";
+            this.tolerance.Size = new System.Drawing.Size(100, 20);
+            this.tolerance.TabIndex = 7;
+            this.tolerance.Text = "25";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(856, 461);
+            this.Controls.Add(this.toleranceLabel);
+            this.Controls.Add(this.tolerance);
             this.Controls.Add(this.exportToCsvButton);
             this.Controls.Add(this.mainDataGrid);
             this.Controls.Add(this.startButton);
@@ -241,6 +262,8 @@
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.DataGridView mainDataGrid;
         private System.Windows.Forms.Button exportToCsvButton;
+        private System.Windows.Forms.Label toleranceLabel;
+        private System.Windows.Forms.TextBox tolerance;
     }
 }
 
