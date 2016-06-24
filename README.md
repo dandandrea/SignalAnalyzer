@@ -3,6 +3,8 @@ Software for analyzing [digital radio signals].
 
 Contains classes and methods for analyzing WAV recordings of digital radio signals, specifically those which use [FSK encoding]. Also includes classes and methods for generating digital radio signals.
 
+Includes both a GUI and Command-Line Interface (CLI) for interacting with the core library.
+
 Eventual goals include automatic determination of FSK mark and space frequencies and [baud rate] and then using this information to extract the binary data contained in a signal sample.
 
 Uses [Naudio library] to read in a WAV file, [Math.NET Numerics library] to perform FFTs to get its frequency components, and [accord-net library] for its [k-means clustering] implementation.
