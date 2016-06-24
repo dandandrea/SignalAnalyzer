@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Gui
@@ -58,6 +60,7 @@ namespace Gui
         private void startButton_Click(object sender, EventArgs e)
         {
             startButton.Enabled = false;
+            exportToCsvButton.Enabled = false;
             _analysisResults.Clear();
             backgroundWorker1.RunWorkerAsync();
         }
@@ -139,15 +142,48 @@ namespace Gui
             mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
         }
 
+        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            mainDataGrid.FirstDisplayedScrollingRowIndex = 0;
+            startButton.Enabled = true;
+            exportToCsvButton.Enabled = true;
+        }
+
         private void AnalysisCompletedHandler(object sender, AnalysisResultEventArgs e)
         {
             backgroundWorker1.ReportProgress(0, e);
         }
 
-        private void backgroundWorker1_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void exportToCsvButton_Click(object sender, EventArgs e)
         {
-            mainDataGrid.FirstDisplayedScrollingRowIndex = 0;
-            startButton.Enabled = true;
+            SaveCsvFile();
+        }
+
+        private void SaveCsvFile()
+        {
+            var csvStringBuilder = new StringBuilder();
+
+            var headers = mainDataGrid.Columns.Cast<DataGridViewColumn>();
+            csvStringBuilder.AppendLine(string.Join(",", headers.Select(column => "\"" + column.HeaderText + "\"").ToArray()));
+
+            foreach (DataGridViewRow row in mainDataGrid.Rows)
+            {
+                var cells = row.Cells.Cast<DataGridViewCell>();
+                csvStringBuilder.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
+            }
+
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "CSV|*.csv";
+            saveFileDialog.Title = "Save CSV file";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            saveFileDialog.ShowDialog();
+
+            if (!string.IsNullOrEmpty(saveFileDialog.FileName))
+            {
+                var fileStream = (System.IO.FileStream)saveFileDialog.OpenFile();
+                fileStream.Write(Encoding.ASCII.GetBytes(csvStringBuilder.ToString()), 0, csvStringBuilder.ToString().Count());
+                fileStream.Close();
+            }
         }
 
         private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {}

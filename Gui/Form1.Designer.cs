@@ -43,6 +43,7 @@
             this.boostEnd = new System.Windows.Forms.TextBox();
             this.startButton = new System.Windows.Forms.Button();
             this.mainDataGrid = new System.Windows.Forms.DataGridView();
+            this.exportToCsvButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -156,7 +157,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(623, 386);
+            this.startButton.Location = new System.Drawing.Point(600, 386);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
             this.startButton.TabIndex = 7;
@@ -175,16 +176,28 @@
             this.mainDataGrid.ReadOnly = true;
             this.mainDataGrid.RowHeadersVisible = false;
             this.mainDataGrid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.mainDataGrid.Size = new System.Drawing.Size(760, 350);
+            this.mainDataGrid.Size = new System.Drawing.Size(520, 350);
             this.mainDataGrid.TabIndex = 100;
             this.mainDataGrid.TabStop = false;
             this.mainDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellContentClick);
+            // 
+            // exportToCsvButton
+            // 
+            this.exportToCsvButton.Enabled = false;
+            this.exportToCsvButton.Location = new System.Drawing.Point(726, 386);
+            this.exportToCsvButton.Name = "exportToCsvButton";
+            this.exportToCsvButton.Size = new System.Drawing.Size(111, 51);
+            this.exportToCsvButton.TabIndex = 101;
+            this.exportToCsvButton.Text = "Export to CSV";
+            this.exportToCsvButton.UseVisualStyleBackColor = true;
+            this.exportToCsvButton.Click += new System.EventHandler(this.exportToCsvButton_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 461);
+            this.ClientSize = new System.Drawing.Size(856, 461);
+            this.Controls.Add(this.exportToCsvButton);
             this.Controls.Add(this.mainDataGrid);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.boostEnd);
@@ -227,6 +240,7 @@
         private System.Windows.Forms.TextBox boostEnd;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.DataGridView mainDataGrid;
+        private System.Windows.Forms.Button exportToCsvButton;
     }
 }
 
