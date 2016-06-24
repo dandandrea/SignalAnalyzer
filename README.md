@@ -1,7 +1,7 @@
 # Signal Analyzer
 Software for analyzing [digital radio signals].
 
-![Screenshot](dandandrea.github.com/screenshot.png)
+![Screenshot](http://dandandrea.github.com/screenshot.png)
 
 Contains classes and methods for analyzing WAV recordings of digital radio signals, specifically those which use [FSK encoding]. Also includes classes and methods for generating digital radio signals.
 
