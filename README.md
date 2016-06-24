@@ -1,11 +1,11 @@
 # Signal Analyzer
 Software for analyzing [digital radio signals].
 
-![Screenshot](http://dandandrea.github.com/screenshot.png)
-
 Contains classes and methods for analyzing WAV recordings of digital radio signals, specifically those which use [FSK encoding]. Also includes classes and methods for generating digital radio signals.
 
 Includes both a GUI and Command-Line Interface (CLI) for interacting with the core library.
+
+![Screenshot](http://dandandrea.github.com/screenshot.png)
 
 Eventual goals include automatic determination of FSK mark and space frequencies and [baud rate] and then using this information to extract the binary data contained in a signal sample.
 
