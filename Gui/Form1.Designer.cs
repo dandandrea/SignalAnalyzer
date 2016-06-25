@@ -78,6 +78,7 @@
             this.markFrequency.Size = new System.Drawing.Size(100, 20);
             this.markFrequency.TabIndex = 2;
             this.markFrequency.Text = "1270";
+            this.markFrequency.Enter += new System.EventHandler(this.markFrequency_Enter);
             // 
             // spaceFrequency
             // 
@@ -86,6 +87,7 @@
             this.spaceFrequency.Size = new System.Drawing.Size(100, 20);
             this.spaceFrequency.TabIndex = 1;
             this.spaceFrequency.Text = "1070";
+            this.spaceFrequency.Enter += new System.EventHandler(this.spaceFrequency_Enter);
             // 
             // spaceFrequencyLabel
             // 
@@ -120,6 +122,7 @@
             this.boostStart.Name = "boostStart";
             this.boostStart.Size = new System.Drawing.Size(100, 20);
             this.boostStart.TabIndex = 7;
+            this.boostStart.Enter += new System.EventHandler(this.boostStart_Enter);
             // 
             // boostIncrementLabel
             // 
@@ -136,6 +139,7 @@
             this.boostIncrement.Name = "boostIncrement";
             this.boostIncrement.Size = new System.Drawing.Size(100, 20);
             this.boostIncrement.TabIndex = 8;
+            this.boostIncrement.Enter += new System.EventHandler(this.boostIncrement_Enter);
             // 
             // boostEndLabel
             // 
@@ -152,6 +156,7 @@
             this.boostEnd.Name = "boostEnd";
             this.boostEnd.Size = new System.Drawing.Size(100, 20);
             this.boostEnd.TabIndex = 9;
+            this.boostEnd.Enter += new System.EventHandler(this.boostEnd_Enter);
             // 
             // startButton
             // 
@@ -215,6 +220,7 @@
             this.tolerance.Size = new System.Drawing.Size(100, 20);
             this.tolerance.TabIndex = 3;
             this.tolerance.Text = "25";
+            this.tolerance.Enter += new System.EventHandler(this.tolerance_Enter);
             // 
             // numberOfBitsLabel
             // 
@@ -298,6 +304,7 @@
             this.baudStart.Size = new System.Drawing.Size(100, 20);
             this.baudStart.TabIndex = 4;
             this.baudStart.Text = "50";
+            this.baudStart.Enter += new System.EventHandler(this.baudStart_Enter);
             // 
             // baudIncrement
             // 
@@ -305,6 +312,7 @@
             this.baudIncrement.Name = "baudIncrement";
             this.baudIncrement.Size = new System.Drawing.Size(100, 20);
             this.baudIncrement.TabIndex = 5;
+            this.baudIncrement.Enter += new System.EventHandler(this.baudIncrement_Enter);
             // 
             // baudEnd
             // 
@@ -312,6 +320,7 @@
             this.baudEnd.Name = "baudEnd";
             this.baudEnd.Size = new System.Drawing.Size(100, 20);
             this.baudEnd.TabIndex = 6;
+            this.baudEnd.Enter += new System.EventHandler(this.baudEnd_Enter);
             // 
             // baudIncrementLabel
             // 

@@ -392,9 +392,50 @@ namespace Gui
             toolTip1.SetToolTip(exportToCsvButton, exportToCsvButtonToolTipText);
         }
 
-        private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {}
-        private void form1BindingSource_CurrentChanged(object sender, EventArgs e) {}
-        private void Form1_Load(object sender, EventArgs e) {}
+        private void spaceFrequency_Enter(object sender, EventArgs e)
+        {
+            spaceFrequency.SelectAll();
+        }
+
+        private void markFrequency_Enter(object sender, EventArgs e)
+        {
+            markFrequency.SelectAll();
+        }
+
+        private void tolerance_Enter(object sender, EventArgs e)
+        {
+            tolerance.SelectAll();
+        }
+
+        private void baudStart_Enter(object sender, EventArgs e)
+        {
+            baudStart.SelectAll();
+        }
+
+        private void baudIncrement_Enter(object sender, EventArgs e)
+        {
+            baudIncrement.SelectAll();
+        }
+
+        private void baudEnd_Enter(object sender, EventArgs e)
+        {
+            baudEnd.SelectAll();
+        }
+
+        private void boostStart_Enter(object sender, EventArgs e)
+        {
+            boostStart.SelectAll();
+        }
+
+        private void boostIncrement_Enter(object sender, EventArgs e)
+        {
+            boostIncrement.SelectAll();
+        }
+
+        private void boostEnd_Enter(object sender, EventArgs e)
+        {
+            boostEnd.SelectAll();
+        }
 
         private class FormInput
         {
@@ -410,5 +451,9 @@ namespace Gui
             public string BoostIncrement { get; set; }
             public string BoostEnd { get; set; }
         }
+
+        private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void form1BindingSource_CurrentChanged(object sender, EventArgs e) { }
+        private void Form1_Load(object sender, EventArgs e) { }
     }
 }
