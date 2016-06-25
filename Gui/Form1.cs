@@ -93,6 +93,9 @@ namespace Gui
             backgroundWorker1.ProgressChanged += BackgroundWorker1_ProgressChanged;
 
             startButton.Select();
+
+            toolStripStatusLabel1.Text = $"Build {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
+            statusStrip1.Refresh();
         }
 
         private void startButton_Click(object sender, EventArgs e)

@@ -52,7 +52,10 @@
             this.numberOfBits = new System.Windows.Forms.TextBox();
             this.audioLengthMillisecondsLabel = new System.Windows.Forms.Label();
             this.audioLengthMilliseconds = new System.Windows.Forms.TextBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // backgroundWorker1
@@ -268,11 +271,28 @@
             this.audioLengthMilliseconds.TabStop = false;
             this.audioLengthMilliseconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 458);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(984, 22);
+            this.statusStrip1.TabIndex = 108;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 461);
+            this.ClientSize = new System.Drawing.Size(984, 480);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.audioLengthMillisecondsLabel);
             this.Controls.Add(this.audioLengthMilliseconds);
             this.Controls.Add(this.numberOfBitsLabel);
@@ -301,6 +321,8 @@
             this.Text = "Signal Analyzer";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,6 +351,8 @@
         private System.Windows.Forms.TextBox numberOfBits;
         private System.Windows.Forms.Label audioLengthMillisecondsLabel;
         private System.Windows.Forms.TextBox audioLengthMilliseconds;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
 
