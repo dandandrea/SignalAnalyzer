@@ -24,7 +24,7 @@ namespace Core.BinaryFskAnalysis
 
                 if (signChangeResult.SignChanged == true && signChangeResult.TimeDifferenceMilliseconds != null)
                 {
-                    var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMilliseconds * 1000.0);
+                    var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMilliseconds * 1000.0 / 2.0);
                     frequencies.Add(frequency);
                 }
             }
@@ -50,7 +50,7 @@ namespace Core.BinaryFskAnalysis
             {
                 bool signChanged = false;
 
-                if (_lastSign != null && _lastSign == 1 && sample < 0)
+                if (_lastSign != null && ((_lastSign == 1 && sample < 0) || (_lastSign == 0 && sample >= 0)))
                 {
                     signChanged = true;
                 }
@@ -66,7 +66,7 @@ namespace Core.BinaryFskAnalysis
                     _lastSignChangeMilliseconds = currentTimeMilliseconds;
                 }
 
-                _lastSign = sample >= 0 ? 1 : -1;
+                _lastSign = sample >= 0 ? 1 : 0;
 
                 return signChangeResult;
             }
