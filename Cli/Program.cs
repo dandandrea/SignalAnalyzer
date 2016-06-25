@@ -27,14 +27,14 @@ namespace Cli
             fskAudioGenerator.GenerateAudio(binaryFskAnalyzerSettings.BaudRate,
                 binaryFskAnalyzerSettings.SpaceFrequency, binaryFskAnalyzerSettings.MarkFrequency, myBits);
 
-            var audioLengthInMillisecondsSeconds = (int)(myBits.Count * 1000.0 / binaryFskAnalyzerSettings.BaudRate);
-            Console.WriteLine($"Length of audio in seconds: {audioLengthInMillisecondsSeconds / 1000.0:N1}");
+            var audioLengthInMicroseconds = (int)(myBits.Count * Math.Pow(10, 6) / binaryFskAnalyzerSettings.BaudRate);
+            Console.WriteLine($"Length of audio in seconds: {audioLengthInMicroseconds / Math.Pow(10, 6):N1}");
             Console.WriteLine();
 
             Console.WriteLine(Resources.BigLebowskiQuote);
             Console.WriteLine();
 
-            AudioAnalyzer.Play(audioStream, audioLengthInMillisecondsSeconds);
+            AudioAnalyzer.Play(audioStream, audioLengthInMicroseconds / 1000);
 
             audioGenerator = new AudioGenerator(audioStream);
             fskAudioGenerator = new FskAudioGenerator(audioGenerator);
@@ -43,8 +43,8 @@ namespace Cli
 
             var binaryFskAnalyzer = new BinaryFskAnalyzer(new AudioAnalyzer(audioStream, audioGenerator), new ZeroCrossingsFrequencyDetector(), binaryFskAnalyzerSettings);
 
-            Console.WriteLine($"Window position start {binaryFskAnalyzerSettings.WindowPositionStartMilliseconds:N3} ms, window position end {binaryFskAnalyzerSettings.WindowPositionEndMilliseconds:N3} ms, window position increment {binaryFskAnalyzerSettings.WindowPositionIncrementMilliseconds:N3} ms");
-            Console.WriteLine($"Window length start {binaryFskAnalyzerSettings.WindowLengthStartMilliseconds:N3} ms, window length end {binaryFskAnalyzerSettings.WindowLengthEndMilliseconds:N3} ms, window length increment {binaryFskAnalyzerSettings.WindowLengthIncrementMilliseconds:N3} ms");
+            Console.WriteLine($"Window position start {binaryFskAnalyzerSettings.WindowPositionStartMicroseconds:N3} us, window position end {binaryFskAnalyzerSettings.WindowPositionEndMicroseconds:N3} us, window position increment {binaryFskAnalyzerSettings.WindowPositionIncrementMicroseconds:N3} us");
+            Console.WriteLine($"Window length start {binaryFskAnalyzerSettings.WindowLengthStartMicroseconds:N3} us, window length end {binaryFskAnalyzerSettings.WindowLengthEndMicroseconds:N3} us, window length increment {binaryFskAnalyzerSettings.WindowLengthIncrementMicroseconds:N3} us");
             Console.WriteLine();
 
             var bits = binaryFskAnalyzer.AnalyzeSignal();

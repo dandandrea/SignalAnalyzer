@@ -4,8 +4,8 @@ namespace Core.SignalAnalysis
 {
     public interface ISignalAnalyzer
     {
-        SignalAnalysisResult AnalyzeSignal(double? startMilliseconds = null,
-            double? endMilliseconds = null, int minFftSize = 8192, int maxFftSize = 16384);
+        SignalAnalysisResult AnalyzeSignal(double? startMicroseconds = null,
+            double? endMicroseconds = null, int minFftSize = 8192, int maxFftSize = 16384);
 
         ICollection<int> GetFrequencyCandidates(string filename,
             int windowPositionStart, int windowPositionEnd, int windowLengthStart, int windowLengthEnd,

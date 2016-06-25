@@ -2,9 +2,9 @@
 {
     public interface IAudioAnalyzer
     {
-        double FileLengthInMilliseconds { get; }
+        double FileLengthInMicroseconds { get; }
         int BoostFrequencyAmount { get; }
-        SamplingResult GetSamples(double? startMilliseconds = null, double? endMilliseconds = null);
+        SamplingResult GetSamples(double? startMicroseconds = null, double? endMicroseconds = null);
         void BoostFrequency(int frequency);
     }
 }

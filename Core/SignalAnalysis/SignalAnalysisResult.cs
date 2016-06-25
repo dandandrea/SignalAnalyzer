@@ -14,13 +14,13 @@ namespace Core.SignalAnalysis
         public override string ToString()
         {
             var fileLengthInBytes = SamplingResult != null ? SamplingResult.FileLengthInBytes : 0;
-            var fileLengthInMilliseconds = SamplingResult != null ? SamplingResult.FileLengthInMilliseconds : 0;
+            var fileLengthInMicroseconds = SamplingResult != null ? SamplingResult.FileLengthInMicroseconds : 0;
             var sampleRate = SamplingResult != null ? SamplingResult.SampleRate : 0;
             var bitsPerSample = SamplingResult != null ? SamplingResult.BitsPerSample : 0;
 
             var sb = new StringBuilder();
             sb.AppendLine($"File length in bytes: {fileLengthInBytes:N0} bytes");
-            sb.AppendLine($"File length in milliseconds: {fileLengthInMilliseconds:N0} ms");
+            sb.AppendLine($"File length in microseconds: {fileLengthInMicroseconds:N0} us");
             sb.AppendLine($"Sample rate: {sampleRate:N0} Hz");
             sb.AppendLine($"Bits per sample: {bitsPerSample:N0} bits/sample");
             sb.AppendLine($"# bins: {NumberOfBins:N0}");

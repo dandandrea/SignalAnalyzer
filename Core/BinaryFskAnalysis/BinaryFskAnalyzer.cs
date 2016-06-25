@@ -48,16 +48,16 @@ namespace Core.BinaryFskAnalysis
             var frequencyDifferences = new List<int>();
             int numberOfZeroFrequencies = 0;
 
-            if (_settings.WindowPositionEndMilliseconds == null)
+            if (_settings.WindowPositionEndMicroseconds == null)
             {
-                _settings.WindowPositionEndMilliseconds = _audioAnalyzer.FileLengthInMilliseconds;
+                _settings.WindowPositionEndMicroseconds = _audioAnalyzer.FileLengthInMicroseconds;
 
-                // Debug.WriteLine($"No window end position specified, setting to total length of audio ({_settings.WindowPositionEndMilliseconds} ms)");
+                // Debug.WriteLine($"No window end position specified, setting to total length of audio ({_settings.WindowPositionEndMicroseconds} us)");
             }
 
-            for (var currentWindowStart = _settings.WindowPositionStartMilliseconds; currentWindowStart <= _settings.WindowPositionEndMilliseconds; currentWindowStart += _settings.WindowPositionIncrementMilliseconds.Value)
+            for (var currentWindowStart = _settings.WindowPositionStartMicroseconds; currentWindowStart <= _settings.WindowPositionEndMicroseconds; currentWindowStart += _settings.WindowPositionIncrementMicroseconds.Value)
             {
-                for (var currentWindowLength = _settings.WindowLengthStartMilliseconds; currentWindowLength <= _settings.WindowLengthEndMilliseconds; currentWindowLength += _settings.WindowLengthIncrementMilliseconds)
+                for (var currentWindowLength = _settings.WindowLengthStartMicroseconds; currentWindowLength <= _settings.WindowLengthEndMicroseconds; currentWindowLength += _settings.WindowLengthIncrementMicroseconds)
                 {
                     var samplingResult = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
                     var frequency = _frequencyDetector.DetectFrequency(samplingResult.Samples);
@@ -78,7 +78,7 @@ namespace Core.BinaryFskAnalysis
                         continue;
                     }
 
-                    // Debug.WriteLine($"[{currentWindowStart:N3} ms to {currentWindowStart + currentWindowLength:N3} ms ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} ms)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {_settings.MarkFrequency:N0} Hz / {_settings.SpaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
+                    // Debug.WriteLine($"[{currentWindowStart:N3} us to {currentWindowStart + currentWindowLength:N3} us ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} us)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {_settings.MarkFrequency:N0} Hz / {_settings.SpaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
 
                     bits.Add(markOrSpace == 0 ? false : true);
                 }
@@ -129,26 +129,26 @@ namespace Core.BinaryFskAnalysis
         {
             var updatedSettings = new BinaryFskAnalyzerSettings(sourceSettings);
 
-            var baudRateIncrement = 1.0 / updatedSettings.BaudRate * 1000.0;
+            var baudRateIncrement = 1.0 / updatedSettings.BaudRate * Math.Pow(10, 6);
 
-            if (updatedSettings.WindowPositionIncrementMilliseconds == null)
+            if (updatedSettings.WindowPositionIncrementMicroseconds == null)
             {
-                updatedSettings.WindowPositionIncrementMilliseconds = baudRateIncrement;
+                updatedSettings.WindowPositionIncrementMicroseconds = baudRateIncrement;
             }
 
-            if (updatedSettings.WindowLengthStartMilliseconds == null)
+            if (updatedSettings.WindowLengthStartMicroseconds == null)
             {
-                updatedSettings.WindowLengthStartMilliseconds = baudRateIncrement;
+                updatedSettings.WindowLengthStartMicroseconds = baudRateIncrement;
             }
 
-            if (updatedSettings.WindowLengthIncrementMilliseconds == null)
+            if (updatedSettings.WindowLengthIncrementMicroseconds == null)
             {
-                updatedSettings.WindowLengthIncrementMilliseconds = 1.0;
+                updatedSettings.WindowLengthIncrementMicroseconds = 1.0;
             }
 
-            if (updatedSettings.WindowLengthEndMilliseconds == null)
+            if (updatedSettings.WindowLengthEndMicroseconds == null)
             {
-                updatedSettings.WindowLengthEndMilliseconds = baudRateIncrement;
+                updatedSettings.WindowLengthEndMicroseconds = baudRateIncrement;
             }
 
             return updatedSettings;

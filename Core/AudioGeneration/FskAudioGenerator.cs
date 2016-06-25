@@ -19,7 +19,7 @@ namespace Core.AudioGeneration
 
         public void GenerateAudio(double baudRate, int spaceFrequency, int markFrequency, ICollection<bool> bits)
         {
-            double intervalLengthInMilliseconds = 1000.0 / baudRate;
+            double intervalLengthInMicroseconds = Math.Pow(10, 6) / baudRate;
 
             foreach (var bit in bits)
             {
@@ -29,7 +29,7 @@ namespace Core.AudioGeneration
                     frequency = markFrequency;
                 }
 
-                _audioGenerator.AddInterval(frequency, intervalLengthInMilliseconds);
+                _audioGenerator.AddInterval(frequency, intervalLengthInMicroseconds);
             }
         }
     }

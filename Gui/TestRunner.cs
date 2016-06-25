@@ -62,9 +62,9 @@ namespace Gui
                     _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
                         _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
 
-                    var audioLengthInMilliseconds = (int)(bits.Count * 1000.0 / _binaryFskAnalyzerSettings.BaudRate);
+                    var audioLengthInMicroseconds = (int)(bits.Count * Math.Pow(10, 6) / _binaryFskAnalyzerSettings.BaudRate);
 
-                    SignalGenerationComplete(bits.Count, audioLengthInMilliseconds);
+                    SignalGenerationComplete(bits.Count, audioLengthInMicroseconds);
 
                     _audioStream = new MemoryStream();
                     _audioGenerator = new AudioGenerator(_audioStream);
@@ -88,12 +88,12 @@ namespace Gui
             }
         }
 
-        private void SignalGenerationComplete(int numberOfBits, int audioLengthInMilliseconds)
+        private void SignalGenerationComplete(int numberOfBits, int audioLengthInMicroseconds)
         {
             var e = new SignalGenerationResultEventArgs
             {
                 NumberOfBits = numberOfBits,
-                AudioLengthInMilliseconds = audioLengthInMilliseconds
+                AudioLengthInMicroseconds = audioLengthInMicroseconds
             };
 
             SignalGenerationCompleted?.Invoke(this, e);
@@ -103,6 +103,6 @@ namespace Gui
     public class SignalGenerationResultEventArgs : EventArgs
     {
         public int NumberOfBits { get; set; }
-        public int AudioLengthInMilliseconds { get; set; }
+        public int AudioLengthInMicroseconds { get; set; }
     }
 }

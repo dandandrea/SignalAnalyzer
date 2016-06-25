@@ -9,7 +9,7 @@ namespace Core.AudioAnalysis
 {
     public class AudioAnalyzer : IAudioAnalyzer
     {
-        public double FileLengthInMilliseconds { get; }
+        public double FileLengthInMicroseconds { get; }
         public int BoostFrequencyAmount { get; private set; }
 
         private float[] _samples;
@@ -49,7 +49,7 @@ namespace Core.AudioAnalysis
             var read = reader.Read(buffer, 0, buffer.Length);
             _samples = new float[(int)Math.Ceiling(read / 4.0)];
 
-            FileLengthInMilliseconds = _samples.Length / (double)_sampleRate * 1000.0;
+            FileLengthInMicroseconds = _samples.Length / (double)_sampleRate * Math.Pow(10, 6);
 
             Buffer.BlockCopy(buffer, 0, _samples, 0, read);
 
@@ -63,19 +63,19 @@ namespace Core.AudioAnalysis
             int? playTime = null)
             : this(new StreamReader(filename).BaseStream, audioGenerator, boostFrequency, play, playTime) { }
 
-        public SamplingResult GetSamples(double? startMilliseconds, double? endMilliseconds)
+        public SamplingResult GetSamples(double? startMicroseconds, double? endMicroseconds)
         {
-            if (startMilliseconds == null)
+            if (startMicroseconds == null)
             {
-                startMilliseconds = 0;
-                endMilliseconds = FileLengthInMilliseconds;
+                startMicroseconds = 0;
+                endMicroseconds = FileLengthInMicroseconds;
             }
 
-            endMilliseconds = endMilliseconds > FileLengthInMilliseconds ? FileLengthInMilliseconds : endMilliseconds;
+            endMicroseconds = endMicroseconds > FileLengthInMicroseconds ? FileLengthInMicroseconds : endMicroseconds;
 
-            var desiredSampleLengthInMilliseconds = endMilliseconds - startMilliseconds;
-            var firstSampleNumber = (int)(startMilliseconds / 1000.0 * _sampleRate);
-            var lastSampleNumber = (int)(endMilliseconds / 1000.0 * _sampleRate);
+            var desiredSampleLengthInMicroseconds = endMicroseconds - startMicroseconds;
+            var firstSampleNumber = (int)(startMicroseconds / Math.Pow(10, 6) * _sampleRate);
+            var lastSampleNumber = (int)(endMicroseconds / Math.Pow(10, 6) * _sampleRate);
             var desiredNumberOfSamples = lastSampleNumber - firstSampleNumber;
 
             var desiredSamples = new float[desiredNumberOfSamples];
@@ -91,7 +91,7 @@ namespace Core.AudioAnalysis
                 BitsPerSample = _bitsPerSample,
                 SampleRate = _sampleRate,
                 FileLengthInBytes = (int)_fileLengthInBytes,
-                FileLengthInMilliseconds = FileLengthInMilliseconds,
+                FileLengthInMicroseconds = FileLengthInMicroseconds,
                 Samples = desiredSamples
             };
         }
@@ -106,7 +106,7 @@ namespace Core.AudioAnalysis
             }
         }
 
-        public static void Play(string filename, int lengthInSeconds)
+        public static void Play(string filename, int lengthInMilliseconds)
         {
             if (string.IsNullOrEmpty(filename))
             {
@@ -115,7 +115,7 @@ namespace Core.AudioAnalysis
 
             using (var inputStream = new FileStream(filename, FileMode.Open))
             {
-                Play(inputStream, lengthInSeconds);
+                Play(inputStream, lengthInMilliseconds);
             }
         }
 

@@ -49,8 +49,8 @@
             this.tolerance = new System.Windows.Forms.TextBox();
             this.numberOfBitsLabel = new System.Windows.Forms.Label();
             this.numberOfBits = new System.Windows.Forms.TextBox();
-            this.audioLengthMillisecondsLabel = new System.Windows.Forms.Label();
-            this.audioLengthMilliseconds = new System.Windows.Forms.TextBox();
+            this.audioLengthMicrosecondsLabel = new System.Windows.Forms.Label();
+            this.audioLengthMicroseconds = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -237,26 +237,26 @@
             this.numberOfBits.TabStop = false;
             this.numberOfBits.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // audioLengthMillisecondsLabel
+            // audioLengthMicrosecondsLabel
             // 
-            this.audioLengthMillisecondsLabel.AutoSize = true;
-            this.audioLengthMillisecondsLabel.Enabled = false;
-            this.audioLengthMillisecondsLabel.Location = new System.Drawing.Point(639, 437);
-            this.audioLengthMillisecondsLabel.Name = "audioLengthMillisecondsLabel";
-            this.audioLengthMillisecondsLabel.Size = new System.Drawing.Size(118, 13);
-            this.audioLengthMillisecondsLabel.TabIndex = 107;
-            this.audioLengthMillisecondsLabel.Text = "Last interval length (ms)";
+            this.audioLengthMicrosecondsLabel.AutoSize = true;
+            this.audioLengthMicrosecondsLabel.Enabled = false;
+            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(639, 437);
+            this.audioLengthMicrosecondsLabel.Name = "audioLengthMicrosecondsLabel";
+            this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(118, 13);
+            this.audioLengthMicrosecondsLabel.TabIndex = 107;
+            this.audioLengthMicrosecondsLabel.Text = "Last interval length (us)";
             // 
-            // audioLengthMilliseconds
+            // audioLengthMicroseconds
             // 
-            this.audioLengthMilliseconds.Enabled = false;
-            this.audioLengthMilliseconds.Location = new System.Drawing.Point(648, 453);
-            this.audioLengthMilliseconds.Name = "audioLengthMilliseconds";
-            this.audioLengthMilliseconds.ReadOnly = true;
-            this.audioLengthMilliseconds.Size = new System.Drawing.Size(100, 20);
-            this.audioLengthMilliseconds.TabIndex = 106;
-            this.audioLengthMilliseconds.TabStop = false;
-            this.audioLengthMilliseconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.audioLengthMicroseconds.Enabled = false;
+            this.audioLengthMicroseconds.Location = new System.Drawing.Point(648, 453);
+            this.audioLengthMicroseconds.Name = "audioLengthMicroseconds";
+            this.audioLengthMicroseconds.ReadOnly = true;
+            this.audioLengthMicroseconds.Size = new System.Drawing.Size(100, 20);
+            this.audioLengthMicroseconds.TabIndex = 106;
+            this.audioLengthMicroseconds.TabStop = false;
+            this.audioLengthMicroseconds.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // statusStrip1
             // 
@@ -343,8 +343,8 @@
             this.Controls.Add(this.baudStart);
             this.Controls.Add(this.baudStartLabel);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.audioLengthMillisecondsLabel);
-            this.Controls.Add(this.audioLengthMilliseconds);
+            this.Controls.Add(this.audioLengthMicrosecondsLabel);
+            this.Controls.Add(this.audioLengthMicroseconds);
             this.Controls.Add(this.numberOfBitsLabel);
             this.Controls.Add(this.numberOfBits);
             this.Controls.Add(this.toleranceLabel);
@@ -395,8 +395,8 @@
         private System.Windows.Forms.TextBox tolerance;
         private System.Windows.Forms.Label numberOfBitsLabel;
         private System.Windows.Forms.TextBox numberOfBits;
-        private System.Windows.Forms.Label audioLengthMillisecondsLabel;
-        private System.Windows.Forms.TextBox audioLengthMilliseconds;
+        private System.Windows.Forms.Label audioLengthMicrosecondsLabel;
+        private System.Windows.Forms.TextBox audioLengthMicroseconds;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.Label baudStartLabel;

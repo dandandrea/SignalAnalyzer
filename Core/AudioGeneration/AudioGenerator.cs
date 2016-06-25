@@ -24,9 +24,9 @@ namespace Core.AudioGeneration
         public AudioGenerator(string filename, int sampleRate = 88200)
             : this(new StreamWriter(filename).BaseStream, sampleRate) {}
 
-        public void AddInterval(int frequency, double intervalMilliseconds)
+        public void AddInterval(int frequency, double intervalMicroseconds)
         {
-            int sampleCount = (int)Math.Ceiling(intervalMilliseconds / 1000.0 * _sampleRate);
+            int sampleCount = (int)Math.Ceiling(intervalMicroseconds / Math.Pow(10, 6) * _sampleRate);
 
             var samples = GenerateSamples(frequency, sampleCount, _sampleRate);
 

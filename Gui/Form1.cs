@@ -128,10 +128,10 @@ namespace Gui
 
             numberOfBitsLabel.Enabled = false;
             numberOfBits.Enabled = false;
-            audioLengthMillisecondsLabel.Enabled = false;
-            audioLengthMilliseconds.Enabled = false;
+            audioLengthMicrosecondsLabel.Enabled = false;
+            audioLengthMicroseconds.Enabled = false;
             numberOfBits.Text = string.Empty;
-            audioLengthMilliseconds.Text = string.Empty;
+            audioLengthMicroseconds.Text = string.Empty;
 
             backgroundWorker1.RunWorkerAsync();
         }
@@ -190,11 +190,11 @@ namespace Gui
             {
                 var signalGenerationResult = (SignalGenerationResultEventArgs)e.UserState;
                 numberOfBits.Text = signalGenerationResult.NumberOfBits.ToString();
-                audioLengthMilliseconds.Text = (signalGenerationResult.AudioLengthInMilliseconds / 1000.0).ToString();
+                audioLengthMicroseconds.Text = (signalGenerationResult.AudioLengthInMicroseconds / signalGenerationResult.NumberOfBits).ToString();
                 numberOfBitsLabel.Enabled = true;
                 numberOfBits.Enabled = true;
-                audioLengthMillisecondsLabel.Enabled = true;
-                audioLengthMilliseconds.Enabled = true;
+                audioLengthMicrosecondsLabel.Enabled = true;
+                audioLengthMicroseconds.Enabled = true;
             }
         }
 

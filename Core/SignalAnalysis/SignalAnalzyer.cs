@@ -23,20 +23,20 @@ namespace Core.SignalAnalysis
             _audioAnalyzer = audioAnalyzer;
         }
 
-        public SignalAnalysisResult AnalyzeSignal(double? startMilliseconds,
-            double? endMilliseconds, int minFftSize, int maxFftSize)
+        public SignalAnalysisResult AnalyzeSignal(double? startMicroseconds,
+            double? endMicroseconds, int minFftSize, int maxFftSize)
         {
-            if ((startMilliseconds != null && endMilliseconds == null) || (startMilliseconds == null && endMilliseconds != null))
+            if ((startMicroseconds != null && endMicroseconds == null) || (startMicroseconds == null && endMicroseconds != null))
             {
-                throw new ArgumentOutOfRangeException("startMilliseconds and endMilliseconds must be either both null or both not null", (Exception)null);
+                throw new ArgumentOutOfRangeException("startMicroseconds and endMicroseconds must be either both null or both not null", (Exception)null);
             }
 
-            if (startMilliseconds != null && endMilliseconds != null && endMilliseconds <= startMilliseconds)
+            if (startMicroseconds != null && endMicroseconds != null && endMicroseconds <= startMicroseconds)
             {
-                throw new ArgumentOutOfRangeException($"endMilliseconds ({endMilliseconds}) must be greater than startMilliseconds ({startMilliseconds})", (Exception)null);
+                throw new ArgumentOutOfRangeException($"endMicroseconds ({endMicroseconds}) must be greater than startMicroseconds ({startMicroseconds})", (Exception)null);
             }
 
-            var samplingResult = _audioAnalyzer.GetSamples(startMilliseconds, endMilliseconds);
+            var samplingResult = _audioAnalyzer.GetSamples(startMicroseconds, endMicroseconds);
 
             int fftSize = NextPowerOfTwo(samplingResult.Samples.Count, minFftSize, maxFftSize);
 

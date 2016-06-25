@@ -19,13 +19,13 @@ namespace Core.BinaryFskAnalysis
 
             for (var sampleNumber = 0; sampleNumber < samples.Count; sampleNumber++)
             {
-                var currentTimeMilliseconds = sampleNumber * 1.0 / _signChangeDetector.SampleRate * 1000.0;
+                var currentTimeMicroseconds = sampleNumber * 1.0 / _signChangeDetector.SampleRate * Math.Pow(10, 6);
 
-                var signChangeResult = _signChangeDetector.DetectSignChange(samples[sampleNumber], currentTimeMilliseconds);
+                var signChangeResult = _signChangeDetector.DetectSignChange(samples[sampleNumber], currentTimeMicroseconds);
 
-                if (signChangeResult.SignChanged == true && signChangeResult.TimeDifferenceMilliseconds != null)
+                if (signChangeResult.SignChanged == true && signChangeResult.TimeDifferenceMicroseconds != null)
                 {
-                    var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMilliseconds * 1000.0 / 2.0);
+                    var frequency = (int)(1.0 / signChangeResult.TimeDifferenceMicroseconds * Math.Pow(10, 6) / 2.0);
                     frequencies.Add(frequency);
                 }
             }
@@ -38,7 +38,7 @@ namespace Core.BinaryFskAnalysis
         private class SignChangeDetector
         {
             private int? _lastSign = null;
-            private double? _lastSignChangeMilliseconds { get; set; } = null;
+            private double? _lastSignChangeMicroseconds { get; set; } = null;
 
             public int SampleRate { get; }
 
@@ -47,7 +47,7 @@ namespace Core.BinaryFskAnalysis
                 SampleRate = sampleRate;
             }
 
-            public SignChangeResult DetectSignChange(float sample, double currentTimeMilliseconds)
+            public SignChangeResult DetectSignChange(float sample, double currentTimeMicroseconds)
             {
                 bool signChanged = false;
 
@@ -59,12 +59,12 @@ namespace Core.BinaryFskAnalysis
                 var signChangeResult = new SignChangeResult
                 {
                     SignChanged = signChanged,
-                    TimeDifferenceMilliseconds = _lastSignChangeMilliseconds != null ? currentTimeMilliseconds - _lastSignChangeMilliseconds : null
+                    TimeDifferenceMicroseconds = _lastSignChangeMicroseconds != null ? currentTimeMicroseconds - _lastSignChangeMicroseconds : null
                 };
 
                 if (signChanged == true)
                 {
-                    _lastSignChangeMilliseconds = currentTimeMilliseconds;
+                    _lastSignChangeMicroseconds = currentTimeMicroseconds;
                 }
 
                 if (sample > 0)
@@ -82,14 +82,14 @@ namespace Core.BinaryFskAnalysis
             public void Reset()
             {
                 _lastSign = null;
-                _lastSignChangeMilliseconds = null;
+                _lastSignChangeMicroseconds = null;
             }
         }
 
         private class SignChangeResult
         {
             public bool SignChanged { get; set; } = false;
-            public double? TimeDifferenceMilliseconds { get; set; }
+            public double? TimeDifferenceMicroseconds { get; set; }
         }
     }
 }
