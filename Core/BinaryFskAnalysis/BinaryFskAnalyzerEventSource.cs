@@ -6,12 +6,13 @@ namespace Core.BinaryFskAnalysis
     {
         public event AnalysisCompletedEventHandler AnalysisCompleted;
 
-        protected void AnalysisComplete(int boostFrequencyAmount, double minimumFrequencyDifference,
+        protected void AnalysisComplete(int baudRate, int boostFrequencyAmount, double minimumFrequencyDifference,
             double maximumFrequencyDifference, double averageFrequencyDifference, int numberOfMissedFrequencies,
             int numberOfZeroFrequencies, string resultingString = null, bool? matched = null)
         {
             var e = new AnalysisResultEventArgs
             {
+                BaudRate = baudRate,
                 BoostFrequencyAmount = boostFrequencyAmount,
                 MinimumFrequencyDifference = minimumFrequencyDifference,
                 MaximumFrequencyDifference = maximumFrequencyDifference,
@@ -28,6 +29,7 @@ namespace Core.BinaryFskAnalysis
 
     public class AnalysisResultEventArgs : EventArgs
     {
+        public int BaudRate { get; set; }
         public int BoostFrequencyAmount { get; set; }
         public double AverageFrequencyDifference { get; set; }
         public double MinimumFrequencyDifference { get; set; }

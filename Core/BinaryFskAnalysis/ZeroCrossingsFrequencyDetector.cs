@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Core.BinaryFskAnalysis
@@ -50,7 +51,7 @@ namespace Core.BinaryFskAnalysis
             {
                 bool signChanged = false;
 
-                if (_lastSign != null && ((_lastSign == 1 && sample < 0) || (_lastSign == 0 && sample >= 0)))
+                if (_lastSign != null && ((_lastSign == 1 && sample < 0) || (_lastSign == 0 && sample > 0)))
                 {
                     signChanged = true;
                 }
@@ -66,7 +67,14 @@ namespace Core.BinaryFskAnalysis
                     _lastSignChangeMilliseconds = currentTimeMilliseconds;
                 }
 
-                _lastSign = sample >= 0 ? 1 : 0;
+                if (sample > 0)
+                {
+                    _lastSign = 1;
+                }
+                else if (sample < 0)
+                {
+                    _lastSign = 0;
+                }
 
                 return signChangeResult;
             }

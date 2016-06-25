@@ -20,7 +20,7 @@ namespace Gui
         private IFskAudioGenerator _fskAudioGenerator;
         private IAudioAnalyzer _audioAnalyzer;
         private IFrequencyDetector _frequencyDetector;
-        private string _testString = "ABCDEFGHIJK";
+        private string _testString = "A";
 
         public TestRunner(BinaryFskAnalyzerSettings binaryFskAnalyzerSettings = null,
             IFrequencyDetector frequencyDetector = null)
@@ -37,60 +37,54 @@ namespace Gui
             FskAnalyzer = new BinaryFskAnalyzer(_audioAnalyzer, _frequencyDetector, _binaryFskAnalyzerSettings);
         }
 
-        public void Run(double spaceFrequency, double markFrequency, int baudRate, double boostStartFrequency,
-            double boostIncrement, double boostEndFrequency, double tolerance)
+        public void Run(TestRunnerArguments arguments)
         {
             var bitManipulator = new BitManipulator();
             var bits = bitManipulator.StringToBits(_testString);
 
-            _binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings
+            for (var baudRate = arguments.BaudStart; baudRate <= arguments.BaudEnd; baudRate += arguments.BaudIncrement)
             {
-                SpaceFrequency = (int)spaceFrequency,
-                MarkFrequency = (int)markFrequency,
-                BaudRate = baudRate,
-                FrequencyDeviationTolerance = tolerance
-            };
-
-            _audioStream = new MemoryStream();
-
-            _audioGenerator = new AudioGenerator(_audioStream);
-            _fskAudioGenerator = new FskAudioGenerator(_audioGenerator);
-            _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
-                _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
-
-            var audioLengthInMilliseconds = (int)(bits.Count * 1000.0 / _binaryFskAnalyzerSettings.BaudRate);
-
-            SignalGenerationComplete(bits.Count, audioLengthInMilliseconds);
-
-            for (var loopBoostFrequency = boostStartFrequency; loopBoostFrequency <= boostEndFrequency;
-                loopBoostFrequency += boostIncrement)
-            {
-                _binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings
+                for (var loopBoostFrequency = arguments.BoostStart; loopBoostFrequency <= arguments.BoostEnd;
+                    loopBoostFrequency += arguments.BoostIncrement)
                 {
-                    SpaceFrequency = (int)spaceFrequency,
-                    MarkFrequency = (int)markFrequency,
-                    BaudRate = baudRate,
-                    FrequencyDeviationTolerance = tolerance
-                };
+                    _binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings
+                    {
+                        SpaceFrequency = arguments.SpaceFrequency,
+                        MarkFrequency = arguments.MarkFrequency,
+                        BaudRate = baudRate,
+                        FrequencyDeviationTolerance = arguments.Tolerance
+                    };
 
-                _audioStream = new MemoryStream();
-                _audioGenerator = new AudioGenerator(_audioStream);
-                _fskAudioGenerator = new FskAudioGenerator(_audioGenerator);
-                _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
-                    _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
+                    _audioStream = new MemoryStream();
 
-                _binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings
-                {
-                    SpaceFrequency = (int)(spaceFrequency + loopBoostFrequency),
-                    MarkFrequency = (int)(markFrequency + loopBoostFrequency),
-                    BaudRate = baudRate,
-                    FrequencyDeviationTolerance = tolerance
-                };
+                    _audioGenerator = new AudioGenerator(_audioStream);
+                    _fskAudioGenerator = new FskAudioGenerator(_audioGenerator);
+                    _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
+                        _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
 
-                _audioAnalyzer = new AudioAnalyzer(_audioStream, _audioGenerator, (int)loopBoostFrequency);
+                    var audioLengthInMilliseconds = (int)(bits.Count * 1000.0 / _binaryFskAnalyzerSettings.BaudRate);
 
-                FskAnalyzer.Initialize(_audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
-                FskAnalyzer.AnalyzeSignal(_testString);
+                    SignalGenerationComplete(bits.Count, audioLengthInMilliseconds);
+
+                    _audioStream = new MemoryStream();
+                    _audioGenerator = new AudioGenerator(_audioStream);
+                    _fskAudioGenerator = new FskAudioGenerator(_audioGenerator);
+                    _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
+                        _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
+
+                    _binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings
+                    {
+                        SpaceFrequency = (int)(arguments.SpaceFrequency + loopBoostFrequency),
+                        MarkFrequency = (int)(arguments.MarkFrequency + loopBoostFrequency),
+                        BaudRate = baudRate,
+                        FrequencyDeviationTolerance = arguments.Tolerance
+                    };
+
+                    _audioAnalyzer = new AudioAnalyzer(_audioStream, _audioGenerator, (int)loopBoostFrequency);
+
+                    FskAnalyzer.Initialize(_audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
+                    FskAnalyzer.AnalyzeSignal(_testString);
+                }
             }
         }
 

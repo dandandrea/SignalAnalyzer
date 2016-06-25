@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.Diagnostics;
 using Core.AudioAnalysis;
 using System.Linq;
 using Core.BinaryData;
@@ -103,8 +102,9 @@ namespace Core.BinaryFskAnalysis
 
             // Debug.WriteLine($"Boost freq.: {_audioAnalyzer.BoostFrequencyAmount} Hz, avg. freq. diff.: {averageFrequencyDifference}, # missed freqs.: {missedFrequencies}");
 
-            AnalysisComplete(_audioAnalyzer.BoostFrequencyAmount, minimumFrequencyDifference, maximumFrequencyDifference,
-                averageFrequencyDifference, frequencyDifferences.Count(), numberOfZeroFrequencies, resultingString, match);
+            AnalysisComplete((int)_settings.BaudRate, _audioAnalyzer.BoostFrequencyAmount, minimumFrequencyDifference,
+                maximumFrequencyDifference, averageFrequencyDifference, frequencyDifferences.Count(), numberOfZeroFrequencies,
+                resultingString, match);
 
             return bits;
         }

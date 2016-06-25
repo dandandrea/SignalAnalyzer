@@ -17,75 +17,94 @@ namespace Gui
             InitializeComponent();
 
             mainDataGrid.AutoGenerateColumns = false;
-            mainDataGrid.ColumnCount = 8;
+            mainDataGrid.ColumnCount = 9;
             mainDataGrid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
-            mainDataGrid.Columns[0].Name = "Boost (Hz)";
-            mainDataGrid.Columns[0].HeaderText = "Boost (Hz)";
-            mainDataGrid.Columns[0].DataPropertyName = "BoostFrequencyAmount";
-            mainDataGrid.Columns[0].Frozen = false;
-            mainDataGrid.Columns[0].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[0].ToolTipText = "Amount (in Hz) that the original space and mark frequencies were increased by";
-            mainDataGrid.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
+            var columnNumber = 0;
 
-            mainDataGrid.Columns[1].Name = "Avg diff (Hz)";
-            mainDataGrid.Columns[1].HeaderText = "Avg diff (Hz)";
-            mainDataGrid.Columns[1].DataPropertyName = "AverageFrequencyDifference";
-            mainDataGrid.Columns[1].Frozen = false;
-            mainDataGrid.Columns[1].DefaultCellStyle.Format = "0.0";
-            mainDataGrid.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[1].ToolTipText = "Average difference (in Hz) of expected space or mark frequency and actual detected frequency";
-            mainDataGrid.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
+            mainDataGrid.Columns[columnNumber].Name = "Baud rate";
+            mainDataGrid.Columns[columnNumber].HeaderText = "Baud rate";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "BaudRate";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Number of symbols (typically bits) per second";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
 
-            mainDataGrid.Columns[2].Name = "Min diff (Hz)";
-            mainDataGrid.Columns[2].HeaderText = "Min diff (Hz)";
-            mainDataGrid.Columns[2].DataPropertyName = "MinimumFrequencyDifference";
-            mainDataGrid.Columns[2].Frozen = false;
-            mainDataGrid.Columns[2].DefaultCellStyle.Format = "0.0";
-            mainDataGrid.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[2].ToolTipText = "Minimum difference (in Hz) of expected space or mark frequency and actual detected frequency";
-            mainDataGrid.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
+            mainDataGrid.Columns[columnNumber].Name = "Boost (Hz)";
+            mainDataGrid.Columns[columnNumber].HeaderText = "Boost (Hz)";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "BoostFrequencyAmount";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Amount (in Hz) that the original space and mark frequencies were increased by";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
 
-            mainDataGrid.Columns[3].Name = "Max diff (Hz)";
-            mainDataGrid.Columns[3].HeaderText = "Max diff (Hz)";
-            mainDataGrid.Columns[3].DataPropertyName = "MaximumFrequencyDifference";
-            mainDataGrid.Columns[3].Frozen = false;
-            mainDataGrid.Columns[3].DefaultCellStyle.Format = "0.0";
-            mainDataGrid.Columns[3].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[3].ToolTipText = "Maximum difference (in Hz) of expected space or mark frequency and actual detected frequency";
-            mainDataGrid.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
+            mainDataGrid.Columns[columnNumber].Name = "Avg diff (Hz)";
+            mainDataGrid.Columns[columnNumber].HeaderText = "Avg diff (Hz)";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "AverageFrequencyDifference";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Format = "0.0";
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Average difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
 
-            mainDataGrid.Columns[4].Name = "# > tolerance";
-            mainDataGrid.Columns[4].HeaderText = "# > tolerance";
-            mainDataGrid.Columns[4].DataPropertyName = "NumberOfMissedFrequencies";
-            mainDataGrid.Columns[4].Frozen = false;
-            mainDataGrid.Columns[4].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[4].ToolTipText = "Number of times that the detected frequency was outside of the supplied frequency deviation tolerance";
-            mainDataGrid.Columns[4].SortMode = DataGridViewColumnSortMode.NotSortable;
+            mainDataGrid.Columns[columnNumber].Name = "Min diff (Hz)";
+            mainDataGrid.Columns[columnNumber].HeaderText = "Min diff (Hz)";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "MinimumFrequencyDifference";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Format = "0.0";
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Minimum difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
 
-            mainDataGrid.Columns[5].Name = "# zero freq";
-            mainDataGrid.Columns[5].HeaderText = "# zero freq";
-            mainDataGrid.Columns[5].DataPropertyName = "NumberOfZeroFrequencies";
-            mainDataGrid.Columns[5].Frozen = false;
-            mainDataGrid.Columns[5].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[5].ToolTipText = "Number of times that the detected frequency was zero";
-            mainDataGrid.Columns[5].SortMode = DataGridViewColumnSortMode.NotSortable;
+            mainDataGrid.Columns[columnNumber].Name = "Max diff (Hz)";
+            mainDataGrid.Columns[columnNumber].HeaderText = "Max diff (Hz)";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "MaximumFrequencyDifference";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Format = "0.0";
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Maximum difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
 
-            mainDataGrid.Columns[6].Name = "Output";
-            mainDataGrid.Columns[6].HeaderText = "Output";
-            mainDataGrid.Columns[6].DataPropertyName = "ResultingString";
-            mainDataGrid.Columns[6].Frozen = false;
-            mainDataGrid.Columns[6].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[6].ToolTipText = "The string that resulted from decoding the encoded signal";
-            mainDataGrid.Columns[6].SortMode = DataGridViewColumnSortMode.NotSortable;
+            mainDataGrid.Columns[columnNumber].Name = "# > tolerance";
+            mainDataGrid.Columns[columnNumber].HeaderText = "# > tolerance";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "NumberOfMissedFrequencies";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Number of times that the detected frequency was outside of the supplied frequency deviation tolerance";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
 
-            mainDataGrid.Columns[7].Name = "Match?";
-            mainDataGrid.Columns[7].HeaderText = "Match?";
-            mainDataGrid.Columns[7].DataPropertyName = "Matched";
-            mainDataGrid.Columns[7].Frozen = false;
-            mainDataGrid.Columns[7].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            mainDataGrid.Columns[7].ToolTipText = "Whether or not the decoded signal matched the encoded signal";
-            mainDataGrid.Columns[7].SortMode = DataGridViewColumnSortMode.NotSortable;
+            mainDataGrid.Columns[columnNumber].Name = "# zero freq";
+            mainDataGrid.Columns[columnNumber].HeaderText = "# zero freq";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "NumberOfZeroFrequencies";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Number of times that the detected frequency was zero";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
+
+            mainDataGrid.Columns[columnNumber].Name = "Output";
+            mainDataGrid.Columns[columnNumber].HeaderText = "Output";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "ResultingString";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "The string that resulted from decoding the encoded signal";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
+
+            mainDataGrid.Columns[columnNumber].Name = "Match?";
+            mainDataGrid.Columns[columnNumber].HeaderText = "Match?";
+            mainDataGrid.Columns[columnNumber].DataPropertyName = "Matched";
+            mainDataGrid.Columns[columnNumber].Frozen = false;
+            mainDataGrid.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            mainDataGrid.Columns[columnNumber].ToolTipText = "Whether or not the decoded signal matched the encoded signal";
+            mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
+            columnNumber++;
 
             _analysisResults = new BindingList<AnalysisResultEventArgs>();
             mainDataGrid.DataSource = _analysisResults;
@@ -117,73 +136,34 @@ namespace Gui
 
         private void backgroundWorker1_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            var spaceFrequencyStringValue = spaceFrequency.Text;
-            var markFrequencyStringValue = markFrequency.Text;
-            var baudRateStringValue = baudRate.Text;
-
-            var boostStartStringValue = boostStart.Text;
-            var boostIncrementStringValue = boostIncrement.Text;
-            var boostEndStringValue = boostEnd.Text;
-
-            var toleranceStringValue = tolerance.Text;
-
-            if (string.IsNullOrWhiteSpace(spaceFrequencyStringValue))
+            TestRunnerArguments testRunnerArguments = null;
+            try
             {
-                MessageBox.Show("Space frequency cannot be empty", "Input required");
+                testRunnerArguments = ProcessArguments(
+                    new FormInput
+                    {
+                        SpaceFrequency = spaceFrequency.Text,
+                        MarkFrequency = markFrequency.Text,
+                        Tolerance = tolerance.Text,
+                        BaudStart = baudStart.Text,
+                        BaudIncrement = baudIncrement.Text,
+                        BaudEnd = baudEnd.Text,
+                        BoostStart = boostStart.Text,
+                        BoostIncrement = boostIncrement.Text,
+                        BoostEnd = boostEnd.Text
+                    }
+                );
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message, "Input validation");
                 return;
             }
-
-            if (string.IsNullOrWhiteSpace(markFrequencyStringValue))
-            {
-                MessageBox.Show("Mark frequency cannot be empty", "Input required");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(baudRateStringValue))
-            {
-                MessageBox.Show("Baud rate cannot be empty", "Input required");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(boostStartStringValue))
-            {
-                MessageBox.Show("Boost start cannot be empty", "Input required");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(boostIncrementStringValue))
-            {
-                MessageBox.Show("Boost increment cannot be empty", "Input required");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(boostEndStringValue))
-            {
-                MessageBox.Show("Boost end cannot be empty", "Input required");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(toleranceStringValue))
-            {
-                MessageBox.Show("Tolerance cannot be empty", "Input required");
-                return;
-            }
-
-            var spaceFrequencyDoubleValue = double.Parse(spaceFrequencyStringValue);
-            var markFrequencyDoubleValue = double.Parse(markFrequencyStringValue);
-            var baudRateIntValue = int.Parse(baudRateStringValue);
-
-            double boostStartDoubleValue = double.Parse(boostStartStringValue);
-            double boostIncrementDoubleValue = double.Parse(boostIncrementStringValue);
-            double boostEndDoubleValue = double.Parse(boostEndStringValue);
-
-            double toleranceDoubleValue = double.Parse(toleranceStringValue);
 
             var testRunner = new TestRunner();
             testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
             testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
-            testRunner.Run(spaceFrequencyDoubleValue, markFrequencyDoubleValue, baudRateIntValue,
-                boostStartDoubleValue, boostIncrementDoubleValue, boostEndDoubleValue, toleranceDoubleValue);
+            testRunner.Run(testRunnerArguments);
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -195,11 +175,11 @@ namespace Gui
 
                 if (analysisResult.Matched == true)
                 {
-                    mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Green;
+                    mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[mainDataGrid.ColumnCount - 1].Style.BackColor = System.Drawing.Color.Green;
                 }
                 else
                 {
-                    mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[7].Style.BackColor = System.Drawing.Color.Red;
+                    mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[mainDataGrid.ColumnCount - 1].Style.BackColor = System.Drawing.Color.Red;
                 }
 
                 mainDataGrid.FirstDisplayedScrollingRowIndex = mainDataGrid.RowCount - 1;
@@ -269,8 +249,116 @@ namespace Gui
             }
         }
 
+        private TestRunnerArguments ProcessArguments(FormInput request)
+        {
+            if (string.IsNullOrWhiteSpace(request.SpaceFrequency))
+            {
+                throw new ArgumentException("Space frequency cannot be empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.MarkFrequency))
+            {
+                throw new ArgumentException("Mark frequency cannot be empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.Tolerance))
+            {
+                throw new ArgumentException("Tolerance cannot be empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(request.BaudStart))
+            {
+                throw new ArgumentException("Baud start cannot be empty");
+            }
+
+            int spaceFrequencyParsed = int.Parse(request.SpaceFrequency);
+            int markFrequencyParsed = int.Parse(request.MarkFrequency);
+            int toleranceParsed = int.Parse(request.Tolerance);
+
+            int baudStartParsed = int.Parse(request.BaudStart);
+            int? baudIncrementParsed = null;
+            int? baudEndParsed = null;
+
+            double? boostStartParsed = null;
+            double? boostIncrementParsed = null;
+            double? boostEndParsed = null;
+
+            if (! string.IsNullOrEmpty(request.BaudIncrement))
+            {
+                baudIncrementParsed = int.Parse(request.BaudIncrement);
+            }
+
+            if (! string.IsNullOrEmpty(request.BaudEnd))
+            {
+                baudEndParsed = int.Parse(request.BaudEnd);
+            }
+
+            if (! string.IsNullOrEmpty(request.BoostStart))
+            {
+                boostStartParsed = int.Parse(request.BoostStart);
+            }
+
+            if (! string.IsNullOrEmpty(request.BoostIncrement))
+            {
+                boostIncrementParsed = int.Parse(request.BoostIncrement);
+            }
+
+            if (! string.IsNullOrEmpty(request.BoostEnd))
+            {
+                boostEndParsed = int.Parse(request.BoostEnd);
+            }
+
+            if ((baudIncrementParsed != null || baudEndParsed != null) && (baudIncrementParsed == null || baudEndParsed == null))
+            {
+                throw new ArgumentException("You must specify both baud increment and baud end if either are specified");
+            }
+
+            if ((boostStartParsed != null || boostIncrementParsed != null || boostEndParsed != null) &&
+                (boostStartParsed == null || boostIncrementParsed == null || boostEndParsed == null))
+            {
+                throw new ArgumentException(
+                    "You must specify boost start, boost increment, and boost end if any boost parameters are specified"
+                );
+            }
+
+            baudIncrementParsed = baudIncrementParsed != null ? baudIncrementParsed : 1;
+            baudEndParsed = baudEndParsed != null ? baudEndParsed : baudStartParsed;
+
+            boostStartParsed = boostStartParsed != null ? boostStartParsed : 0;
+            boostIncrementParsed = boostIncrementParsed != null ? boostIncrementParsed : 1;
+            boostEndParsed = boostEndParsed != null ? boostEndParsed : boostStartParsed;
+
+            return new TestRunnerArguments
+            {
+                SpaceFrequency = spaceFrequencyParsed,
+                MarkFrequency = markFrequencyParsed,
+                Tolerance = toleranceParsed,
+                BaudStart = baudStartParsed,
+                BaudIncrement = baudIncrementParsed.Value,
+                BaudEnd = baudEndParsed.Value,
+                BoostStart = boostStartParsed.Value,
+                BoostIncrement = boostIncrementParsed.Value,
+                BoostEnd = boostEndParsed.Value
+            };
+        }
+
         private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {}
         private void form1BindingSource_CurrentChanged(object sender, EventArgs e) {}
         private void Form1_Load(object sender, EventArgs e) {}
+
+        private class FormInput
+        {
+            public string SpaceFrequency { get; set; }
+            public string MarkFrequency { get; set; }
+            public string Tolerance { get; set; }
+
+            public string BaudStart { get; set; }
+            public string BaudIncrement { get; set; }
+            public string BaudEnd { get; set; }
+
+            public string BoostStart { get; set; }
+            public string BoostIncrement { get; set; }
+            public string BoostEnd { get; set; }
+        }
     }
 }
