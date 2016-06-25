@@ -106,6 +106,8 @@ namespace Gui
             mainDataGrid.Columns[columnNumber].SortMode = DataGridViewColumnSortMode.NotSortable;
             columnNumber++;
 
+            SetBelowDataGridToolTipText();
+
             _analysisResults = new BindingList<AnalysisResultEventArgs>();
             mainDataGrid.DataSource = _analysisResults;
 
@@ -340,6 +342,54 @@ namespace Gui
                 BoostIncrement = boostIncrementParsed.Value,
                 BoostEnd = boostEndParsed.Value
             };
+        }
+
+        private void SetBelowDataGridToolTipText()
+        {
+            var spaceFrequencyToolTipText = "FSK space (binary 0) frequency in Hz";
+            var markFrequencyToolTipText = "FSK mark (binary 1) frequency in Hz";
+            var toleranceToolTipText = "Maximum amount (in Hz) that a detected frequency can deviate from the space and mark frequencies and still be considered valid";
+
+            var baudStartToolTipText = "Starting baud rate (symbols per second)";
+            var baudIncrementToolTipText = "Optional baud rate (symbols per second) increment";
+            var baudEndToolTipText = "Optional ending baud rate (symbols per second)";
+
+            var boostStartToolTipText = "Optional \"boost\" starting frequency (in Hz)";
+            var boostIncrementToolTipText = "Optional \"boost\" increment frequency (in Hz)";
+            var boostEndToolTipText = "Optional \"boost\" ending frequency (in Hz)";
+
+            var startButtonToolTipText = "Begin analyzing FSK encoded signal";
+            var exportToCsvButtonToolTipText = "Export results to CSV";
+
+            toolTip1.SetToolTip(spaceFrequency, spaceFrequencyToolTipText);
+            toolTip1.SetToolTip(spaceFrequencyLabel, spaceFrequencyToolTipText);
+
+            toolTip1.SetToolTip(markFrequency, markFrequencyToolTipText);
+            toolTip1.SetToolTip(markFrequencyLabel, markFrequencyToolTipText);
+
+            toolTip1.SetToolTip(tolerance, toleranceToolTipText);
+            toolTip1.SetToolTip(toleranceLabel, toleranceToolTipText);
+
+            toolTip1.SetToolTip(baudStart, baudStartToolTipText);
+            toolTip1.SetToolTip(baudStartLabel, baudStartToolTipText);
+
+            toolTip1.SetToolTip(baudIncrement, baudIncrementToolTipText);
+            toolTip1.SetToolTip(baudIncrementLabel, baudIncrementToolTipText);
+
+            toolTip1.SetToolTip(baudEnd, baudEndToolTipText);
+            toolTip1.SetToolTip(baudEndLabel, baudEndToolTipText);
+
+            toolTip1.SetToolTip(boostStart, boostStartToolTipText);
+            toolTip1.SetToolTip(boostStartLabel, boostStartToolTipText);
+
+            toolTip1.SetToolTip(boostIncrement, boostIncrementToolTipText);
+            toolTip1.SetToolTip(boostIncrementLabel, boostIncrementToolTipText);
+
+            toolTip1.SetToolTip(boostEnd, boostEndToolTipText);
+            toolTip1.SetToolTip(boostEndLabel, boostEndToolTipText);
+
+            toolTip1.SetToolTip(startButton, startButtonToolTipText);
+            toolTip1.SetToolTip(exportToCsvButton, exportToCsvButtonToolTipText);
         }
 
         private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) {}

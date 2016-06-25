@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
@@ -58,6 +59,7 @@
             this.baudEnd = new System.Windows.Forms.TextBox();
             this.baudIncrementLabel = new System.Windows.Forms.Label();
             this.baudEndLabel = new System.Windows.Forms.Label();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -394,6 +396,7 @@
         private System.Windows.Forms.TextBox baudEnd;
         private System.Windows.Forms.Label baudIncrementLabel;
         private System.Windows.Forms.Label baudEndLabel;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
