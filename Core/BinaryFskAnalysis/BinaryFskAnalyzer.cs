@@ -3,6 +3,7 @@ using System;
 using Core.AudioAnalysis;
 using System.Linq;
 using Core.BinaryData;
+using System.Diagnostics;
 
 namespace Core.BinaryFskAnalysis
 {
@@ -60,6 +61,18 @@ namespace Core.BinaryFskAnalysis
                 for (var currentWindowLength = _settings.WindowLengthStartMicroseconds; currentWindowLength <= _settings.WindowLengthEndMicroseconds; currentWindowLength += _settings.WindowLengthIncrementMicroseconds)
                 {
                     var samplingResult = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
+
+                    var targetNumberOfSamples = _audioAnalyzer.SampleRate / Math.Pow(10, 6) * currentWindowLength;
+
+                    // Debug.WriteLine($"Got {samplingResult.Samples.Count()} samples, want {targetNumberOfSamples:N1} samples");
+
+                    // TODO: How to set this threshold?
+                    var sampleThreshold = 0.9;
+                    if (samplingResult.Samples.Count() < (targetNumberOfSamples * sampleThreshold))
+                    {
+                        continue;
+                    }
+
                     var frequency = _frequencyDetector.DetectFrequency(samplingResult.Samples);
                     var frequencyDifference = FrequencyDifference(frequency, _settings.SpaceFrequency, _settings.MarkFrequency);
                     var markOrSpace = MarkOrSpace(frequency, _settings.SpaceFrequency, _settings.MarkFrequency);

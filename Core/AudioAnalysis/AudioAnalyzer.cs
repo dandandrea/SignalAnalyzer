@@ -11,9 +11,9 @@ namespace Core.AudioAnalysis
     {
         public double FileLengthInMicroseconds { get; }
         public int BoostFrequencyAmount { get; private set; }
+        public int SampleRate { get; private set; }
 
         private float[] _samples;
-        private int _sampleRate;
         private int _bitsPerSample;
         private long _fileLengthInBytes;
         private IAudioGenerator _audioGenerator;
@@ -34,7 +34,7 @@ namespace Core.AudioAnalysis
 
             var reader = new WaveFileReader(inputStream);
 
-            _sampleRate = reader.WaveFormat.SampleRate;
+            SampleRate = reader.WaveFormat.SampleRate;
             _bitsPerSample = reader.WaveFormat.BitsPerSample;
             _fileLengthInBytes = reader.Length;
             _audioGenerator = audioGenerator;
@@ -49,7 +49,7 @@ namespace Core.AudioAnalysis
             var read = reader.Read(buffer, 0, buffer.Length);
             _samples = new float[(int)Math.Ceiling(read / 4.0)];
 
-            FileLengthInMicroseconds = _samples.Length / (double)_sampleRate * Math.Pow(10, 6);
+            FileLengthInMicroseconds = _samples.Length / (double)SampleRate * Math.Pow(10, 6);
 
             Buffer.BlockCopy(buffer, 0, _samples, 0, read);
 
@@ -74,8 +74,8 @@ namespace Core.AudioAnalysis
             endMicroseconds = endMicroseconds > FileLengthInMicroseconds ? FileLengthInMicroseconds : endMicroseconds;
 
             var desiredSampleLengthInMicroseconds = endMicroseconds - startMicroseconds;
-            var firstSampleNumber = (int)(startMicroseconds / Math.Pow(10, 6) * _sampleRate);
-            var lastSampleNumber = (int)(endMicroseconds / Math.Pow(10, 6) * _sampleRate);
+            var firstSampleNumber = (int)(startMicroseconds / Math.Pow(10, 6) * SampleRate);
+            var lastSampleNumber = (int)(endMicroseconds / Math.Pow(10, 6) * SampleRate);
             var desiredNumberOfSamples = lastSampleNumber - firstSampleNumber;
 
             var desiredSamples = new float[desiredNumberOfSamples];
@@ -89,7 +89,7 @@ namespace Core.AudioAnalysis
             return new SamplingResult
             {
                 BitsPerSample = _bitsPerSample,
-                SampleRate = _sampleRate,
+                SampleRate = SampleRate,
                 FileLengthInBytes = (int)_fileLengthInBytes,
                 FileLengthInMicroseconds = FileLengthInMicroseconds,
                 Samples = desiredSamples
@@ -98,7 +98,7 @@ namespace Core.AudioAnalysis
 
         public void BoostFrequency(int frequency)
         {
-            var boostSamples = _audioGenerator.GenerateSamples(frequency, _samples.Length, _sampleRate);
+            var boostSamples = _audioGenerator.GenerateSamples(frequency, _samples.Length, SampleRate);
 
             for (var i = 0; i < _samples.Length; i++)
             {
