@@ -152,7 +152,8 @@ namespace Gui
                         BaudEnd = baudEnd.Text,
                         BoostStart = boostStart.Text,
                         BoostIncrement = boostIncrement.Text,
-                        BoostEnd = boostEnd.Text
+                        BoostEnd = boostEnd.Text,
+                        WriteWavFiles = writeWavFiles.Checked
                     }
                 );
             }
@@ -285,6 +286,8 @@ namespace Gui
             double? boostIncrementParsed = null;
             double? boostEndParsed = null;
 
+            bool writeWavFiles = request.WriteWavFiles;
+
             if (! string.IsNullOrEmpty(request.BaudIncrement))
             {
                 baudIncrementParsed = int.Parse(request.BaudIncrement);
@@ -340,7 +343,8 @@ namespace Gui
                 BaudEnd = baudEndParsed.Value,
                 BoostStart = boostStartParsed.Value,
                 BoostIncrement = boostIncrementParsed.Value,
-                BoostEnd = boostEndParsed.Value
+                BoostEnd = boostEndParsed.Value,
+                WriteFaveFiles = writeWavFiles
             };
         }
 
@@ -360,6 +364,8 @@ namespace Gui
 
             var startButtonToolTipText = "Begin analyzing FSK encoded signal";
             var exportToCsvButtonToolTipText = "Export results to CSV";
+
+            var writeWavFilesCheckboxToolTipText = "Save a WAV file for each iteration";
 
             toolTip1.SetToolTip(spaceFrequency, spaceFrequencyToolTipText);
             toolTip1.SetToolTip(spaceFrequencyLabel, spaceFrequencyToolTipText);
@@ -390,6 +396,8 @@ namespace Gui
 
             toolTip1.SetToolTip(startButton, startButtonToolTipText);
             toolTip1.SetToolTip(exportToCsvButton, exportToCsvButtonToolTipText);
+
+            toolTip1.SetToolTip(writeWavFiles, writeWavFilesCheckboxToolTipText);
         }
 
         private void spaceFrequency_Enter(object sender, EventArgs e)
@@ -450,6 +458,8 @@ namespace Gui
             public string BoostStart { get; set; }
             public string BoostIncrement { get; set; }
             public string BoostEnd { get; set; }
+
+            public bool WriteWavFiles { get; set; }
         }
 
         private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) { }

@@ -61,6 +61,7 @@
             this.baudIncrementLabel = new System.Windows.Forms.Label();
             this.baudEndLabel = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.writeWavFiles = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -269,7 +270,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 492);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 521);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(943, 22);
             this.statusStrip1.TabIndex = 108;
@@ -340,11 +341,22 @@
             this.baudEndLabel.TabIndex = 115;
             this.baudEndLabel.Text = "Baud end";
             // 
+            // writeWavFiles
+            // 
+            this.writeWavFiles.AutoSize = true;
+            this.writeWavFiles.Location = new System.Drawing.Point(15, 493);
+            this.writeWavFiles.Name = "writeWavFiles";
+            this.writeWavFiles.Size = new System.Drawing.Size(106, 17);
+            this.writeWavFiles.TabIndex = 116;
+            this.writeWavFiles.Text = "Write WAV file(s)";
+            this.writeWavFiles.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(943, 514);
+            this.ClientSize = new System.Drawing.Size(943, 543);
+            this.Controls.Add(this.writeWavFiles);
             this.Controls.Add(this.baudEndLabel);
             this.Controls.Add(this.baudIncrementLabel);
             this.Controls.Add(this.baudEnd);
@@ -416,6 +428,7 @@
         private System.Windows.Forms.Label baudEndLabel;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.CheckBox writeWavFiles;
     }
 }
 

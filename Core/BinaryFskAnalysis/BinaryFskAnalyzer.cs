@@ -56,10 +56,13 @@ namespace Core.BinaryFskAnalysis
                 // Debug.WriteLine($"No window end position specified, setting to total length of audio ({_settings.WindowPositionEndMicroseconds} us)");
             }
 
+            var i = 0;
             for (var currentWindowStart = _settings.WindowPositionStartMicroseconds; currentWindowStart <= _settings.WindowPositionEndMicroseconds; currentWindowStart += _settings.WindowPositionIncrementMicroseconds.Value)
             {
                 for (var currentWindowLength = _settings.WindowLengthStartMicroseconds; currentWindowLength <= _settings.WindowLengthEndMicroseconds; currentWindowLength += _settings.WindowLengthIncrementMicroseconds)
                 {
+                    i++;
+
                     var samplingResult = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
 
                     var targetNumberOfSamples = _audioAnalyzer.SampleRate / Math.Pow(10, 6) * currentWindowLength;
@@ -85,7 +88,8 @@ namespace Core.BinaryFskAnalysis
 
                     if (frequencyDifference > _settings.FrequencyDeviationTolerance)
                     {
-                        // Debug.WriteLine($"WARN: Frequency outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {_settings.FrequencyDeviationTolerance} Hz)");
+                        // Debug.WriteLine($"WARN: @ {currentWindowStart / Math.Pow(10, 6):N3} seconds (Baud rate {_settings.BaudRate}) [{i}] outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {_settings.FrequencyDeviationTolerance} Hz)");
+
                         frequencyDifferences.Add(frequencyDifference);
 
                         continue;

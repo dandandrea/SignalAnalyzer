@@ -39,6 +39,8 @@ namespace Gui
 
         public void Run(TestRunnerArguments arguments)
         {
+            var fileTimestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
             var bitManipulator = new BitManipulator();
             var bits = bitManipulator.StringToBits(_testString);
 
@@ -71,6 +73,17 @@ namespace Gui
                     _fskAudioGenerator = new FskAudioGenerator(_audioGenerator);
                     _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
                         _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
+
+                    if (arguments.WriteFaveFiles == true)
+                    {
+                        using (var file = File.Create($"{fileTimestamp}_{baudRate}_baud.wav"))
+                        {
+                            var previousPosition = _audioStream.Position;
+                            _audioStream.Position = 0;
+                            _audioStream.CopyTo(file);
+                            _audioStream.Position = previousPosition;
+                        }
+                    }
 
                     _binaryFskAnalyzerSettings = new Bell103BinaryFskAnalyzerSettings
                     {

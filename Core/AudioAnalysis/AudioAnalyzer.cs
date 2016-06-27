@@ -1,7 +1,6 @@
 ﻿using Core.AudioGeneration;
 using NAudio.Wave;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
@@ -32,30 +31,31 @@ namespace Core.AudioAnalysis
 
             inputStream.Position = 0;
 
-            var reader = new WaveFileReader(inputStream);
-
-            SampleRate = reader.WaveFormat.SampleRate;
-            _bitsPerSample = reader.WaveFormat.BitsPerSample;
-            _fileLengthInBytes = reader.Length;
-            _audioGenerator = audioGenerator;
-            BoostFrequencyAmount = boostFrequency;
-
-            if (play == true)
+            using (var reader = new WaveFileReader(inputStream))
             {
-                Play(inputStream, playTime);
-            }
+                SampleRate = reader.WaveFormat.SampleRate;
+                _bitsPerSample = reader.WaveFormat.BitsPerSample;
+                _fileLengthInBytes = reader.Length;
+                _audioGenerator = audioGenerator;
+                BoostFrequencyAmount = boostFrequency;
 
-            var buffer = new byte[reader.Length];
-            var read = reader.Read(buffer, 0, buffer.Length);
-            _samples = new float[(int)Math.Ceiling(read / 4.0)];
+                if (play == true)
+                {
+                    Play(inputStream, playTime);
+                }
 
-            FileLengthInMicroseconds = _samples.Length / (double)SampleRate * Math.Pow(10, 6);
+                var buffer = new byte[reader.Length];
+                var read = reader.Read(buffer, 0, buffer.Length);
+                _samples = new float[(int)Math.Ceiling(read / 4.0)];
 
-            Buffer.BlockCopy(buffer, 0, _samples, 0, read);
+                FileLengthInMicroseconds = _samples.Length / (double)SampleRate * Math.Pow(10, 6);
 
-            if (boostFrequency != 0)
-            {
-                BoostFrequency(boostFrequency);
+                Buffer.BlockCopy(buffer, 0, _samples, 0, read);
+
+                if (boostFrequency != 0)
+                {
+                    BoostFrequency(boostFrequency);
+                }
             }
         }
 

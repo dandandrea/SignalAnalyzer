@@ -13,5 +13,7 @@
         public double BoostStart { get; set; }
         public double BoostIncrement { get; set; }
         public double BoostEnd { get; set; }
+
+        public bool WriteFaveFiles { get; set; }
     }
 }
