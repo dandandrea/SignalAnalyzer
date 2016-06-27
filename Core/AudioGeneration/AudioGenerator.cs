@@ -9,6 +9,10 @@ namespace Core.AudioGeneration
         private WaveFileWriter _waveFileWriter;
         private int _sampleRate;
         private int? _previousFrequency;
+        private double _phase = 0;
+
+        // TODO: How to determine best value for amplitude?
+        private float _amplitude = 1;
 
         public AudioGenerator(Stream outputStream, int sampleRate = 88200)
         {
@@ -28,9 +32,9 @@ namespace Core.AudioGeneration
         {
             int sampleCount = (int)Math.Ceiling(intervalMicroseconds / Math.Pow(10, 6) * _sampleRate);
 
-            var phase = _previousFrequency.HasValue ? (2 * Math.PI * (sampleCount - 1) * _previousFrequency.Value / _sampleRate) : 0;
+            _phase += _previousFrequency.HasValue ? (_amplitude * 2 * Math.PI * (sampleCount - 1) * _previousFrequency.Value / _sampleRate) : 0;
 
-            var samples = GenerateSamples(frequency, sampleCount, _sampleRate, phase);
+            var samples = GenerateSamples(frequency, sampleCount, _sampleRate, _phase);
 
             _waveFileWriter.WriteSamples(samples, 0, samples.Length);
 
@@ -43,13 +47,10 @@ namespace Core.AudioGeneration
 
         public float[] GenerateSamples(int frequency, int sampleCount, int sampleRate, double phase = 0)
         {
-            // TODO: How to determine best value for amplitude?
-            var amplitude = 1.0f;
-
             var samples = new float[sampleCount];
             for (int i = 0; i < sampleCount; i++)
             {
-                samples[i] = (float)(amplitude * Math.Sin((2 * Math.PI * i * frequency) / sampleRate + phase));
+                samples[i] = (float)(_amplitude * Math.Sin((2 * Math.PI * i * frequency) / sampleRate + phase));
             }
 
             return samples;

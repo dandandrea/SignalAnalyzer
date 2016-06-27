@@ -88,7 +88,7 @@ namespace Core.BinaryFskAnalysis
 
                     if (frequencyDifference > _settings.FrequencyDeviationTolerance)
                     {
-                        // Debug.WriteLine($"WARN: @ {currentWindowStart / Math.Pow(10, 6):N3} seconds (Baud rate {_settings.BaudRate}) [{i}] outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {_settings.FrequencyDeviationTolerance} Hz)");
+                        Debug.WriteLine($"WARN: @ {currentWindowStart / Math.Pow(10, 6):N3} seconds (Baud rate {_settings.BaudRate}) [{i}] outside of tolerance (frequency {frequency} Hz, difference {frequencyDifference} Hz, tolerance {_settings.FrequencyDeviationTolerance} Hz)");
 
                         frequencyDifferences.Add(frequencyDifference);
 
