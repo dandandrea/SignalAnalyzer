@@ -20,7 +20,7 @@ namespace Gui
         private IFskAudioGenerator _fskAudioGenerator;
         private IAudioAnalyzer _audioAnalyzer;
         private IFrequencyDetector _frequencyDetector;
-        private string _testString = "A";
+        private string _testString = "ABCDEFGHIJK";
 
         public TestRunner(BinaryFskAnalyzerSettings binaryFskAnalyzerSettings = null,
             IFrequencyDetector frequencyDetector = null)

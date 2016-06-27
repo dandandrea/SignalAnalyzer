@@ -220,7 +220,7 @@
             this.tolerance.Name = "tolerance";
             this.tolerance.Size = new System.Drawing.Size(100, 20);
             this.tolerance.TabIndex = 3;
-            this.tolerance.Text = "25";
+            this.tolerance.Text = "100";
             this.tolerance.Enter += new System.EventHandler(this.tolerance_Enter);
             // 
             // numberOfBitsLabel
