@@ -32,7 +32,7 @@ namespace Core.AudioGeneration
         {
             int sampleCount = (int)Math.Ceiling(intervalMicroseconds / Math.Pow(10, 6) * _sampleRate);
 
-            _phase += _previousFrequency.HasValue ? (_amplitude * 2 * Math.PI * (sampleCount - 1) * _previousFrequency.Value / _sampleRate) : 0;
+            _phase += _previousFrequency.HasValue ? (_amplitude * 2 * Math.PI * sampleCount * _previousFrequency.Value / _sampleRate) : 0;
 
             var samples = GenerateSamples(frequency, sampleCount, _sampleRate, _phase);
 
