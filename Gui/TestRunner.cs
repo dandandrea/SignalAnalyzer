@@ -20,7 +20,6 @@ namespace Gui
         private IFskAudioGenerator _fskAudioGenerator;
         private IAudioAnalyzer _audioAnalyzer;
         private IFrequencyDetector _frequencyDetector;
-        private string _testString = "ABCDEFGHIJK";
 
         public TestRunner(BinaryFskAnalyzerSettings binaryFskAnalyzerSettings = null,
             IFrequencyDetector frequencyDetector = null)
@@ -31,7 +30,7 @@ namespace Gui
             _binaryFskAnalyzerSettings = binaryFskAnalyzerSettings != null ? binaryFskAnalyzerSettings : new Bell103BinaryFskAnalyzerSettings();
             var bitManipulator = new BitManipulator();
             _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate, _binaryFskAnalyzerSettings.SpaceFrequency,
-                _binaryFskAnalyzerSettings.MarkFrequency, bitManipulator.StringToBits(_testString));
+                _binaryFskAnalyzerSettings.MarkFrequency, bitManipulator.StringToBits("Test string"));
             _audioAnalyzer = new AudioAnalyzer(_audioStream, _audioGenerator);
             _frequencyDetector = frequencyDetector != null ? frequencyDetector : new ZeroCrossingsFrequencyDetector();
             FskAnalyzer = new BinaryFskAnalyzer(_audioAnalyzer, _frequencyDetector, _binaryFskAnalyzerSettings);
@@ -42,7 +41,7 @@ namespace Gui
             var fileTimestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
 
             var bitManipulator = new BitManipulator();
-            var bits = bitManipulator.StringToBits(_testString);
+            var bits = bitManipulator.StringToBits(arguments.TestString);
 
             for (var baudRate = arguments.BaudStart; baudRate <= arguments.BaudEnd; baudRate += arguments.BaudIncrement)
             {
@@ -96,7 +95,7 @@ namespace Gui
                     _audioAnalyzer = new AudioAnalyzer(_audioStream, _audioGenerator, (int)loopBoostFrequency);
 
                     FskAnalyzer.Initialize(_audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
-                    FskAnalyzer.AnalyzeSignal(_testString);
+                    FskAnalyzer.AnalyzeSignal(arguments.TestString);
 
                     if (arguments.PlayAudio == true)
                     {

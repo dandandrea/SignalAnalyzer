@@ -16,5 +16,6 @@
 
         public bool WriteFaveFiles { get; set; }
         public bool PlayAudio { get; set; }
+        public string TestString { get; set; }
     }
 }

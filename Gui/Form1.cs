@@ -113,7 +113,8 @@ namespace Gui
 
             backgroundWorker1.ProgressChanged += BackgroundWorker1_ProgressChanged;
 
-            startButton.Select();
+            spaceFrequency.Focus();
+            spaceFrequency.SelectAll();
 
             toolStripStatusLabel1.Text = $"v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
             statusStrip1.Refresh();
@@ -121,6 +122,11 @@ namespace Gui
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            if (backgroundWorker1.IsBusy == true)
+            {
+                return;
+            }
+
             startButton.Enabled = false;
             exportToCsvButton.Enabled = false;
 
@@ -154,7 +160,8 @@ namespace Gui
                         BoostIncrement = boostIncrement.Text,
                         BoostEnd = boostEnd.Text,
                         WriteWavFiles = writeWavFiles.Checked,
-                        PlayAudio = playAudio.Checked
+                        PlayAudio = playAudio.Checked,
+                        TestString = testString.Text
                     }
                 );
             }
@@ -289,6 +296,7 @@ namespace Gui
 
             bool writeWavFiles = request.WriteWavFiles;
             bool playAudio = request.PlayAudio;
+            string testString = request.TestString;
 
             if (! string.IsNullOrEmpty(request.BaudIncrement))
             {
@@ -328,6 +336,13 @@ namespace Gui
                 );
             }
 
+            if (string.IsNullOrEmpty(testString))
+            {
+                throw new ArgumentException(
+                    "You must specify a test string"
+                );
+            }
+
             baudIncrementParsed = baudIncrementParsed != null ? baudIncrementParsed : 1;
             baudEndParsed = baudEndParsed != null ? baudEndParsed : baudStartParsed;
 
@@ -347,7 +362,8 @@ namespace Gui
                 BoostIncrement = boostIncrementParsed.Value,
                 BoostEnd = boostEndParsed.Value,
                 WriteFaveFiles = writeWavFiles,
-                PlayAudio = playAudio
+                PlayAudio = playAudio,
+                TestString = testString
             };
         }
 
@@ -370,6 +386,7 @@ namespace Gui
 
             var writeWavFilesCheckboxToolTipText = "Save a WAV file for each iteration";
             var playAudioCheckboxToolTipText = "Play generated signal audio for each iteration";
+            var testStringToolTipText = "Test string for encoding/decoding";
 
             toolTip1.SetToolTip(spaceFrequency, spaceFrequencyToolTipText);
             toolTip1.SetToolTip(spaceFrequencyLabel, spaceFrequencyToolTipText);
@@ -403,6 +420,9 @@ namespace Gui
 
             toolTip1.SetToolTip(writeWavFiles, writeWavFilesCheckboxToolTipText);
             toolTip1.SetToolTip(playAudio, playAudioCheckboxToolTipText);
+
+            toolTip1.SetToolTip(testString, testStringToolTipText);
+            toolTip1.SetToolTip(testStringLabel, testStringToolTipText);
         }
 
         private void spaceFrequency_Enter(object sender, EventArgs e)
@@ -450,6 +470,21 @@ namespace Gui
             boostEnd.SelectAll();
         }
 
+        private void testString_Enter(object sender, EventArgs e)
+        {
+            testString.SelectAll();
+        }
+
+        private void textboxKeyUp(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+
+            if (e.KeyCode == Keys.Enter)
+            {
+                startButton_Click(sender, e);
+            }
+        }
+
         private class FormInput
         {
             public string SpaceFrequency { get; set; }
@@ -466,6 +501,7 @@ namespace Gui
 
             public bool WriteWavFiles { get; set; }
             public bool PlayAudio { get; set; }
+            public string TestString { get; set; }
         }
 
         private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) { }

@@ -63,6 +63,8 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.writeWavFiles = new System.Windows.Forms.CheckBox();
             this.playAudio = new System.Windows.Forms.CheckBox();
+            this.testString = new System.Windows.Forms.TextBox();
+            this.testStringLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +83,7 @@
             this.markFrequency.TabIndex = 2;
             this.markFrequency.Text = "1270";
             this.markFrequency.Enter += new System.EventHandler(this.markFrequency_Enter);
+            this.markFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // spaceFrequency
             // 
@@ -90,6 +93,7 @@
             this.spaceFrequency.TabIndex = 1;
             this.spaceFrequency.Text = "1070";
             this.spaceFrequency.Enter += new System.EventHandler(this.spaceFrequency_Enter);
+            this.spaceFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // spaceFrequencyLabel
             // 
@@ -125,6 +129,7 @@
             this.boostStart.Size = new System.Drawing.Size(100, 20);
             this.boostStart.TabIndex = 7;
             this.boostStart.Enter += new System.EventHandler(this.boostStart_Enter);
+            this.boostStart.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // boostIncrementLabel
             // 
@@ -142,6 +147,7 @@
             this.boostIncrement.Size = new System.Drawing.Size(100, 20);
             this.boostIncrement.TabIndex = 8;
             this.boostIncrement.Enter += new System.EventHandler(this.boostIncrement_Enter);
+            this.boostIncrement.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // boostEndLabel
             // 
@@ -159,6 +165,7 @@
             this.boostEnd.Size = new System.Drawing.Size(100, 20);
             this.boostEnd.TabIndex = 9;
             this.boostEnd.Enter += new System.EventHandler(this.boostEnd_Enter);
+            this.boostEnd.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // startButton
             // 
@@ -223,6 +230,7 @@
             this.tolerance.TabIndex = 3;
             this.tolerance.Text = "100";
             this.tolerance.Enter += new System.EventHandler(this.tolerance_Enter);
+            this.tolerance.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // numberOfBitsLabel
             // 
@@ -271,7 +279,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripStatusLabel2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 521);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 560);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(943, 22);
             this.statusStrip1.TabIndex = 108;
@@ -307,6 +315,7 @@
             this.baudStart.TabIndex = 4;
             this.baudStart.Text = "50";
             this.baudStart.Enter += new System.EventHandler(this.baudStart_Enter);
+            this.baudStart.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // baudIncrement
             // 
@@ -315,6 +324,7 @@
             this.baudIncrement.Size = new System.Drawing.Size(100, 20);
             this.baudIncrement.TabIndex = 5;
             this.baudIncrement.Enter += new System.EventHandler(this.baudIncrement_Enter);
+            this.baudIncrement.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // baudEnd
             // 
@@ -323,6 +333,7 @@
             this.baudEnd.Size = new System.Drawing.Size(100, 20);
             this.baudEnd.TabIndex = 6;
             this.baudEnd.Enter += new System.EventHandler(this.baudEnd_Enter);
+            this.baudEnd.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // baudIncrementLabel
             // 
@@ -345,28 +356,49 @@
             // writeWavFiles
             // 
             this.writeWavFiles.AutoSize = true;
-            this.writeWavFiles.Location = new System.Drawing.Point(15, 493);
+            this.writeWavFiles.Location = new System.Drawing.Point(15, 527);
             this.writeWavFiles.Name = "writeWavFiles";
             this.writeWavFiles.Size = new System.Drawing.Size(106, 17);
-            this.writeWavFiles.TabIndex = 12;
+            this.writeWavFiles.TabIndex = 13;
             this.writeWavFiles.Text = "Write WAV file(s)";
             this.writeWavFiles.UseVisualStyleBackColor = true;
             // 
             // playAudio
             // 
             this.playAudio.AutoSize = true;
-            this.playAudio.Location = new System.Drawing.Point(142, 493);
+            this.playAudio.Location = new System.Drawing.Point(142, 527);
             this.playAudio.Name = "playAudio";
             this.playAudio.Size = new System.Drawing.Size(75, 17);
-            this.playAudio.TabIndex = 13;
+            this.playAudio.TabIndex = 14;
             this.playAudio.Text = "Play audio";
             this.playAudio.UseVisualStyleBackColor = true;
+            // 
+            // testString
+            // 
+            this.testString.Location = new System.Drawing.Point(80, 494);
+            this.testString.Name = "testString";
+            this.testString.Size = new System.Drawing.Size(303, 20);
+            this.testString.TabIndex = 12;
+            this.testString.Text = "ABCDEFGHIJK";
+            this.testString.Enter += new System.EventHandler(this.testString_Enter);
+            this.testString.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
+            // 
+            // testStringLabel
+            // 
+            this.testStringLabel.AutoSize = true;
+            this.testStringLabel.Location = new System.Drawing.Point(12, 497);
+            this.testStringLabel.Name = "testStringLabel";
+            this.testStringLabel.Size = new System.Drawing.Size(56, 13);
+            this.testStringLabel.TabIndex = 117;
+            this.testStringLabel.Text = "Test string";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(943, 543);
+            this.ClientSize = new System.Drawing.Size(943, 582);
+            this.Controls.Add(this.testString);
+            this.Controls.Add(this.testStringLabel);
             this.Controls.Add(this.playAudio);
             this.Controls.Add(this.writeWavFiles);
             this.Controls.Add(this.baudEndLabel);
@@ -442,6 +474,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.CheckBox writeWavFiles;
         private System.Windows.Forms.CheckBox playAudio;
+        private System.Windows.Forms.TextBox testString;
+        private System.Windows.Forms.Label testStringLabel;
     }
 }
 
