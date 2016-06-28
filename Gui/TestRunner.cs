@@ -97,6 +97,11 @@ namespace Gui
 
                     FskAnalyzer.Initialize(_audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
                     FskAnalyzer.AnalyzeSignal(_testString);
+
+                    if (arguments.PlayAudio == true)
+                    {
+                        AudioAnalyzer.Play(_audioStream, (int)Math.Ceiling((audioLengthInMicroseconds / Math.Pow(10, 3))));
+                    }
                 }
             }
         }

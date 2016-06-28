@@ -115,7 +115,7 @@ namespace Gui
 
             startButton.Select();
 
-            toolStripStatusLabel1.Text = $"Build {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
+            toolStripStatusLabel1.Text = $"v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
             statusStrip1.Refresh();
         }
 
@@ -153,7 +153,8 @@ namespace Gui
                         BoostStart = boostStart.Text,
                         BoostIncrement = boostIncrement.Text,
                         BoostEnd = boostEnd.Text,
-                        WriteWavFiles = writeWavFiles.Checked
+                        WriteWavFiles = writeWavFiles.Checked,
+                        PlayAudio = playAudio.Checked
                     }
                 );
             }
@@ -287,6 +288,7 @@ namespace Gui
             double? boostEndParsed = null;
 
             bool writeWavFiles = request.WriteWavFiles;
+            bool playAudio = request.PlayAudio;
 
             if (! string.IsNullOrEmpty(request.BaudIncrement))
             {
@@ -344,7 +346,8 @@ namespace Gui
                 BoostStart = boostStartParsed.Value,
                 BoostIncrement = boostIncrementParsed.Value,
                 BoostEnd = boostEndParsed.Value,
-                WriteFaveFiles = writeWavFiles
+                WriteFaveFiles = writeWavFiles,
+                PlayAudio = playAudio
             };
         }
 
@@ -366,6 +369,7 @@ namespace Gui
             var exportToCsvButtonToolTipText = "Export results to CSV";
 
             var writeWavFilesCheckboxToolTipText = "Save a WAV file for each iteration";
+            var playAudioCheckboxToolTipText = "Play generated signal audio for each iteration";
 
             toolTip1.SetToolTip(spaceFrequency, spaceFrequencyToolTipText);
             toolTip1.SetToolTip(spaceFrequencyLabel, spaceFrequencyToolTipText);
@@ -398,6 +402,7 @@ namespace Gui
             toolTip1.SetToolTip(exportToCsvButton, exportToCsvButtonToolTipText);
 
             toolTip1.SetToolTip(writeWavFiles, writeWavFilesCheckboxToolTipText);
+            toolTip1.SetToolTip(playAudio, playAudioCheckboxToolTipText);
         }
 
         private void spaceFrequency_Enter(object sender, EventArgs e)
@@ -460,6 +465,7 @@ namespace Gui
             public string BoostEnd { get; set; }
 
             public bool WriteWavFiles { get; set; }
+            public bool PlayAudio { get; set; }
         }
 
         private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) { }

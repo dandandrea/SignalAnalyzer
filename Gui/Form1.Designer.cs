@@ -62,6 +62,7 @@
             this.baudEndLabel = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.writeWavFiles = new System.Windows.Forms.CheckBox();
+            this.playAudio = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -347,15 +348,26 @@
             this.writeWavFiles.Location = new System.Drawing.Point(15, 493);
             this.writeWavFiles.Name = "writeWavFiles";
             this.writeWavFiles.Size = new System.Drawing.Size(106, 17);
-            this.writeWavFiles.TabIndex = 116;
+            this.writeWavFiles.TabIndex = 12;
             this.writeWavFiles.Text = "Write WAV file(s)";
             this.writeWavFiles.UseVisualStyleBackColor = true;
+            // 
+            // playAudio
+            // 
+            this.playAudio.AutoSize = true;
+            this.playAudio.Location = new System.Drawing.Point(142, 493);
+            this.playAudio.Name = "playAudio";
+            this.playAudio.Size = new System.Drawing.Size(75, 17);
+            this.playAudio.TabIndex = 13;
+            this.playAudio.Text = "Play audio";
+            this.playAudio.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(943, 543);
+            this.Controls.Add(this.playAudio);
             this.Controls.Add(this.writeWavFiles);
             this.Controls.Add(this.baudEndLabel);
             this.Controls.Add(this.baudIncrementLabel);
@@ -429,6 +441,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
         private System.Windows.Forms.CheckBox writeWavFiles;
+        private System.Windows.Forms.CheckBox playAudio;
     }
 }
 

@@ -15,5 +15,6 @@
         public double BoostEnd { get; set; }
 
         public bool WriteFaveFiles { get; set; }
+        public bool PlayAudio { get; set; }
     }
 }
