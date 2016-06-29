@@ -4,12 +4,15 @@ using System.Collections.Generic;
 namespace Core.BinaryFskAnalysis
 {
     public delegate void AnalysisCompletedEventHandler(object sender, AnalysisResultEventArgs e);
+    public delegate void SamplingCompletedEventHandler(object sender, SamplingResultEventArgs e);
 
     public interface IBinaryFskAnalyzer
     {
         ICollection<bool> AnalyzeSignal(string testString = null);
         void Initialize(IAudioAnalyzer audioAnalyzer, IFrequencyDetector frequencyDetector,
             BinaryFskAnalyzerSettings binaryFskAnalzyerSettings);
+
         event AnalysisCompletedEventHandler AnalysisCompleted;
+        event SamplingCompletedEventHandler SamplingCompleted;
     }
 }

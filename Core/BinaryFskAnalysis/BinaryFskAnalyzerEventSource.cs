@@ -5,6 +5,7 @@ namespace Core.BinaryFskAnalysis
     public class BinaryFskAnalyzerEventSource
     {
         public event AnalysisCompletedEventHandler AnalysisCompleted;
+        public event SamplingCompletedEventHandler SamplingCompleted;
 
         protected void AnalysisComplete(int baudRate, int boostFrequencyAmount, double minimumFrequencyDifference,
             double maximumFrequencyDifference, double averageFrequencyDifference, int numberOfMissedFrequencies,
@@ -25,6 +26,16 @@ namespace Core.BinaryFskAnalysis
 
             AnalysisCompleted?.Invoke(this, e);
         }
+
+        protected void SamplingComplete(float[] samples)
+        {
+            var e = new SamplingResultEventArgs
+            {
+                Samples = samples
+            };
+
+            SamplingCompleted?.Invoke(this, e);
+        }
     }
 
     public class AnalysisResultEventArgs : EventArgs
@@ -38,5 +49,10 @@ namespace Core.BinaryFskAnalysis
         public int NumberOfZeroFrequencies { get; set; }
         public string ResultingString { get; set; }
         public bool? Matched { get; set; }
+    }
+
+    public class SamplingResultEventArgs : EventArgs
+    {
+        public float[] Samples { get; set; }
     }
 }

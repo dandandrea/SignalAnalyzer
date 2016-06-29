@@ -259,7 +259,7 @@
             this.audioLengthMicrosecondsLabel.Enabled = false;
             this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(639, 437);
             this.audioLengthMicrosecondsLabel.Name = "audioLengthMicrosecondsLabel";
-            this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(118, 13);
+            this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(116, 13);
             this.audioLengthMicrosecondsLabel.TabIndex = 107;
             this.audioLengthMicrosecondsLabel.Text = "Last interval length (us)";
             // 
@@ -432,7 +432,6 @@
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Signal Analyzer";
-            this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainDataGrid)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
