@@ -292,8 +292,5 @@ namespace Gui
                 startButton_Click(sender, e);
             }
         }
-
-        private void mainDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void form1BindingSource_CurrentChanged(object sender, EventArgs e) { }
     }
 }

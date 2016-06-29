@@ -200,7 +200,6 @@
             this.mainDataGrid.Size = new System.Drawing.Size(920, 350);
             this.mainDataGrid.TabIndex = 100;
             this.mainDataGrid.TabStop = false;
-            this.mainDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.mainDataGrid_CellContentClick);
             // 
             // exportToCsvButton
             // 
