@@ -6,6 +6,7 @@ namespace Gui
     public partial class SignalAnalyzerForm : Form
     {
         private MultipleSignalAnalyzerControl _multipleSignalAnalyzerControl;
+        private SingleSignalAnalyzerControl _singleSignalAnalyzerControl;
 
         public SignalAnalyzerForm()
         {
@@ -15,6 +16,10 @@ namespace Gui
             _multipleSignalAnalyzerControl.Dock = DockStyle.Fill;
             this.Controls.Add(_multipleSignalAnalyzerControl);
 
+            _singleSignalAnalyzerControl = new SingleSignalAnalyzerControl();
+            _singleSignalAnalyzerControl.Dock = DockStyle.Fill;
+            this.Controls.Add(_singleSignalAnalyzerControl);
+
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             var versionString = $"v{version.Major}.{version.Minor}.{version.Revision}";
             toolStripStatusLabel1.Text = versionString;
@@ -23,6 +28,7 @@ namespace Gui
 
         private void multipleSignalsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            _singleSignalAnalyzerControl.Hide();
             _multipleSignalAnalyzerControl.Show();
             singleSignalToolStripMenuItem.Checked = false;
         }
@@ -30,6 +36,7 @@ namespace Gui
         private void singleSignalToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _multipleSignalAnalyzerControl.Hide();
+            _singleSignalAnalyzerControl.Show();
             multipleSignalsToolStripMenuItem.Checked = false;
         }
     }
