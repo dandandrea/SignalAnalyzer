@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace Gui
 {
-    public partial class Form1 : Form
+    public partial class MultipleSignalAnalyzerControl : UserControl
     {
         private IList<AnalysisResultEventArgs> _analysisResults;
 
-        public Form1()
+        public MultipleSignalAnalyzerControl()
         {
             InitializeComponent();
 
@@ -28,9 +28,6 @@ namespace Gui
 
             spaceFrequency.Focus();
             spaceFrequency.SelectAll();
-
-            toolStripStatusLabel1.Text = $"v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
-            statusStrip1.Refresh();
         }
 
         private void startButton_Click(object sender, EventArgs e)
