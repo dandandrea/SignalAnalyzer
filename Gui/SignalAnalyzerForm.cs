@@ -15,7 +15,9 @@ namespace Gui
             _multipleSignalAnalyzerControl.Dock = DockStyle.Fill;
             this.Controls.Add(_multipleSignalAnalyzerControl);
 
-            toolStripStatusLabel1.Text = $"v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
+            var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            var versionString = $"v{version.Major}.{version.Minor}.{version.Revision}";
+            toolStripStatusLabel1.Text = versionString;
             statusStrip1.Refresh();
         }
 
