@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace Core.BinaryFskAnalysis
 {
     public delegate void AnalysisCompletedEventHandler(object sender, AnalysisResultEventArgs e);
-    public delegate void SamplingCompletedEventHandler(object sender, SamplingResultEventArgs e);
 
     public interface IBinaryFskAnalyzer
     {
@@ -13,6 +12,5 @@ namespace Core.BinaryFskAnalysis
             BinaryFskAnalyzerSettings binaryFskAnalzyerSettings);
 
         event AnalysisCompletedEventHandler AnalysisCompleted;
-        event SamplingCompletedEventHandler SamplingCompleted;
     }
 }

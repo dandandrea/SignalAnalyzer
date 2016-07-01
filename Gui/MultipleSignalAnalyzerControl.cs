@@ -83,7 +83,6 @@ namespace Gui
 
             var testRunner = new TestRunner();
             testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
-            testRunner.FskAnalyzer.SamplingCompleted += SamplingCompletedHandler;
             testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
             testRunner.Run(testRunnerArguments);
         }
@@ -109,11 +108,6 @@ namespace Gui
                 return;
             }
 
-            if (e.UserState is SamplingResultEventArgs)
-            {
-                return;
-            }
-
             var signalGenerationResult = (SignalGenerationResultEventArgs)e.UserState;
             numberOfBits.Text = signalGenerationResult.NumberOfBits.ToString();
             audioLengthMicroseconds.Text = (signalGenerationResult.AudioLengthInMicroseconds / signalGenerationResult.NumberOfBits).ToString();
@@ -135,11 +129,6 @@ namespace Gui
         }
 
         private void AnalysisCompletedHandler(object sender, AnalysisResultEventArgs e)
-        {
-            backgroundWorker1.ReportProgress(0, e);
-        }
-
-        private void SamplingCompletedHandler(object sender, SamplingResultEventArgs e)
         {
             backgroundWorker1.ReportProgress(0, e);
         }

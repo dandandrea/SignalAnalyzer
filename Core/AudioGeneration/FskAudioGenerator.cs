@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.AudioGeneration
 {
@@ -17,8 +18,10 @@ namespace Core.AudioGeneration
             _audioGenerator = audioGenerator;
         }
 
-        public void GenerateAudio(double baudRate, int spaceFrequency, int markFrequency, ICollection<bool> bits)
+        public float[] GenerateAudio(double baudRate, int spaceFrequency, int markFrequency, ICollection<bool> bits)
         {
+            var samples = new List<float[]>();
+
             double intervalLengthInMicroseconds = Math.Pow(10, 6) / baudRate;
 
             foreach (var bit in bits)
@@ -29,8 +32,10 @@ namespace Core.AudioGeneration
                     frequency = markFrequency;
                 }
 
-                _audioGenerator.AddInterval(frequency, intervalLengthInMicroseconds);
+                samples.Add(_audioGenerator.AddInterval(frequency, intervalLengthInMicroseconds));
             }
+
+            return samples.SelectMany(floats => floats).ToArray();
         }
     }
 }

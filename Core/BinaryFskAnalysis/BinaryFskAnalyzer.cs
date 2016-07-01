@@ -65,8 +65,6 @@ namespace Core.BinaryFskAnalysis
 
                     var samplingResult = _audioAnalyzer.GetSamples(currentWindowStart, currentWindowStart + currentWindowLength);
 
-                    SamplingComplete(samplingResult.Samples.ToArray());
-
                     var targetNumberOfSamples = _audioAnalyzer.SampleRate / Math.Pow(10, 6) * currentWindowLength;
 
                     // Debug.WriteLine($"Got {samplingResult.Samples.Count()} samples, want {targetNumberOfSamples:N1} samples");

@@ -1,5 +1,6 @@
 ﻿using Core.BinaryFskAnalysis;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -71,7 +72,6 @@ namespace Gui
 
             var testRunner = new TestRunner();
             testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
-            testRunner.FskAnalyzer.SamplingCompleted += SamplingCompletedHandler;
             testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
             testRunner.Run(testRunnerArguments);
         }
@@ -104,14 +104,71 @@ namespace Gui
             backgroundWorker1.ReportProgress(0, e);
         }
 
-        private void SamplingCompletedHandler(object sender, SamplingResultEventArgs e)
+        private void SignalGenerationCompletedHandler(object sender, SignalGenerationResultEventArgs e)
         {
             backgroundWorker1.ReportProgress(0, e);
         }
 
-        private void SignalGenerationCompletedHandler(object sender, SignalGenerationResultEventArgs e)
+        public void DrawNormalizedAudio(float[] samples)
         {
-            backgroundWorker1.ReportProgress(0, e);
+            // TODO: How do set downSamplingFactor?
+            var downSamplingFactor = 10;
+
+            var downSampledSamples = new List<float>();
+            var sampleNumber = 0;
+            for (var i = 0; i < samples.Length; i++)
+            {
+                sampleNumber++;
+                if (sampleNumber != downSamplingFactor)
+                {
+                    continue;
+                }
+                sampleNumber = 0;
+
+                downSampledSamples.Add(samples[i]);
+            }
+            samples = downSampledSamples.ToArray();
+
+            Bitmap bmp;
+            if (scopePictureBox.Image == null)
+            {
+                bmp = new Bitmap(scopePictureBox.Width, scopePictureBox.Height);
+            }
+            else
+            {
+                bmp = (Bitmap)scopePictureBox.Image;
+            }
+
+            int BORDER_WIDTH = 5;
+            int width = bmp.Width - (2 * BORDER_WIDTH);
+            int height = bmp.Height - (2 * BORDER_WIDTH);
+
+            using (Graphics g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.Black);
+                Pen pen = new Pen(Color.Green);
+                int size = samples.Length;
+                for (int iPixel = 0; iPixel < width; iPixel++)
+                {
+                    // determine start and end points within WAV
+                    int start = (int)((float)iPixel * ((float)size / (float)width));
+                    int end = (int)((float)(iPixel + 1) * ((float)size / (float)width));
+                    float min = float.MaxValue;
+                    float max = float.MinValue;
+                    for (int i = start; i < end; i++)
+                    {
+                        float val = samples[i];
+                        min = val < min ? val : min;
+                        max = val > max ? val : max;
+                    }
+                    int yMax = BORDER_WIDTH + height - (int)((max + 1) * .5 * height);
+                    int yMin = BORDER_WIDTH + height - (int)((min + 1) * .5 * height);
+                    g.DrawLine(pen, iPixel + BORDER_WIDTH, yMax,
+                        iPixel + BORDER_WIDTH, yMin);
+                }
+            }
+            scopePictureBox.Image = bmp;
+            scopePictureBox.Refresh();
         }
 
         private void UpdateControls(bool running)
@@ -189,6 +246,8 @@ namespace Gui
             numberOfBits.Enabled = true;
             audioLengthMicrosecondsLabel.Enabled = true;
             audioLengthMicroseconds.Enabled = true;
+            // MessageBox.Show($"Got {signalGenerationResult.Samples.Length} samples");
+            DrawNormalizedAudio(signalGenerationResult.Samples);
         }
 
         private void SetBelowDataGridToolTipText()

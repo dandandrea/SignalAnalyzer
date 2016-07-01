@@ -77,15 +77,17 @@
             // analyzeToolStripMenuItem
             // 
             this.analyzeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.singleSignalToolStripMenuItem,
-            this.multipleSignalsToolStripMenuItem});
+            this.multipleSignalsToolStripMenuItem,
+            this.singleSignalToolStripMenuItem});
             this.analyzeToolStripMenuItem.Name = "analyzeToolStripMenuItem";
             this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.analyzeToolStripMenuItem.Text = "Mode";
             // 
             // multipleSignalsToolStripMenuItem
             // 
+            this.multipleSignalsToolStripMenuItem.Checked = true;
             this.multipleSignalsToolStripMenuItem.CheckOnClick = true;
+            this.multipleSignalsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.multipleSignalsToolStripMenuItem.Name = "multipleSignalsToolStripMenuItem";
             this.multipleSignalsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.multipleSignalsToolStripMenuItem.Text = "Multiple signals";
@@ -93,9 +95,7 @@
             // 
             // singleSignalToolStripMenuItem
             // 
-            this.singleSignalToolStripMenuItem.Checked = true;
             this.singleSignalToolStripMenuItem.CheckOnClick = true;
-            this.singleSignalToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.singleSignalToolStripMenuItem.Name = "singleSignalToolStripMenuItem";
             this.singleSignalToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.singleSignalToolStripMenuItem.Text = "Single signal";

@@ -28,7 +28,7 @@ namespace Core.AudioGeneration
         public AudioGenerator(string filename, int sampleRate = 88200)
             : this(new StreamWriter(filename).BaseStream, sampleRate) {}
 
-        public void AddInterval(int frequency, double intervalMicroseconds)
+        public float[] AddInterval(int frequency, double intervalMicroseconds)
         {
             int sampleCount = (int)Math.Ceiling(intervalMicroseconds / Math.Pow(10, 6) * _sampleRate);
 
@@ -43,6 +43,8 @@ namespace Core.AudioGeneration
             // Debug.WriteLine($"Previous frequency: {_previousFrequency}, phase {phase}");
 
             _previousFrequency = frequency;
+
+            return samples;
         }
 
         public float[] GenerateSamples(int frequency, int sampleCount, int sampleRate, double phase = 0)

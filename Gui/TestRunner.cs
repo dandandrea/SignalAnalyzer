@@ -65,13 +65,13 @@ namespace Gui
 
                     var audioLengthInMicroseconds = (int)(bits.Count * Math.Pow(10, 6) / _binaryFskAnalyzerSettings.BaudRate);
 
-                    SignalGenerationComplete(bits.Count, audioLengthInMicroseconds);
-
                     _audioStream = new MemoryStream();
                     _audioGenerator = new AudioGenerator(_audioStream);
                     _fskAudioGenerator = new FskAudioGenerator(_audioGenerator);
-                    _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
+                    var samples = _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
                         _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
+
+                    SignalGenerationComplete(bits.Count, audioLengthInMicroseconds, samples);
 
                     if (arguments.WriteFaveFiles == true)
                     {
@@ -105,12 +105,13 @@ namespace Gui
             }
         }
 
-        private void SignalGenerationComplete(int numberOfBits, int audioLengthInMicroseconds)
+        private void SignalGenerationComplete(int numberOfBits, int audioLengthInMicroseconds, float[] samples)
         {
             var e = new SignalGenerationResultEventArgs
             {
                 NumberOfBits = numberOfBits,
-                AudioLengthInMicroseconds = audioLengthInMicroseconds
+                AudioLengthInMicroseconds = audioLengthInMicroseconds,
+                Samples = samples
             };
 
             SignalGenerationCompleted?.Invoke(this, e);
@@ -121,5 +122,6 @@ namespace Gui
     {
         public int NumberOfBits { get; set; }
         public int AudioLengthInMicroseconds { get; set; }
+        public float[] Samples { get; set; }
     }
 }
