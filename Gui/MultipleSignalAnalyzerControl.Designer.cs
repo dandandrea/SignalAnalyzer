@@ -162,11 +162,11 @@
             // 
             this.audioLengthMicrosecondsLabel.AutoSize = true;
             this.audioLengthMicrosecondsLabel.Enabled = false;
-            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(639, 453);
+            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(641, 453);
             this.audioLengthMicrosecondsLabel.Name = "audioLengthMicrosecondsLabel";
-            this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(116, 13);
+            this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(114, 13);
             this.audioLengthMicrosecondsLabel.TabIndex = 107;
-            this.audioLengthMicrosecondsLabel.Text = "Last interval length (us)";
+            this.audioLengthMicrosecondsLabel.Text = "Last symbol length (us)";
             // 
             // audioLengthMicroseconds
             // 

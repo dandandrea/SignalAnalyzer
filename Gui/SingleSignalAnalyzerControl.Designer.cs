@@ -28,12 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.testString = new System.Windows.Forms.TextBox();
             this.testStringLabel = new System.Windows.Forms.Label();
             this.playAudio = new System.Windows.Forms.CheckBox();
             this.writeWavFiles = new System.Windows.Forms.CheckBox();
             this.baudRate = new System.Windows.Forms.TextBox();
-            this.baudStartLabel = new System.Windows.Forms.Label();
+            this.baudRateLabel = new System.Windows.Forms.Label();
             this.audioLengthMicrosecondsLabel = new System.Windows.Forms.Label();
             this.audioLengthMicroseconds = new System.Windows.Forms.TextBox();
             this.numberOfBitsLabel = new System.Windows.Forms.Label();
@@ -41,20 +42,24 @@
             this.toleranceLabel = new System.Windows.Forms.Label();
             this.tolerance = new System.Windows.Forms.TextBox();
             this.boost = new System.Windows.Forms.TextBox();
-            this.boostStartLabel = new System.Windows.Forms.Label();
+            this.boostLabel = new System.Windows.Forms.Label();
             this.markFrequencyLabel = new System.Windows.Forms.Label();
             this.spaceFrequencyLabel = new System.Windows.Forms.Label();
             this.spaceFrequency = new System.Windows.Forms.TextBox();
             this.markFrequency = new System.Windows.Forms.TextBox();
             this.startButton = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.resultString = new System.Windows.Forms.TextBox();
+            this.resultStringLabel = new System.Windows.Forms.Label();
+            this.matchLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // testString
             // 
             this.testString.Location = new System.Drawing.Point(168, 324);
             this.testString.Name = "testString";
-            this.testString.Size = new System.Drawing.Size(303, 20);
+            this.testString.Size = new System.Drawing.Size(197, 20);
             this.testString.TabIndex = 123;
             this.testString.Text = "ABCDEFGHIJK";
             this.testString.Enter += new System.EventHandler(this.testString_Enter);
@@ -97,29 +102,29 @@
             this.baudRate.Text = "50";
             this.baudRate.Enter += new System.EventHandler(this.baudRate_Enter);
             // 
-            // baudStartLabel
+            // baudRateLabel
             // 
-            this.baudStartLabel.AutoSize = true;
-            this.baudStartLabel.Location = new System.Drawing.Point(100, 254);
-            this.baudStartLabel.Name = "baudStartLabel";
-            this.baudStartLabel.Size = new System.Drawing.Size(53, 13);
-            this.baudStartLabel.TabIndex = 134;
-            this.baudStartLabel.Text = "Baud rate";
+            this.baudRateLabel.AutoSize = true;
+            this.baudRateLabel.Location = new System.Drawing.Point(100, 254);
+            this.baudRateLabel.Name = "baudRateLabel";
+            this.baudRateLabel.Size = new System.Drawing.Size(53, 13);
+            this.baudRateLabel.TabIndex = 134;
+            this.baudRateLabel.Text = "Baud rate";
             // 
             // audioLengthMicrosecondsLabel
             // 
             this.audioLengthMicrosecondsLabel.AutoSize = true;
             this.audioLengthMicrosecondsLabel.Enabled = false;
-            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(739, 267);
+            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(679, 267);
             this.audioLengthMicrosecondsLabel.Name = "audioLengthMicrosecondsLabel";
-            this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(94, 13);
+            this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(93, 13);
             this.audioLengthMicrosecondsLabel.TabIndex = 133;
-            this.audioLengthMicrosecondsLabel.Text = "Interval length (us)";
+            this.audioLengthMicrosecondsLabel.Text = "Symbol length (us)";
             // 
             // audioLengthMicroseconds
             // 
             this.audioLengthMicroseconds.Enabled = false;
-            this.audioLengthMicroseconds.Location = new System.Drawing.Point(736, 283);
+            this.audioLengthMicroseconds.Location = new System.Drawing.Point(676, 283);
             this.audioLengthMicroseconds.Name = "audioLengthMicroseconds";
             this.audioLengthMicroseconds.ReadOnly = true;
             this.audioLengthMicroseconds.Size = new System.Drawing.Size(100, 20);
@@ -131,7 +136,7 @@
             // 
             this.numberOfBitsLabel.AutoSize = true;
             this.numberOfBitsLabel.Enabled = false;
-            this.numberOfBitsLabel.Location = new System.Drawing.Point(747, 213);
+            this.numberOfBitsLabel.Location = new System.Drawing.Point(687, 213);
             this.numberOfBitsLabel.Name = "numberOfBitsLabel";
             this.numberOfBitsLabel.Size = new System.Drawing.Size(75, 13);
             this.numberOfBitsLabel.TabIndex = 131;
@@ -140,7 +145,7 @@
             // numberOfBits
             // 
             this.numberOfBits.Enabled = false;
-            this.numberOfBits.Location = new System.Drawing.Point(736, 229);
+            this.numberOfBits.Location = new System.Drawing.Point(676, 229);
             this.numberOfBits.Name = "numberOfBits";
             this.numberOfBits.ReadOnly = true;
             this.numberOfBits.Size = new System.Drawing.Size(100, 20);
@@ -151,7 +156,7 @@
             // toleranceLabel
             // 
             this.toleranceLabel.AutoSize = true;
-            this.toleranceLabel.Location = new System.Drawing.Point(509, 216);
+            this.toleranceLabel.Location = new System.Drawing.Point(487, 216);
             this.toleranceLabel.Name = "toleranceLabel";
             this.toleranceLabel.Size = new System.Drawing.Size(55, 13);
             this.toleranceLabel.TabIndex = 129;
@@ -159,7 +164,7 @@
             // 
             // tolerance
             // 
-            this.tolerance.Location = new System.Drawing.Point(568, 213);
+            this.tolerance.Location = new System.Drawing.Point(546, 213);
             this.tolerance.Name = "tolerance";
             this.tolerance.Size = new System.Drawing.Size(100, 20);
             this.tolerance.TabIndex = 120;
@@ -174,19 +179,19 @@
             this.boost.TabIndex = 122;
             this.boost.Enter += new System.EventHandler(this.boost_Enter);
             // 
-            // boostStartLabel
+            // boostLabel
             // 
-            this.boostStartLabel.AutoSize = true;
-            this.boostStartLabel.Location = new System.Drawing.Point(100, 291);
-            this.boostStartLabel.Name = "boostStartLabel";
-            this.boostStartLabel.Size = new System.Drawing.Size(34, 13);
-            this.boostStartLabel.TabIndex = 126;
-            this.boostStartLabel.Text = "Boost";
+            this.boostLabel.AutoSize = true;
+            this.boostLabel.Location = new System.Drawing.Point(100, 291);
+            this.boostLabel.Name = "boostLabel";
+            this.boostLabel.Size = new System.Drawing.Size(34, 13);
+            this.boostLabel.TabIndex = 126;
+            this.boostLabel.Text = "Boost";
             // 
             // markFrequencyLabel
             // 
             this.markFrequencyLabel.AutoSize = true;
-            this.markFrequencyLabel.Location = new System.Drawing.Point(310, 216);
+            this.markFrequencyLabel.Location = new System.Drawing.Point(288, 216);
             this.markFrequencyLabel.Name = "markFrequencyLabel";
             this.markFrequencyLabel.Size = new System.Drawing.Size(55, 13);
             this.markFrequencyLabel.TabIndex = 127;
@@ -212,7 +217,7 @@
             // 
             // markFrequency
             // 
-            this.markFrequency.Location = new System.Drawing.Point(371, 213);
+            this.markFrequency.Location = new System.Drawing.Point(349, 213);
             this.markFrequency.Name = "markFrequency";
             this.markFrequency.Size = new System.Drawing.Size(100, 20);
             this.markFrequency.TabIndex = 119;
@@ -222,7 +227,7 @@
             // startButton
             // 
             this.startButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.startButton.Location = new System.Drawing.Point(731, 323);
+            this.startButton.Location = new System.Drawing.Point(671, 323);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
             this.startButton.TabIndex = 136;
@@ -237,17 +242,51 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // resultString
+            // 
+            this.resultString.BackColor = System.Drawing.SystemColors.Control;
+            this.resultString.Enabled = false;
+            this.resultString.Location = new System.Drawing.Point(449, 324);
+            this.resultString.Name = "resultString";
+            this.resultString.ReadOnly = true;
+            this.resultString.Size = new System.Drawing.Size(197, 20);
+            this.resultString.TabIndex = 137;
+            this.resultString.TabStop = false;
+            // 
+            // resultStringLabel
+            // 
+            this.resultStringLabel.AutoSize = true;
+            this.resultStringLabel.Enabled = false;
+            this.resultStringLabel.Location = new System.Drawing.Point(381, 327);
+            this.resultStringLabel.Name = "resultStringLabel";
+            this.resultStringLabel.Size = new System.Drawing.Size(65, 13);
+            this.resultStringLabel.TabIndex = 138;
+            this.resultStringLabel.Text = "Result string";
+            // 
+            // matchLabel
+            // 
+            this.matchLabel.AutoSize = true;
+            this.matchLabel.Enabled = false;
+            this.matchLabel.Location = new System.Drawing.Point(449, 357);
+            this.matchLabel.Name = "matchLabel";
+            this.matchLabel.Size = new System.Drawing.Size(62, 13);
+            this.matchLabel.TabIndex = 139;
+            this.matchLabel.Text = "Match label";
+            // 
             // SingleSignalAnalyzerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.matchLabel);
+            this.Controls.Add(this.resultString);
+            this.Controls.Add(this.resultStringLabel);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.testString);
             this.Controls.Add(this.testStringLabel);
             this.Controls.Add(this.playAudio);
             this.Controls.Add(this.writeWavFiles);
             this.Controls.Add(this.baudRate);
-            this.Controls.Add(this.baudStartLabel);
+            this.Controls.Add(this.baudRateLabel);
             this.Controls.Add(this.audioLengthMicrosecondsLabel);
             this.Controls.Add(this.audioLengthMicroseconds);
             this.Controls.Add(this.numberOfBitsLabel);
@@ -255,7 +294,7 @@
             this.Controls.Add(this.toleranceLabel);
             this.Controls.Add(this.tolerance);
             this.Controls.Add(this.boost);
-            this.Controls.Add(this.boostStartLabel);
+            this.Controls.Add(this.boostLabel);
             this.Controls.Add(this.markFrequencyLabel);
             this.Controls.Add(this.spaceFrequencyLabel);
             this.Controls.Add(this.spaceFrequency);
@@ -274,7 +313,7 @@
         private System.Windows.Forms.CheckBox playAudio;
         private System.Windows.Forms.CheckBox writeWavFiles;
         private System.Windows.Forms.TextBox baudRate;
-        private System.Windows.Forms.Label baudStartLabel;
+        private System.Windows.Forms.Label baudRateLabel;
         private System.Windows.Forms.Label audioLengthMicrosecondsLabel;
         private System.Windows.Forms.TextBox audioLengthMicroseconds;
         private System.Windows.Forms.Label numberOfBitsLabel;
@@ -282,12 +321,16 @@
         private System.Windows.Forms.Label toleranceLabel;
         private System.Windows.Forms.TextBox tolerance;
         private System.Windows.Forms.TextBox boost;
-        private System.Windows.Forms.Label boostStartLabel;
+        private System.Windows.Forms.Label boostLabel;
         private System.Windows.Forms.Label markFrequencyLabel;
         private System.Windows.Forms.Label spaceFrequencyLabel;
         private System.Windows.Forms.TextBox spaceFrequency;
         private System.Windows.Forms.TextBox markFrequency;
         private System.Windows.Forms.Button startButton;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TextBox resultString;
+        private System.Windows.Forms.Label resultStringLabel;
+        private System.Windows.Forms.Label matchLabel;
     }
 }

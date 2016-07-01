@@ -20,6 +20,9 @@ namespace Gui
             _singleSignalAnalyzerControl.Dock = DockStyle.Fill;
             this.Controls.Add(_singleSignalAnalyzerControl);
 
+            _multipleSignalAnalyzerControl.Hide();
+            _singleSignalAnalyzerControl.Show();
+
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             var versionString = $"v{version.Major}.{version.Minor}.{version.Revision}";
             toolStripStatusLabel1.Text = versionString;
