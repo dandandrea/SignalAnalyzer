@@ -65,6 +65,7 @@
             this.testString.TabIndex = 123;
             this.testString.Text = "ABCDEFGHIJK";
             this.testString.Enter += new System.EventHandler(this.testString_Enter);
+            this.testString.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // testStringLabel
             // 
@@ -103,6 +104,7 @@
             this.baudRate.TabIndex = 121;
             this.baudRate.Text = "50";
             this.baudRate.Enter += new System.EventHandler(this.baudRate_Enter);
+            this.baudRate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // baudRateLabel
             // 
@@ -172,6 +174,7 @@
             this.tolerance.TabIndex = 120;
             this.tolerance.Text = "100";
             this.tolerance.Enter += new System.EventHandler(this.tolerance_Enter);
+            this.tolerance.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // boost
             // 
@@ -180,6 +183,7 @@
             this.boost.Size = new System.Drawing.Size(100, 20);
             this.boost.TabIndex = 122;
             this.boost.Enter += new System.EventHandler(this.boost_Enter);
+            this.boost.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // boostLabel
             // 
@@ -216,6 +220,7 @@
             this.spaceFrequency.TabIndex = 118;
             this.spaceFrequency.Text = "1070";
             this.spaceFrequency.Enter += new System.EventHandler(this.spaceFrequency_Enter);
+            this.spaceFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // markFrequency
             // 
@@ -225,6 +230,7 @@
             this.markFrequency.TabIndex = 119;
             this.markFrequency.Text = "1270";
             this.markFrequency.Enter += new System.EventHandler(this.markFrequency_Enter);
+            this.markFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
             // startButton
             // 
