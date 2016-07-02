@@ -71,7 +71,7 @@ namespace Gui
                     var samples = _fskAudioGenerator.GenerateAudio(_binaryFskAnalyzerSettings.BaudRate,
                         _binaryFskAnalyzerSettings.SpaceFrequency, _binaryFskAnalyzerSettings.MarkFrequency, bits);
 
-                    SignalGenerationComplete(bits.Count, audioLengthInMicroseconds, samples);
+                    SignalGenerationComplete(bits.Count, audioLengthInMicroseconds, samples, _audioAnalyzer.SampleRate);
 
                     if (arguments.WriteFaveFiles == true)
                     {
@@ -105,13 +105,14 @@ namespace Gui
             }
         }
 
-        private void SignalGenerationComplete(int numberOfBits, int audioLengthInMicroseconds, float[] samples)
+        private void SignalGenerationComplete(int numberOfBits, int audioLengthInMicroseconds, float[] samples, int sampleRate)
         {
             var e = new SignalGenerationResultEventArgs
             {
                 NumberOfBits = numberOfBits,
                 AudioLengthInMicroseconds = audioLengthInMicroseconds,
-                Samples = samples
+                Samples = samples,
+                SampleRate = sampleRate
             };
 
             SignalGenerationCompleted?.Invoke(this, e);
@@ -123,5 +124,6 @@ namespace Gui
         public int NumberOfBits { get; set; }
         public int AudioLengthInMicroseconds { get; set; }
         public float[] Samples { get; set; }
+        public int SampleRate { get; set; }
     }
 }

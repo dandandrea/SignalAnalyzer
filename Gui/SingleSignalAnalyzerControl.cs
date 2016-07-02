@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Gui
@@ -104,27 +105,35 @@ namespace Gui
             backgroundWorker1.ReportProgress(0, e);
         }
 
-        private void SignalGenerationCompletedHandler(object sender, SignalGenerationResultEventArgs e)
+       private void SignalGenerationCompletedHandler(object sender, SignalGenerationResultEventArgs e)
         {
             backgroundWorker1.ReportProgress(0, e);
         }
 
-        public void DrawNormalizedAudio(float[] samples)
+        public void DrawScope(float[] samples, int sampleRate)
         {
-            // TODO: How do set downSamplingFactor?
-            var downSamplingFactor = 10;
+            var samplesList = new List<float>(samples);
+            var minValue = samplesList.Min();
+            var maxValue = samplesList.Max();
+
+            var scopeHeight = scopePictureBox.Height;
+            var scopeWidth = scopePictureBox.Width;
+
+            var verticalScalingFactor = scopeHeight / Math.Abs(maxValue) / 2;
+
+            Console.WriteLine($"Min: {minValue}, max: {maxValue}, scope height: {scopeHeight}, vertical scaling factor {verticalScalingFactor}");
+
+            var sampleInterval = samples.Length > scopeWidth ? (int)Math.Floor((double)samples.Length / scopeWidth) : 1;
+
+            Console.WriteLine($"Total samples: {samples.Length}, want: {scopeWidth}, sample every: {sampleInterval}");
+
+            var samplesPerSymbol = (int)Math.Floor((double)sampleRate / int.Parse(baudRate.Text)) / sampleInterval;
+
+            Console.WriteLine($"Samples per symbol: {samplesPerSymbol}");
 
             var downSampledSamples = new List<float>();
-            var sampleNumber = 0;
-            for (var i = 0; i < samples.Length; i++)
+            for (var i = 0; i < samples.Length; i += sampleInterval)
             {
-                sampleNumber++;
-                if (sampleNumber != downSamplingFactor)
-                {
-                    continue;
-                }
-                sampleNumber = 0;
-
                 downSampledSamples.Add(samples[i]);
             }
             samples = downSampledSamples.ToArray();
@@ -132,41 +141,36 @@ namespace Gui
             Bitmap bmp;
             if (scopePictureBox.Image == null)
             {
-                bmp = new Bitmap(scopePictureBox.Width, scopePictureBox.Height);
+                bmp = new Bitmap(scopeWidth, scopeHeight);
             }
             else
             {
                 bmp = (Bitmap)scopePictureBox.Image;
             }
 
-            int BORDER_WIDTH = 5;
-            int width = bmp.Width - (2 * BORDER_WIDTH);
-            int height = bmp.Height - (2 * BORDER_WIDTH);
-
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.Clear(Color.Black);
-                Pen pen = new Pen(Color.Green);
-                int size = samples.Length;
-                for (int iPixel = 0; iPixel < width; iPixel++)
+
+                g.DrawLine(new Pen(Color.LightGreen), new Point(0, scopeHeight / 2), new Point(scopeWidth, scopeHeight / 2));
+
+                var greenPen = new Pen(Color.Green);
+                var yellowPen = new Pen(Color.Yellow);
+
+                for (int pixelX = 0; pixelX < scopeWidth - 1; pixelX++)
                 {
-                    // determine start and end points within WAV
-                    int start = (int)((float)iPixel * ((float)size / (float)width));
-                    int end = (int)((float)(iPixel + 1) * ((float)size / (float)width));
-                    float min = float.MaxValue;
-                    float max = float.MinValue;
-                    for (int i = start; i < end; i++)
+                    var scaledPixelY1 = (int)Math.Floor((samples[pixelX] + Math.Abs(minValue)) * verticalScalingFactor);
+                    var scaledPixelY2 = (int)Math.Floor((samples[pixelX + 1] + Math.Abs(minValue)) * verticalScalingFactor);
+
+                    g.DrawLine(greenPen, new Point(pixelX, scaledPixelY1), new Point(pixelX + 1, scaledPixelY2));
+
+                    if (pixelX > 0 && pixelX % samplesPerSymbol == 0)
                     {
-                        float val = samples[i];
-                        min = val < min ? val : min;
-                        max = val > max ? val : max;
+                        g.DrawLine(yellowPen, new Point(pixelX, 0), new Point(pixelX, scopeHeight));
                     }
-                    int yMax = BORDER_WIDTH + height - (int)((max + 1) * .5 * height);
-                    int yMin = BORDER_WIDTH + height - (int)((min + 1) * .5 * height);
-                    g.DrawLine(pen, iPixel + BORDER_WIDTH, yMax,
-                        iPixel + BORDER_WIDTH, yMin);
                 }
             }
+
             scopePictureBox.Image = bmp;
             scopePictureBox.Refresh();
         }
@@ -247,7 +251,7 @@ namespace Gui
             audioLengthMicrosecondsLabel.Enabled = true;
             audioLengthMicroseconds.Enabled = true;
             // MessageBox.Show($"Got {signalGenerationResult.Samples.Length} samples");
-            DrawNormalizedAudio(signalGenerationResult.Samples);
+            DrawScope(signalGenerationResult.Samples, signalGenerationResult.SampleRate);
         }
 
         private void SetBelowDataGridToolTipText()
