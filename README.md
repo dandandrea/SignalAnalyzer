@@ -7,7 +7,7 @@ Includes both a GUI and Command-Line Interface (CLI) for interacting with the co
 
 ![Screenshot](http://dandandrea.github.com/screenshot_single_mode.png)
 
-![Screenshot](http://dandandrea.github.com/screenshot_multiple_mode.png)
+![Screenshot](http://dandandrea.github.com/screenshot_multi_mode.png)
 
 Eventual goals include automatic determination of FSK mark and space frequencies and [baud rate] and then using this information to extract the binary data contained in a signal sample.
 
