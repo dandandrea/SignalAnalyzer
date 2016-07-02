@@ -2,6 +2,7 @@
 using Core.BinaryFskAnalysis;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -112,7 +113,7 @@ namespace Gui
         public void DrawScope(float[] samples, int sampleRate)
         {
             var audioScaler = (IAudioScaler)new AudioScaler();
-            samples = audioScaler.Scale(samples, sampleRate, int.Parse(baudRate.Text), scopePictureBox.Width, scopePictureBox.Height);
+            samples = audioScaler.Scale(samples, sampleRate, int.Parse(baudRate.Text), int.Parse(numberOfBits.Text), scopePictureBox.Width, scopePictureBox.Height);
 
             Bitmap bmp;
             if (scopePictureBox.Image == null)
@@ -139,7 +140,7 @@ namespace Gui
 
                     if (x > 0 && x % audioScaler.SamplesPerSymbol == 0)
                     {
-                        Console.WriteLine($"Drawing symbol frame at {x} ({scopePictureBox.Width - 1})");
+                        Debug.WriteLine($"Drawing symbol frame at {x} ({scopePictureBox.Width - 1})");
                         g.DrawLine(yellowPen, new Point(x, 0), new Point(x, scopePictureBox.Height));
                     }
                 }
