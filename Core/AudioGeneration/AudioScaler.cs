@@ -12,8 +12,6 @@ namespace Core.AudioGeneration
 
         public float[] Scale(float[] samples, int sampleRate, int baudRate, int numberOfSymbols, int scaleWidth, int scaleHeight)
         {
-            var outputSamples = new List<float>();
-
             var xCoordinates = Array.ConvertAll(Enumerable.Range(0, samples.Length).ToArray(), Convert.ToDouble);
             var yCoordinates = Array.ConvertAll(samples, Convert.ToDouble);
 
@@ -24,13 +22,13 @@ namespace Core.AudioGeneration
             var cubicSpline = CubicSpline.InterpolateNatural(xCoordinates, yCoordinates);
             for (var n = 0; n < scaleWidth * cubicSplineFactor; n++)
             {
-                interpolatedSamples.Add((float)cubicSpline.Interpolate(scaleWidth * n / samples.Length));
+                interpolatedSamples.Add((float)cubicSpline.Interpolate((double)n * samples.Length / (cubicSplineFactor * scaleWidth)));
             }
 
             Debug.WriteLine($"[AudioScaler] Total samples: {samples.Length}, width: {scaleWidth}");
 
             var downSampledSamples = new List<float>();
-            for (var i = 0; i < scaleWidth * cubicSplineFactor; i += cubicSplineFactor)
+            for (var i = 0; i < interpolatedSamples.Count(); i += cubicSplineFactor)
             {
                 downSampledSamples.Add(interpolatedSamples[i]);
             }
@@ -44,6 +42,7 @@ namespace Core.AudioGeneration
 
             Debug.WriteLine($"[AudioScaler] Min: {minValue}, max: {maxValue}, height: {scaleHeight}, vertical scaling factor {verticalScalingFactor}");
 
+            var outputSamples = new List<float>();
             foreach (var sample in samples)
             {
                 outputSamples.Add((int)Math.Floor((sample + Math.Abs(minValue)) * verticalScalingFactor));
