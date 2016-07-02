@@ -53,8 +53,7 @@
             this.resultString = new System.Windows.Forms.TextBox();
             this.resultStringLabel = new System.Windows.Forms.Label();
             this.matchLabel = new System.Windows.Forms.Label();
-            this.scopePictureBox = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.scopePictureBox)).BeginInit();
+            this.scopeControl1 = new GuiControls.ScopeControl();
             this.SuspendLayout();
             // 
             // testString
@@ -281,21 +280,18 @@
             this.matchLabel.TabIndex = 139;
             this.matchLabel.Text = "Match label";
             // 
-            // scopePictureBox
+            // scopeControl1
             // 
-            this.scopePictureBox.BackColor = System.Drawing.SystemColors.WindowText;
-            this.scopePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.scopePictureBox.Location = new System.Drawing.Point(29, 28);
-            this.scopePictureBox.Name = "scopePictureBox";
-            this.scopePictureBox.Size = new System.Drawing.Size(882, 346);
-            this.scopePictureBox.TabIndex = 140;
-            this.scopePictureBox.TabStop = false;
+            this.scopeControl1.Location = new System.Drawing.Point(32, 28);
+            this.scopeControl1.Name = "scopeControl1";
+            this.scopeControl1.Size = new System.Drawing.Size(882, 346);
+            this.scopeControl1.TabIndex = 140;
             // 
             // SingleSignalAnalyzerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.scopePictureBox);
+            this.Controls.Add(this.scopeControl1);
             this.Controls.Add(this.matchLabel);
             this.Controls.Add(this.resultString);
             this.Controls.Add(this.resultStringLabel);
@@ -320,7 +316,6 @@
             this.Controls.Add(this.markFrequency);
             this.Name = "SingleSignalAnalyzerControl";
             this.Size = new System.Drawing.Size(943, 587);
-            ((System.ComponentModel.ISupportInitialize)(this.scopePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -352,6 +347,6 @@
         private System.Windows.Forms.TextBox resultString;
         private System.Windows.Forms.Label resultStringLabel;
         private System.Windows.Forms.Label matchLabel;
-        private System.Windows.Forms.PictureBox scopePictureBox;
+        private GuiControls.ScopeControl scopeControl1;
     }
 }

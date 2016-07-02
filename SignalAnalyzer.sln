@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gui", "Gui\Gui.csproj", "{79D9B1F1-E6CB-414C-94A4-EB720ECD8BCF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiControls", "GuiControls\GuiControls.csproj", "{79BAD60D-6E89-4ED2-96E8-5A971E53C44D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{79D9B1F1-E6CB-414C-94A4-EB720ECD8BCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79D9B1F1-E6CB-414C-94A4-EB720ECD8BCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79D9B1F1-E6CB-414C-94A4-EB720ECD8BCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79BAD60D-6E89-4ED2-96E8-5A971E53C44D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79BAD60D-6E89-4ED2-96E8-5A971E53C44D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79BAD60D-6E89-4ED2-96E8-5A971E53C44D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79BAD60D-6E89-4ED2-96E8-5A971E53C44D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

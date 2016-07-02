@@ -111,52 +111,6 @@ namespace Gui
             backgroundWorker1.ReportProgress(0, e);
         }
 
-        public void DrawScope(float[] samples, int sampleRate)
-        {
-            var audioScaler = (IAudioScaler)new AudioScaler();
-            samples = audioScaler.Scale(samples, sampleRate, int.Parse(baudRate.Text), int.Parse(numberOfBits.Text), scopePictureBox.Width, scopePictureBox.Height);
-
-            Bitmap bmp;
-            if (scopePictureBox.Image == null)
-            {
-                bmp = new Bitmap(scopePictureBox.Width, scopePictureBox.Height);
-            }
-            else
-            {
-                bmp = (Bitmap)scopePictureBox.Image;
-            }
-
-            using (Graphics g = Graphics.FromImage(bmp))
-            {
-                g.Clear(Color.Black);
-
-                g.DrawLine(new Pen(Color.LightGreen), new Point(0, scopePictureBox.Height / 2), new Point(scopePictureBox.Width, scopePictureBox.Height / 2));
-
-                var greenPen = new Pen(Color.Green);
-                var yellowPen = new Pen(Color.Yellow);
-
-                var sampleFramePositions = new List<int>();
-                for (var n = 1; n < int.Parse(numberOfBits.Text); n++)
-                {
-                    sampleFramePositions.Add((int)(n * audioScaler.SamplesPerSymbol));
-                }
-
-                for (int x = 0; x < scopePictureBox.Width - 1; x++)
-                {
-                    g.DrawLine(greenPen, new Point(x, (int)samples[x]), new Point(x + 1, (int)samples[x + 1]));
-
-                    if (sampleFramePositions.Contains(x))
-                    {
-                        Debug.WriteLine($"Drawing symbol frame at {x} ({scopePictureBox.Width - 1})");
-                        g.DrawLine(yellowPen, new Point(x, 0), new Point(x, scopePictureBox.Height));
-                    }
-                }
-            }
-
-            scopePictureBox.Image = bmp;
-            scopePictureBox.Refresh();
-        }
-
         private void UpdateControls(bool running)
         {
             if (running == true)
@@ -232,8 +186,8 @@ namespace Gui
             numberOfBits.Enabled = true;
             audioLengthMicrosecondsLabel.Enabled = true;
             audioLengthMicroseconds.Enabled = true;
-            // MessageBox.Show($"Got {signalGenerationResult.Samples.Length} samples");
-            DrawScope(signalGenerationResult.Samples, signalGenerationResult.SampleRate);
+            scopeControl1.DrawScope(signalGenerationResult.Samples, signalGenerationResult.SampleRate,
+                int.Parse(baudRate.Text), int.Parse(numberOfBits.Text));
         }
 
         private void SetBelowDataGridToolTipText()
