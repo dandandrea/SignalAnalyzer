@@ -8,7 +8,7 @@ namespace Core.AudioGeneration
 {
     public class AudioScaler : IAudioScaler
     {
-        public int SamplesPerSymbol { get; set; }
+        public double SamplesPerSymbol { get; set; }
 
         public float[] Scale(float[] samples, int sampleRate, int baudRate, int numberOfSymbols, int scaleWidth, int scaleHeight)
         {
@@ -34,9 +34,9 @@ namespace Core.AudioGeneration
             }
 
             // TODO: This calculation is still probably slightly off
-            SamplesPerSymbol = (int)Math.Ceiling((double)scaleWidth / numberOfSymbols);
+            SamplesPerSymbol = (double)scaleWidth / numberOfSymbols;
 
-            Debug.WriteLine($"[AudioScaler] Samples per symbol: {SamplesPerSymbol}");
+            Debug.WriteLine($"[AudioScaler] Samples per symbol: {scaleWidth} / {numberOfSymbols} = {SamplesPerSymbol:N3}");
 
             return outputSamples.ToArray();
         }

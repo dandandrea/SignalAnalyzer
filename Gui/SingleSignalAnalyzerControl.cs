@@ -1,6 +1,7 @@
 ﻿using Core.AudioGeneration;
 using Core.BinaryFskAnalysis;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -134,11 +135,17 @@ namespace Gui
                 var greenPen = new Pen(Color.Green);
                 var yellowPen = new Pen(Color.Yellow);
 
+                var sampleFramePositions = new List<int>();
+                for (var n = 1; n < int.Parse(numberOfBits.Text); n++)
+                {
+                    sampleFramePositions.Add((int)(n * audioScaler.SamplesPerSymbol));
+                }
+
                 for (int x = 0; x < scopePictureBox.Width - 1; x++)
                 {
                     g.DrawLine(greenPen, new Point(x, (int)samples[x]), new Point(x + 1, (int)samples[x + 1]));
 
-                    if (x > 0 && x % audioScaler.SamplesPerSymbol == 0)
+                    if (sampleFramePositions.Contains(x))
                     {
                         Debug.WriteLine($"Drawing symbol frame at {x} ({scopePictureBox.Width - 1})");
                         g.DrawLine(yellowPen, new Point(x, 0), new Point(x, scopePictureBox.Height));
