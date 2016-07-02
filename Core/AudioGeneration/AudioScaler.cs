@@ -30,7 +30,7 @@ namespace Core.AudioGeneration
             var outputSamples = new List<float>();
             foreach (var sample in samples)
             {
-                outputSamples.Add((int)Math.Floor((sample + Math.Abs(minValue)) * verticalScalingFactor));
+                outputSamples.Add(ApplyVerticalScaling(sample, minValue, verticalScalingFactor));
             }
 
             // TODO: This calculation is still probably slightly off
@@ -67,5 +67,8 @@ namespace Core.AudioGeneration
         }
 
         private static int GetCubicSplineFactor(float[] samples, int newSize) => (int)Math.Ceiling((double)samples.Length / newSize);
+
+        private static int ApplyVerticalScaling(float sample, float minValue, float verticalScalingFactor)
+            => (int)Math.Floor((sample + Math.Abs(minValue)) * verticalScalingFactor);
     }
 }
