@@ -59,7 +59,7 @@
             // 
             // testString
             // 
-            this.testString.Location = new System.Drawing.Point(168, 467);
+            this.testString.Location = new System.Drawing.Point(168, 476);
             this.testString.Name = "testString";
             this.testString.Size = new System.Drawing.Size(197, 20);
             this.testString.TabIndex = 123;
@@ -70,7 +70,7 @@
             // testStringLabel
             // 
             this.testStringLabel.AutoSize = true;
-            this.testStringLabel.Location = new System.Drawing.Point(100, 470);
+            this.testStringLabel.Location = new System.Drawing.Point(100, 479);
             this.testStringLabel.Name = "testStringLabel";
             this.testStringLabel.Size = new System.Drawing.Size(56, 13);
             this.testStringLabel.TabIndex = 135;
@@ -79,7 +79,7 @@
             // playAudio
             // 
             this.playAudio.AutoSize = true;
-            this.playAudio.Location = new System.Drawing.Point(230, 500);
+            this.playAudio.Location = new System.Drawing.Point(230, 509);
             this.playAudio.Name = "playAudio";
             this.playAudio.Size = new System.Drawing.Size(75, 17);
             this.playAudio.TabIndex = 125;
@@ -89,7 +89,7 @@
             // writeWavFiles
             // 
             this.writeWavFiles.AutoSize = true;
-            this.writeWavFiles.Location = new System.Drawing.Point(103, 500);
+            this.writeWavFiles.Location = new System.Drawing.Point(103, 509);
             this.writeWavFiles.Name = "writeWavFiles";
             this.writeWavFiles.Size = new System.Drawing.Size(95, 17);
             this.writeWavFiles.TabIndex = 124;
@@ -98,7 +98,7 @@
             // 
             // baudRate
             // 
-            this.baudRate.Location = new System.Drawing.Point(168, 430);
+            this.baudRate.Location = new System.Drawing.Point(168, 439);
             this.baudRate.Name = "baudRate";
             this.baudRate.Size = new System.Drawing.Size(100, 20);
             this.baudRate.TabIndex = 121;
@@ -109,7 +109,7 @@
             // baudRateLabel
             // 
             this.baudRateLabel.AutoSize = true;
-            this.baudRateLabel.Location = new System.Drawing.Point(100, 433);
+            this.baudRateLabel.Location = new System.Drawing.Point(100, 442);
             this.baudRateLabel.Name = "baudRateLabel";
             this.baudRateLabel.Size = new System.Drawing.Size(53, 13);
             this.baudRateLabel.TabIndex = 134;
@@ -119,7 +119,7 @@
             // 
             this.audioLengthMicrosecondsLabel.AutoSize = true;
             this.audioLengthMicrosecondsLabel.Enabled = false;
-            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(679, 446);
+            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(679, 455);
             this.audioLengthMicrosecondsLabel.Name = "audioLengthMicrosecondsLabel";
             this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(93, 13);
             this.audioLengthMicrosecondsLabel.TabIndex = 133;
@@ -128,7 +128,7 @@
             // audioLengthMicroseconds
             // 
             this.audioLengthMicroseconds.Enabled = false;
-            this.audioLengthMicroseconds.Location = new System.Drawing.Point(676, 462);
+            this.audioLengthMicroseconds.Location = new System.Drawing.Point(676, 471);
             this.audioLengthMicroseconds.Name = "audioLengthMicroseconds";
             this.audioLengthMicroseconds.ReadOnly = true;
             this.audioLengthMicroseconds.Size = new System.Drawing.Size(100, 20);
@@ -140,7 +140,7 @@
             // 
             this.numberOfBitsLabel.AutoSize = true;
             this.numberOfBitsLabel.Enabled = false;
-            this.numberOfBitsLabel.Location = new System.Drawing.Point(687, 392);
+            this.numberOfBitsLabel.Location = new System.Drawing.Point(687, 401);
             this.numberOfBitsLabel.Name = "numberOfBitsLabel";
             this.numberOfBitsLabel.Size = new System.Drawing.Size(75, 13);
             this.numberOfBitsLabel.TabIndex = 131;
@@ -149,7 +149,7 @@
             // numberOfBits
             // 
             this.numberOfBits.Enabled = false;
-            this.numberOfBits.Location = new System.Drawing.Point(676, 408);
+            this.numberOfBits.Location = new System.Drawing.Point(676, 417);
             this.numberOfBits.Name = "numberOfBits";
             this.numberOfBits.ReadOnly = true;
             this.numberOfBits.Size = new System.Drawing.Size(100, 20);
@@ -160,7 +160,7 @@
             // toleranceLabel
             // 
             this.toleranceLabel.AutoSize = true;
-            this.toleranceLabel.Location = new System.Drawing.Point(487, 395);
+            this.toleranceLabel.Location = new System.Drawing.Point(487, 404);
             this.toleranceLabel.Name = "toleranceLabel";
             this.toleranceLabel.Size = new System.Drawing.Size(55, 13);
             this.toleranceLabel.TabIndex = 129;
@@ -168,7 +168,7 @@
             // 
             // tolerance
             // 
-            this.tolerance.Location = new System.Drawing.Point(546, 392);
+            this.tolerance.Location = new System.Drawing.Point(546, 401);
             this.tolerance.Name = "tolerance";
             this.tolerance.Size = new System.Drawing.Size(100, 20);
             this.tolerance.TabIndex = 120;
@@ -178,7 +178,7 @@
             // 
             // boost
             // 
-            this.boost.Location = new System.Drawing.Point(349, 430);
+            this.boost.Location = new System.Drawing.Point(349, 439);
             this.boost.Name = "boost";
             this.boost.Size = new System.Drawing.Size(100, 20);
             this.boost.TabIndex = 122;
@@ -188,7 +188,7 @@
             // boostLabel
             // 
             this.boostLabel.AutoSize = true;
-            this.boostLabel.Location = new System.Drawing.Point(288, 433);
+            this.boostLabel.Location = new System.Drawing.Point(288, 442);
             this.boostLabel.Name = "boostLabel";
             this.boostLabel.Size = new System.Drawing.Size(34, 13);
             this.boostLabel.TabIndex = 126;
@@ -197,7 +197,7 @@
             // markFrequencyLabel
             // 
             this.markFrequencyLabel.AutoSize = true;
-            this.markFrequencyLabel.Location = new System.Drawing.Point(288, 395);
+            this.markFrequencyLabel.Location = new System.Drawing.Point(288, 404);
             this.markFrequencyLabel.Name = "markFrequencyLabel";
             this.markFrequencyLabel.Size = new System.Drawing.Size(55, 13);
             this.markFrequencyLabel.TabIndex = 127;
@@ -206,7 +206,7 @@
             // spaceFrequencyLabel
             // 
             this.spaceFrequencyLabel.AutoSize = true;
-            this.spaceFrequencyLabel.Location = new System.Drawing.Point(100, 395);
+            this.spaceFrequencyLabel.Location = new System.Drawing.Point(100, 404);
             this.spaceFrequencyLabel.Name = "spaceFrequencyLabel";
             this.spaceFrequencyLabel.Size = new System.Drawing.Size(62, 13);
             this.spaceFrequencyLabel.TabIndex = 128;
@@ -214,7 +214,7 @@
             // 
             // spaceFrequency
             // 
-            this.spaceFrequency.Location = new System.Drawing.Point(168, 392);
+            this.spaceFrequency.Location = new System.Drawing.Point(168, 401);
             this.spaceFrequency.Name = "spaceFrequency";
             this.spaceFrequency.Size = new System.Drawing.Size(100, 20);
             this.spaceFrequency.TabIndex = 118;
@@ -224,7 +224,7 @@
             // 
             // markFrequency
             // 
-            this.markFrequency.Location = new System.Drawing.Point(349, 392);
+            this.markFrequency.Location = new System.Drawing.Point(349, 401);
             this.markFrequency.Name = "markFrequency";
             this.markFrequency.Size = new System.Drawing.Size(100, 20);
             this.markFrequency.TabIndex = 119;
@@ -235,7 +235,7 @@
             // startButton
             // 
             this.startButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.startButton.Location = new System.Drawing.Point(671, 502);
+            this.startButton.Location = new System.Drawing.Point(671, 511);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
             this.startButton.TabIndex = 136;
@@ -254,7 +254,7 @@
             // 
             this.resultString.BackColor = System.Drawing.SystemColors.Control;
             this.resultString.Enabled = false;
-            this.resultString.Location = new System.Drawing.Point(449, 467);
+            this.resultString.Location = new System.Drawing.Point(449, 476);
             this.resultString.Name = "resultString";
             this.resultString.ReadOnly = true;
             this.resultString.Size = new System.Drawing.Size(197, 20);
@@ -265,7 +265,7 @@
             // 
             this.resultStringLabel.AutoSize = true;
             this.resultStringLabel.Enabled = false;
-            this.resultStringLabel.Location = new System.Drawing.Point(381, 470);
+            this.resultStringLabel.Location = new System.Drawing.Point(381, 479);
             this.resultStringLabel.Name = "resultStringLabel";
             this.resultStringLabel.Size = new System.Drawing.Size(65, 13);
             this.resultStringLabel.TabIndex = 138;
@@ -275,7 +275,7 @@
             // 
             this.matchLabel.AutoSize = true;
             this.matchLabel.Enabled = false;
-            this.matchLabel.Location = new System.Drawing.Point(449, 500);
+            this.matchLabel.Location = new System.Drawing.Point(449, 509);
             this.matchLabel.Name = "matchLabel";
             this.matchLabel.Size = new System.Drawing.Size(62, 13);
             this.matchLabel.TabIndex = 139;
@@ -285,9 +285,9 @@
             // 
             this.scopePictureBox.BackColor = System.Drawing.SystemColors.WindowText;
             this.scopePictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.scopePictureBox.Location = new System.Drawing.Point(103, 45);
+            this.scopePictureBox.Location = new System.Drawing.Point(29, 28);
             this.scopePictureBox.Name = "scopePictureBox";
-            this.scopePictureBox.Size = new System.Drawing.Size(679, 329);
+            this.scopePictureBox.Size = new System.Drawing.Size(882, 346);
             this.scopePictureBox.TabIndex = 140;
             this.scopePictureBox.TabStop = false;
             // 
