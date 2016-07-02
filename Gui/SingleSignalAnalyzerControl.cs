@@ -1,9 +1,6 @@
-﻿using Core.AudioGeneration;
-using Core.BinaryFskAnalysis;
+﻿using Core.BinaryFskAnalysis;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
