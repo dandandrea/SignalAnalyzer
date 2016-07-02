@@ -5,7 +5,9 @@ Contains classes and methods for analyzing WAV recordings of digital radio signa
 
 Includes both a GUI and Command-Line Interface (CLI) for interacting with the core library.
 
-![Screenshot](http://dandandrea.github.com/screenshot.png)
+![Screenshot](http://dandandrea.github.com/screenshot_single_mode.png)
+
+![Screenshot](http://dandandrea.github.com/screenshot_multiple_mode.png)
 
 Eventual goals include automatic determination of FSK mark and space frequencies and [baud rate] and then using this information to extract the binary data contained in a signal sample.
 
