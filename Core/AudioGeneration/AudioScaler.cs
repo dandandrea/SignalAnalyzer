@@ -48,6 +48,7 @@ namespace Core.AudioGeneration
                 outputSamples.Add((int)Math.Floor((sample + Math.Abs(minValue)) * verticalScalingFactor));
             }
 
+            // TODO: This calculation is still probably slightly off
             SamplesPerSymbol = (int)Math.Ceiling((double)scaleWidth / numberOfSymbols);
 
             Debug.WriteLine($"[AudioScaler] Samples per symbol: {SamplesPerSymbol}");
