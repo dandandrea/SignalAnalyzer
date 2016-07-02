@@ -12,27 +12,12 @@ namespace Core.AudioGeneration
 
         public float[] Scale(float[] samples, int sampleRate, int baudRate, int numberOfSymbols, int scaleWidth, int scaleHeight)
         {
-            var xCoordinates = Array.ConvertAll(Enumerable.Range(0, samples.Length).ToArray(), Convert.ToDouble);
-            var yCoordinates = Array.ConvertAll(samples, Convert.ToDouble);
+            var cubicSplineFactor = GetCubicSplineFactor(samples, scaleWidth);
 
-            var cubicSplineFactor = (int)Math.Ceiling((double)samples.Length / scaleWidth);
-            Debug.WriteLine($"[AudioScaler] Cubic spline factor: {cubicSplineFactor}");
+            Debug.WriteLine($"[AudioScaler] Total samples: {samples.Length}, width: {scaleWidth}, cubic spline factor {cubicSplineFactor}");
 
-            var interpolatedSamples = new List<float>();
-            var cubicSpline = CubicSpline.InterpolateNatural(xCoordinates, yCoordinates);
-            for (var n = 0; n < scaleWidth * cubicSplineFactor; n++)
-            {
-                interpolatedSamples.Add((float)cubicSpline.Interpolate((double)n * samples.Length / (cubicSplineFactor * scaleWidth)));
-            }
-
-            Debug.WriteLine($"[AudioScaler] Total samples: {samples.Length}, width: {scaleWidth}");
-
-            var downSampledSamples = new List<float>();
-            for (var i = 0; i < interpolatedSamples.Count(); i += cubicSplineFactor)
-            {
-                downSampledSamples.Add(interpolatedSamples[i]);
-            }
-            samples = downSampledSamples.ToArray();
+            samples = Interpolate(samples, scaleWidth, cubicSplineFactor);
+            samples = DownSample(samples, cubicSplineFactor);
 
             // TODO: Optimization: only build the List once
             var minValue = new List<float>(samples).Min();
@@ -55,5 +40,32 @@ namespace Core.AudioGeneration
 
             return outputSamples.ToArray();
         }
+
+        private static float[] Interpolate(float[] samples, int newSize, int cubicSplineFactor)
+        {
+            var xCoordinates = Array.ConvertAll(Enumerable.Range(0, samples.Length).ToArray(), Convert.ToDouble);
+            var yCoordinates = Array.ConvertAll(samples, Convert.ToDouble);
+
+            var interpolatedSamples = new List<float>();
+            var cubicSpline = CubicSpline.InterpolateNatural(xCoordinates, yCoordinates);
+            for (var n = 0; n < newSize * cubicSplineFactor; n++)
+            {
+                interpolatedSamples.Add((float)cubicSpline.Interpolate((double)n * samples.Length / (cubicSplineFactor * newSize)));
+            }
+
+            return interpolatedSamples.ToArray();
+        }
+
+        private static float[] DownSample(float[] samples, int cubicSplineFactor)
+        {
+            var downSampledSamples = new List<float>();
+            for (var i = 0; i < samples.Count(); i += cubicSplineFactor)
+            {
+                downSampledSamples.Add(samples[i]);
+            }
+            return downSampledSamples.ToArray();
+        }
+
+        private static int GetCubicSplineFactor(float[] samples, int newSize) => (int)Math.Ceiling((double)samples.Length / newSize);
     }
 }
