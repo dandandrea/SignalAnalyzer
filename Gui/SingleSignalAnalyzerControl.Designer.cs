@@ -63,7 +63,7 @@
             this.testString.Name = "testString";
             this.testString.Size = new System.Drawing.Size(197, 20);
             this.testString.TabIndex = 123;
-            this.testString.Text = "ABCDEFGHIJK";
+            this.testString.Text = "A";
             this.testString.Enter += new System.EventHandler(this.testString_Enter);
             this.testString.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
@@ -102,7 +102,7 @@
             this.baudRate.Name = "baudRate";
             this.baudRate.Size = new System.Drawing.Size(100, 20);
             this.baudRate.TabIndex = 121;
-            this.baudRate.Text = "50";
+            this.baudRate.Text = "500";
             this.baudRate.Enter += new System.EventHandler(this.baudRate_Enter);
             this.baudRate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
@@ -172,7 +172,7 @@
             this.tolerance.Name = "tolerance";
             this.tolerance.Size = new System.Drawing.Size(100, 20);
             this.tolerance.TabIndex = 120;
-            this.tolerance.Text = "100";
+            this.tolerance.Text = "20";
             this.tolerance.Enter += new System.EventHandler(this.tolerance_Enter);
             this.tolerance.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
@@ -218,7 +218,7 @@
             this.spaceFrequency.Name = "spaceFrequency";
             this.spaceFrequency.Size = new System.Drawing.Size(100, 20);
             this.spaceFrequency.TabIndex = 118;
-            this.spaceFrequency.Text = "1070";
+            this.spaceFrequency.Text = "1000";
             this.spaceFrequency.Enter += new System.EventHandler(this.spaceFrequency_Enter);
             this.spaceFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
@@ -228,7 +228,7 @@
             this.markFrequency.Name = "markFrequency";
             this.markFrequency.Size = new System.Drawing.Size(100, 20);
             this.markFrequency.TabIndex = 119;
-            this.markFrequency.Text = "1270";
+            this.markFrequency.Text = "3000";
             this.markFrequency.Enter += new System.EventHandler(this.markFrequency_Enter);
             this.markFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 

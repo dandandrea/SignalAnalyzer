@@ -1,9 +1,8 @@
-﻿using Core.BinaryFskAnalysis;
+﻿using Core.AudioGeneration;
+using Core.BinaryFskAnalysis;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace Gui
@@ -112,36 +111,13 @@ namespace Gui
 
         public void DrawScope(float[] samples, int sampleRate)
         {
-            var samplesList = new List<float>(samples);
-            var minValue = samplesList.Min();
-            var maxValue = samplesList.Max();
-
-            var scopeHeight = scopePictureBox.Height;
-            var scopeWidth = scopePictureBox.Width;
-
-            var verticalScalingFactor = scopeHeight / Math.Abs(maxValue) / 2;
-
-            Console.WriteLine($"Min: {minValue}, max: {maxValue}, scope height: {scopeHeight}, vertical scaling factor {verticalScalingFactor}");
-
-            var sampleInterval = samples.Length > scopeWidth ? (int)Math.Floor((double)samples.Length / scopeWidth) : 1;
-
-            Console.WriteLine($"Total samples: {samples.Length}, want: {scopeWidth}, sample every: {sampleInterval}");
-
-            var samplesPerSymbol = (int)Math.Floor((double)sampleRate / int.Parse(baudRate.Text)) / sampleInterval;
-
-            Console.WriteLine($"Samples per symbol: {samplesPerSymbol}");
-
-            var downSampledSamples = new List<float>();
-            for (var i = 0; i < samples.Length; i += sampleInterval)
-            {
-                downSampledSamples.Add(samples[i]);
-            }
-            samples = downSampledSamples.ToArray();
+            var audioScaler = (IAudioScaler)new AudioScaler();
+            samples = audioScaler.Scale(samples, sampleRate, int.Parse(baudRate.Text), scopePictureBox.Width, scopePictureBox.Height);
 
             Bitmap bmp;
             if (scopePictureBox.Image == null)
             {
-                bmp = new Bitmap(scopeWidth, scopeHeight);
+                bmp = new Bitmap(scopePictureBox.Width, scopePictureBox.Height);
             }
             else
             {
@@ -152,21 +128,19 @@ namespace Gui
             {
                 g.Clear(Color.Black);
 
-                g.DrawLine(new Pen(Color.LightGreen), new Point(0, scopeHeight / 2), new Point(scopeWidth, scopeHeight / 2));
+                g.DrawLine(new Pen(Color.LightGreen), new Point(0, scopePictureBox.Height / 2), new Point(scopePictureBox.Width, scopePictureBox.Height / 2));
 
                 var greenPen = new Pen(Color.Green);
                 var yellowPen = new Pen(Color.Yellow);
 
-                for (int pixelX = 0; pixelX < scopeWidth - 1; pixelX++)
+                for (int x = 0; x < scopePictureBox.Width - 1; x++)
                 {
-                    var scaledPixelY1 = (int)Math.Floor((samples[pixelX] + Math.Abs(minValue)) * verticalScalingFactor);
-                    var scaledPixelY2 = (int)Math.Floor((samples[pixelX + 1] + Math.Abs(minValue)) * verticalScalingFactor);
+                    g.DrawLine(greenPen, new Point(x, (int)samples[x]), new Point(x + 1, (int)samples[x + 1]));
 
-                    g.DrawLine(greenPen, new Point(pixelX, scaledPixelY1), new Point(pixelX + 1, scaledPixelY2));
-
-                    if (pixelX > 0 && pixelX % samplesPerSymbol == 0)
+                    if (x > 0 && x % audioScaler.SamplesPerSymbol == 0)
                     {
-                        g.DrawLine(yellowPen, new Point(pixelX, 0), new Point(pixelX, scopeHeight));
+                        Console.WriteLine($"Drawing symbol frame at {x} ({scopePictureBox.Width - 1})");
+                        g.DrawLine(yellowPen, new Point(x, 0), new Point(x, scopePictureBox.Height));
                     }
                 }
             }

@@ -74,7 +74,9 @@
     <Compile Include="AudioAnalysis\AudioAnalyzer.cs" />
     <Compile Include="AudioAnalysis\IAudioAnalyzer.cs" />
     <Compile Include="AudioGeneration\AudioGenerator.cs" />
+    <Compile Include="AudioGeneration\AudioScaler.cs" />
     <Compile Include="AudioGeneration\FskAudioGenerator.cs" />
+    <Compile Include="AudioGeneration\IAudioScaler.cs" />
     <Compile Include="AudioGeneration\IFskAudioGenerator.cs" />
     <Compile Include="AudioGeneration\IAudioGenerator.cs" />
     <Compile Include="AudioGeneration\SamplingResultEventArgs.cs" />
