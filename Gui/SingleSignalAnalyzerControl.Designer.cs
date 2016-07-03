@@ -53,7 +53,10 @@
             this.resultString = new System.Windows.Forms.TextBox();
             this.resultStringLabel = new System.Windows.Forms.Label();
             this.matchLabel = new System.Windows.Forms.Label();
+            this.zoomLabel = new System.Windows.Forms.Label();
             this.scopeControl1 = new GuiControls.ScopeControl();
+            this.zoom = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.zoom)).BeginInit();
             this.SuspendLayout();
             // 
             // testString
@@ -61,7 +64,7 @@
             this.testString.Location = new System.Drawing.Point(168, 476);
             this.testString.Name = "testString";
             this.testString.Size = new System.Drawing.Size(197, 20);
-            this.testString.TabIndex = 123;
+            this.testString.TabIndex = 6;
             this.testString.Text = "A";
             this.testString.Enter += new System.EventHandler(this.testString_Enter);
             this.testString.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
@@ -81,7 +84,7 @@
             this.playAudio.Location = new System.Drawing.Point(230, 509);
             this.playAudio.Name = "playAudio";
             this.playAudio.Size = new System.Drawing.Size(75, 17);
-            this.playAudio.TabIndex = 125;
+            this.playAudio.TabIndex = 8;
             this.playAudio.Text = "Play audio";
             this.playAudio.UseVisualStyleBackColor = true;
             // 
@@ -91,7 +94,7 @@
             this.writeWavFiles.Location = new System.Drawing.Point(103, 509);
             this.writeWavFiles.Name = "writeWavFiles";
             this.writeWavFiles.Size = new System.Drawing.Size(95, 17);
-            this.writeWavFiles.TabIndex = 124;
+            this.writeWavFiles.TabIndex = 7;
             this.writeWavFiles.Text = "Write WAV file";
             this.writeWavFiles.UseVisualStyleBackColor = true;
             // 
@@ -100,7 +103,7 @@
             this.baudRate.Location = new System.Drawing.Point(168, 439);
             this.baudRate.Name = "baudRate";
             this.baudRate.Size = new System.Drawing.Size(100, 20);
-            this.baudRate.TabIndex = 121;
+            this.baudRate.TabIndex = 4;
             this.baudRate.Text = "500";
             this.baudRate.Enter += new System.EventHandler(this.baudRate_Enter);
             this.baudRate.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
@@ -170,7 +173,7 @@
             this.tolerance.Location = new System.Drawing.Point(546, 401);
             this.tolerance.Name = "tolerance";
             this.tolerance.Size = new System.Drawing.Size(100, 20);
-            this.tolerance.TabIndex = 120;
+            this.tolerance.TabIndex = 3;
             this.tolerance.Text = "20";
             this.tolerance.Enter += new System.EventHandler(this.tolerance_Enter);
             this.tolerance.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
@@ -180,7 +183,7 @@
             this.boost.Location = new System.Drawing.Point(349, 439);
             this.boost.Name = "boost";
             this.boost.Size = new System.Drawing.Size(100, 20);
-            this.boost.TabIndex = 122;
+            this.boost.TabIndex = 5;
             this.boost.Enter += new System.EventHandler(this.boost_Enter);
             this.boost.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
             // 
@@ -216,7 +219,7 @@
             this.spaceFrequency.Location = new System.Drawing.Point(168, 401);
             this.spaceFrequency.Name = "spaceFrequency";
             this.spaceFrequency.Size = new System.Drawing.Size(100, 20);
-            this.spaceFrequency.TabIndex = 118;
+            this.spaceFrequency.TabIndex = 1;
             this.spaceFrequency.Text = "1000";
             this.spaceFrequency.Enter += new System.EventHandler(this.spaceFrequency_Enter);
             this.spaceFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
@@ -226,7 +229,7 @@
             this.markFrequency.Location = new System.Drawing.Point(349, 401);
             this.markFrequency.Name = "markFrequency";
             this.markFrequency.Size = new System.Drawing.Size(100, 20);
-            this.markFrequency.TabIndex = 119;
+            this.markFrequency.TabIndex = 2;
             this.markFrequency.Text = "3000";
             this.markFrequency.Enter += new System.EventHandler(this.markFrequency_Enter);
             this.markFrequency.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textboxKeyUp);
@@ -237,7 +240,7 @@
             this.startButton.Location = new System.Drawing.Point(671, 511);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
-            this.startButton.TabIndex = 136;
+            this.startButton.TabIndex = 9;
             this.startButton.Text = "Analyze";
             this.startButton.UseVisualStyleBackColor = false;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
@@ -280,17 +283,45 @@
             this.matchLabel.TabIndex = 139;
             this.matchLabel.Text = "Match label";
             // 
+            // zoomLabel
+            // 
+            this.zoomLabel.AutoSize = true;
+            this.zoomLabel.Location = new System.Drawing.Point(895, 35);
+            this.zoomLabel.Name = "zoomLabel";
+            this.zoomLabel.Size = new System.Drawing.Size(34, 13);
+            this.zoomLabel.TabIndex = 142;
+            this.zoomLabel.Text = "Zoom";
+            // 
             // scopeControl1
             // 
+            this.scopeControl1.AutoScroll = true;
             this.scopeControl1.Location = new System.Drawing.Point(32, 28);
             this.scopeControl1.Name = "scopeControl1";
-            this.scopeControl1.Size = new System.Drawing.Size(882, 346);
+            this.scopeControl1.Size = new System.Drawing.Size(839, 346);
             this.scopeControl1.TabIndex = 140;
+            // 
+            // zoom
+            // 
+            this.zoom.LargeChange = 25;
+            this.zoom.Location = new System.Drawing.Point(892, 50);
+            this.zoom.Maximum = 300;
+            this.zoom.Minimum = 100;
+            this.zoom.Name = "zoom";
+            this.zoom.Orientation = System.Windows.Forms.Orientation.Vertical;
+            this.zoom.Size = new System.Drawing.Size(45, 324);
+            this.zoom.SmallChange = 5;
+            this.zoom.TabIndex = 10;
+            this.zoom.TickFrequency = 25;
+            this.zoom.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.zoom.Value = 100;
+            this.zoom.Scroll += new System.EventHandler(this.zoom_ValueChanged);
             // 
             // SingleSignalAnalyzerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.zoom);
+            this.Controls.Add(this.zoomLabel);
             this.Controls.Add(this.scopeControl1);
             this.Controls.Add(this.matchLabel);
             this.Controls.Add(this.resultString);
@@ -316,6 +347,8 @@
             this.Controls.Add(this.markFrequency);
             this.Name = "SingleSignalAnalyzerControl";
             this.Size = new System.Drawing.Size(943, 587);
+            this.Load += new System.EventHandler(this.SingleSignalAnalyzerControl_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.zoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -348,5 +381,7 @@
         private System.Windows.Forms.Label resultStringLabel;
         private System.Windows.Forms.Label matchLabel;
         private GuiControls.ScopeControl scopeControl1;
+        private System.Windows.Forms.Label zoomLabel;
+        private System.Windows.Forms.TrackBar zoom;
     }
 }

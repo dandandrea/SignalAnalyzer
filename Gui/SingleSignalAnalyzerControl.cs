@@ -184,7 +184,17 @@ namespace Gui
             audioLengthMicrosecondsLabel.Enabled = true;
             audioLengthMicroseconds.Enabled = true;
             scopeControl1.DrawScope(signalGenerationResult.Samples, signalGenerationResult.SampleRate,
-                int.Parse(baudRate.Text), int.Parse(numberOfBits.Text));
+                int.Parse(baudRate.Text), int.Parse(numberOfBits.Text), zoom.Value);
+        }
+
+        private void zoom_ValueChanged(object sender, EventArgs e)
+        {
+            startButton_Click(sender, e);
+        }
+
+        private void SingleSignalAnalyzerControl_Load(object sender, EventArgs e)
+        {
+            startButton_Click(sender, e);
         }
 
         private void SetBelowDataGridToolTipText()

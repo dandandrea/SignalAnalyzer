@@ -14,7 +14,7 @@ namespace Core.AudioGeneration
         {
             var cubicSplineFactor = GetCubicSplineFactor(samples, scaleWidth);
 
-            Debug.WriteLine($"[AudioScaler] Total samples: {samples.Length}, width: {scaleWidth}, cubic spline factor {cubicSplineFactor}");
+            // Debug.WriteLine($"[AudioScaler] Total samples: {samples.Length}, width: {scaleWidth}, cubic spline factor {cubicSplineFactor}");
 
             samples = Interpolate(samples, scaleWidth, cubicSplineFactor);
             samples = DownSample(samples, cubicSplineFactor);
@@ -25,7 +25,7 @@ namespace Core.AudioGeneration
 
             var verticalScalingFactor = scaleHeight / Math.Abs(maxValue) / 2;
 
-            Debug.WriteLine($"[AudioScaler] Min: {minValue}, max: {maxValue}, height: {scaleHeight}, vertical scaling factor {verticalScalingFactor}");
+            // Debug.WriteLine($"[AudioScaler] Min: {minValue}, max: {maxValue}, height: {scaleHeight}, vertical scaling factor {verticalScalingFactor}");
 
             var outputSamples = new List<float>();
             foreach (var sample in samples)
@@ -33,10 +33,9 @@ namespace Core.AudioGeneration
                 outputSamples.Add(ApplyVerticalScaling(sample, minValue, verticalScalingFactor));
             }
 
-            // TODO: This calculation is still probably slightly off
             SamplesPerSymbol = (double)scaleWidth / numberOfSymbols;
 
-            Debug.WriteLine($"[AudioScaler] Samples per symbol: {scaleWidth} / {numberOfSymbols} = {SamplesPerSymbol:N3}");
+            // Debug.WriteLine($"[AudioScaler] Samples per symbol: {scaleWidth} / {numberOfSymbols} = {SamplesPerSymbol:N3}");
 
             return outputSamples.ToArray();
         }

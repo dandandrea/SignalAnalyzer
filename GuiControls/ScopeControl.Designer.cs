@@ -39,7 +39,8 @@
             this.scopePictureBox.Location = new System.Drawing.Point(0, 0);
             this.scopePictureBox.Margin = new System.Windows.Forms.Padding(0);
             this.scopePictureBox.Name = "scopePictureBox";
-            this.scopePictureBox.Size = new System.Drawing.Size(882, 346);
+            this.scopePictureBox.Size = new System.Drawing.Size(943, 401);
+            this.scopePictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.scopePictureBox.TabIndex = 142;
             this.scopePictureBox.TabStop = false;
             // 
@@ -47,11 +48,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.Controls.Add(this.scopePictureBox);
             this.Name = "ScopeControl";
-            this.Size = new System.Drawing.Size(882, 346);
+            this.Size = new System.Drawing.Size(944, 401);
             ((System.ComponentModel.ISupportInitialize)(this.scopePictureBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
