@@ -27,7 +27,7 @@ namespace Gui
             _singleSignalAnalyzerControl.Show();
 
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            var versionString = $"v{version.Major}.{version.Minor}.{version.Revision}";
+            var versionString = $"v{version.Major}.{version.Minor}.{version.Build}";
             toolStripStatusLabel1.Text = versionString;
             statusStrip1.Refresh();
         }
