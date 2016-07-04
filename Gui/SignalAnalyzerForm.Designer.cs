@@ -85,9 +85,7 @@
             // 
             // multipleSignalsToolStripMenuItem
             // 
-            this.multipleSignalsToolStripMenuItem.Checked = true;
             this.multipleSignalsToolStripMenuItem.CheckOnClick = true;
-            this.multipleSignalsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.multipleSignalsToolStripMenuItem.Name = "multipleSignalsToolStripMenuItem";
             this.multipleSignalsToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.multipleSignalsToolStripMenuItem.Text = "Multiple signals";

@@ -111,6 +111,10 @@
       <Project>{29d3ca05-7f96-4750-ba4d-b995d5389ac8}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GuiControls\GuiControls.csproj">
+      <Project>{79BAD60D-6E89-4ED2-96E8-5A971E53C44D}</Project>
+      <Name>GuiControls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

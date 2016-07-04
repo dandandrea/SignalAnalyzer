@@ -2,9 +2,9 @@
 
 namespace Core.SignalAnalysis
 {
-    public interface ISignalAnalyzer
+    public interface IFftSignalAnalyzer
     {
-        SignalAnalysisResult AnalyzeSignal(double? startMicroseconds = null,
+        FftSignalAnalysisResult AnalyzeSignal(double? startMicroseconds = null,
             double? endMicroseconds = null, int minFftSize = 8192, int maxFftSize = 16384);
 
         ICollection<int> GetFrequencyCandidates(string filename,
