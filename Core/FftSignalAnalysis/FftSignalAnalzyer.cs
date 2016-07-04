@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Core.SignalAnalysis
 {
-    public class SignalAnalyzer : ISignalAnalyzer
+    public class SignalAnalyzer : IFftSignalAnalyzer
     {
         private IAudioAnalyzer _audioAnalyzer;
 
@@ -23,7 +23,7 @@ namespace Core.SignalAnalysis
             _audioAnalyzer = audioAnalyzer;
         }
 
-        public SignalAnalysisResult AnalyzeSignal(double? startMicroseconds,
+        public FftSignalAnalysisResult AnalyzeSignal(double? startMicroseconds,
             double? endMicroseconds, int minFftSize, int maxFftSize)
         {
             if ((startMicroseconds != null && endMicroseconds == null) || (startMicroseconds == null && endMicroseconds != null))
@@ -67,7 +67,7 @@ namespace Core.SignalAnalysis
 
             frequencyComponents.Sort((a, b) => b.Magnitude.CompareTo(a.Magnitude));
 
-            return new SignalAnalysisResult
+            return new FftSignalAnalysisResult
             {
                 SamplingResult = samplingResult,
                 NumberOfBins = fftSize,
@@ -91,7 +91,7 @@ namespace Core.SignalAnalysis
             {
                 for (var currentWindowLength = windowLengthStart; currentWindowLength <= windowLengthEnd; currentWindowLength++)
                 {
-                    var signalAnalysisResult = ((ISignalAnalyzer)this).AnalyzeSignal(currentWindowStart, currentWindowStart + currentWindowLength);
+                    var signalAnalysisResult = ((IFftSignalAnalyzer)this).AnalyzeSignal(currentWindowStart, currentWindowStart + currentWindowLength);
 
                     frequencyComponents.Add(signalAnalysisResult.FrequencyComponents.First());
                 }

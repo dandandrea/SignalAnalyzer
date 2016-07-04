@@ -90,11 +90,11 @@
     <Compile Include="BinaryFskAnalysis\IFrequencyDetector.cs" />
     <Compile Include="BinaryFskAnalysis\DerivativeFrequencyDetector.cs" />
     <Compile Include="BinaryFskAnalysis\ZeroCrossingsFrequencyDetector.cs" />
-    <Compile Include="SignalAnalysis\FrequencyComponent.cs" />
-    <Compile Include="SignalAnalysis\ISignalAnalyzer.cs" />
+    <Compile Include="FftSignalAnalysis\FrequencyComponent.cs" />
+    <Compile Include="FftSignalAnalysis\IFftSignalAnalyzer.cs" />
     <Compile Include="AudioAnalysis\SamplingResult.cs" />
-    <Compile Include="SignalAnalysis\SignalAnalzyer.cs" />
-    <Compile Include="SignalAnalysis\SignalAnalysisResult.cs" />
+    <Compile Include="FftSignalAnalysis\FftSignalAnalzyer.cs" />
+    <Compile Include="FftSignalAnalysis\FftSignalAnalysisResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

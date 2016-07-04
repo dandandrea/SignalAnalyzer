@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Core.SignalAnalysis
 {
-    public class SignalAnalysisResult
+    public class FftSignalAnalysisResult
     {
         public SamplingResult SamplingResult { get; set; }
         public int NumberOfBins { get; set; }
