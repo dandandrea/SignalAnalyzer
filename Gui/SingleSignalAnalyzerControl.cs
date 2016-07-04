@@ -9,6 +9,7 @@ namespace Gui
     public partial class SingleSignalAnalyzerControl : UserControl
     {
         private AnalysisResultEventArgs _analysisResult;
+        private SignalGenerationResultEventArgs _signalGenerationResult;
         private Color _defaultMatchLabelForeColor;
         private Color _defaultMatchLabelBackColor;
         private string _defaultStartButtonText;
@@ -185,11 +186,13 @@ namespace Gui
             audioLengthMicroseconds.Enabled = true;
             scopeControl1.DrawScope(signalGenerationResult.Samples, signalGenerationResult.SampleRate,
                 int.Parse(baudRate.Text), int.Parse(numberOfBits.Text), zoom.Value);
+            _signalGenerationResult = signalGenerationResult;
         }
 
         private void zoom_ValueChanged(object sender, EventArgs e)
         {
-            startButton_Click(sender, e);
+            scopeControl1.DrawScope(_signalGenerationResult.Samples, _signalGenerationResult.SampleRate,
+                int.Parse(baudRate.Text), int.Parse(numberOfBits.Text), zoom.Value);
         }
 
         private void SingleSignalAnalyzerControl_Load(object sender, EventArgs e)
