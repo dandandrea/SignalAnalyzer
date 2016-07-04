@@ -68,9 +68,9 @@ namespace Tests
 
             var audioAnalyzer = new AudioAnalyzer(audioStream, audioGenerator);
             var binaryFskAnalyzer = (IBinaryFskAnalyzer)new BinaryFskAnalyzer(audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
-            var bits = binaryFskAnalyzer.AnalyzeSignal();
+            var analysisResult = binaryFskAnalyzer.AnalyzeSignal();
 
-            var ascii = BitManipulator.BitsToString(bits);
+            var ascii = BitManipulator.BitsToString(analysisResult.Bits);
 
             Assert.AreEqual(Resources.LoremIpsumTestString, ascii);
         }

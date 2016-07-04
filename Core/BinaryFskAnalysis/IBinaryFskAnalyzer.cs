@@ -7,7 +7,7 @@ namespace Core.BinaryFskAnalysis
 
     public interface IBinaryFskAnalyzer
     {
-        ICollection<bool> AnalyzeSignal(string testString = null);
+        AnalysisResult AnalyzeSignal(string testString = null);
         void Initialize(IAudioAnalyzer audioAnalyzer, IFrequencyDetector frequencyDetector,
             BinaryFskAnalyzerSettings binaryFskAnalzyerSettings);
 

@@ -81,6 +81,7 @@
     <Compile Include="AudioGeneration\IAudioGenerator.cs" />
     <Compile Include="AudioGeneration\SamplingResultEventArgs.cs" />
     <Compile Include="BinaryData\BitManipulator.cs" />
+    <Compile Include="BinaryFskAnalysis\AnalysisResult.cs" />
     <Compile Include="BinaryFskAnalysis\Bell202BinaryFskAnalyzerSettings.cs" />
     <Compile Include="BinaryFskAnalysis\Bell103BinaryFskAnalyzerSettings.cs" />
     <Compile Include="BinaryFskAnalysis\BinaryFskAnalyzer.cs" />

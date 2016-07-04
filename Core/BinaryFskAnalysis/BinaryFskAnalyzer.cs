@@ -42,7 +42,7 @@ namespace Core.BinaryFskAnalysis
             _settings = ProcessSettings(binaryFskAnalzyerSettings);
         }
 
-        public ICollection<bool> AnalyzeSignal(string testString = null)
+        public AnalysisResult AnalyzeSignal(string testString = null)
         {
             var bits = new List<bool>();
 
@@ -123,7 +123,10 @@ namespace Core.BinaryFskAnalysis
                 maximumFrequencyDifference, averageFrequencyDifference, frequencyDifferences.Count(), numberOfZeroFrequencies,
                 resultingString, match);
 
-            return bits;
+            return new AnalysisResult
+            {
+                Bits = bits
+            };
         }
 
         private static int FrequencyDifference(int frequency, int spaceFrequency, int markFrequency)
