@@ -5,8 +5,8 @@ using Core.BinaryFskAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using Tests.Properties;
 
 namespace Tests
@@ -68,9 +68,15 @@ namespace Tests
 
             var audioAnalyzer = new AudioAnalyzer(audioStream, audioGenerator);
             var binaryFskAnalyzer = (IBinaryFskAnalyzer)new BinaryFskAnalyzer(audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
-            var analysisResult = binaryFskAnalyzer.AnalyzeSignal();
+            var results = binaryFskAnalyzer.AnalyzeSignal();
 
-            var ascii = BitManipulator.BitsToString(analysisResult.Bits);
+            var bits = new List<bool>();
+            foreach (var result in results)
+            {
+                bits.Add(result.Bit);
+            }
+
+            var ascii = BitManipulator.BitsToString(bits);
 
             Assert.AreEqual(Resources.LoremIpsumTestString, ascii);
         }

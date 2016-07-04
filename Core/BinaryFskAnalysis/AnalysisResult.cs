@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Core.BinaryFskAnalysis
+﻿namespace Core.BinaryFskAnalysis
 {
     public class AnalysisResult
     {
-        public ICollection<bool> Bits { get; set; }
+        public bool Bit { get; set; }
     }
 }

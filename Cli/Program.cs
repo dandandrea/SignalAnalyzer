@@ -7,6 +7,7 @@ using Core.AudioGeneration;
 using Core.BinaryData;
 using System.IO;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace Cli
 {
@@ -47,19 +48,24 @@ namespace Cli
             Console.WriteLine($"Window length start {binaryFskAnalyzerSettings.WindowLengthStartMicroseconds:N3} us, window length end {binaryFskAnalyzerSettings.WindowLengthEndMicroseconds:N3} us, window length increment {binaryFskAnalyzerSettings.WindowLengthIncrementMicroseconds:N3} us");
             Console.WriteLine();
 
-            var analysisResult = binaryFskAnalyzer.AnalyzeSignal();
+            var results = binaryFskAnalyzer.AnalyzeSignal();
+            var bits = new List<bool>();
+            foreach (var result in results)
+            {
+                bits.Add(result.Bit);
+            }
 
             Console.WriteLine("Rendering bytes");
             Console.WriteLine();
             var renderer = (IRenderer)new RowRenderer();
-            renderer.Render(BitManipulator.BitsToBytes(analysisResult.Bits));
+            renderer.Render(BitManipulator.BitsToBytes(bits));
             Console.WriteLine();
             Console.WriteLine();
 
             Console.WriteLine("Rendering ASCII");
             Console.WriteLine();
             renderer = new AsciiRenderer();
-            renderer.Render(BitManipulator.BitsToBytes(analysisResult.Bits));
+            renderer.Render(BitManipulator.BitsToBytes(bits));
             Console.WriteLine();
 
             Console.WriteLine("Done");

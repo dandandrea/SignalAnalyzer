@@ -42,9 +42,9 @@ namespace Core.BinaryFskAnalysis
             _settings = ProcessSettings(binaryFskAnalzyerSettings);
         }
 
-        public AnalysisResult AnalyzeSignal(string testString = null)
+        public ICollection<AnalysisResult> AnalyzeSignal(string testString = null)
         {
-            var bits = new List<bool>();
+            var results = new List<AnalysisResult>();
 
             var frequencyDifferences = new List<int>();
             int numberOfZeroFrequencies = 0;
@@ -97,7 +97,12 @@ namespace Core.BinaryFskAnalysis
 
                     // Debug.WriteLine($"[{currentWindowStart:N3} us to {currentWindowStart + currentWindowLength:N3} us ({(currentWindowStart + currentWindowLength) - currentWindowStart:N3} us)] {frequency:N0} Hz average (+/- {frequencyDifference:N0} Hz) [Want {_settings.MarkFrequency:N0} Hz / {_settings.SpaceFrequency:N0} Hz] -> bit {bits.Count}: {markOrSpace}");
 
-                    bits.Add(markOrSpace == 0 ? false : true);
+                    results.Add(
+                        new AnalysisResult
+                        {
+                            Bit = markOrSpace == 0 ? false : true
+                        }
+                    );
                 }
             }
 
@@ -109,6 +114,9 @@ namespace Core.BinaryFskAnalysis
             string resultingString = null;
             if (testString != null)
             {
+                var bits = new List<bool>();
+                results.ForEach(x => bits.Add(x.Bit));
+
                 resultingString = BitManipulator.BitsToString(bits);
                 match = false;
                 if (resultingString == testString)
@@ -123,10 +131,7 @@ namespace Core.BinaryFskAnalysis
                 maximumFrequencyDifference, averageFrequencyDifference, frequencyDifferences.Count(), numberOfZeroFrequencies,
                 resultingString, match);
 
-            return new AnalysisResult
-            {
-                Bits = bits
-            };
+            return results;
         }
 
         private static int FrequencyDifference(int frequency, int spaceFrequency, int markFrequency)
