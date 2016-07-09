@@ -1,6 +1,7 @@
 ﻿using Core.BinaryFskAnalysis;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -82,6 +83,7 @@ namespace Gui
             {
                 _analysisResult = (AnalysisResultEventArgs)e.UserState;
 
+                UpdateScope();
                 UpdateAnalysisResults();
                 UpdateMatchIndicator();
             }
@@ -155,6 +157,19 @@ namespace Gui
             }
         }
 
+        private void UpdateScope()
+        {
+            numberOfSymbols.Text = _signalGenerationResult.NumberOfBits.ToString();
+            audioLengthMicroseconds.Text = (_signalGenerationResult.AudioLengthInMicroseconds / _signalGenerationResult.NumberOfBits).ToString();
+            numberOfSymbolsLabel.Enabled = true;
+            numberOfSymbols.Enabled = true;
+            audioLengthMicrosecondsLabel.Enabled = true;
+            audioLengthMicroseconds.Enabled = true;
+            scopeControl1.DrawScope(_signalGenerationResult.Samples, _analysisResult, _signalGenerationResult.SampleRate,
+                int.Parse(baudRate.Text), int.Parse(numberOfSymbols.Text), zoom.Value);
+
+        }
+
         private void UpdateAnalysisResults()
         {
             numberOfFrequencyDifferencesLabel.Enabled = true;
@@ -201,20 +216,12 @@ namespace Gui
 
         private void UpdateSignalGenerationInformation(SignalGenerationResultEventArgs signalGenerationResult)
         {
-            numberOfSymbols.Text = signalGenerationResult.NumberOfBits.ToString();
-            audioLengthMicroseconds.Text = (signalGenerationResult.AudioLengthInMicroseconds / signalGenerationResult.NumberOfBits).ToString();
-            numberOfSymbolsLabel.Enabled = true;
-            numberOfSymbols.Enabled = true;
-            audioLengthMicrosecondsLabel.Enabled = true;
-            audioLengthMicroseconds.Enabled = true;
-            scopeControl1.DrawScope(signalGenerationResult.Samples, signalGenerationResult.SampleRate,
-                int.Parse(baudRate.Text), int.Parse(numberOfSymbols.Text), zoom.Value);
             _signalGenerationResult = signalGenerationResult;
         }
 
         private void zoom_ValueChanged(object sender, EventArgs e)
         {
-            scopeControl1.DrawScope(_signalGenerationResult.Samples, _signalGenerationResult.SampleRate,
+            scopeControl1.DrawScope(_signalGenerationResult.Samples, _analysisResult, _signalGenerationResult.SampleRate,
                 int.Parse(baudRate.Text), int.Parse(numberOfSymbols.Text), zoom.Value);
         }
 
