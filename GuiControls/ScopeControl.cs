@@ -46,8 +46,6 @@ namespace GuiControls
 
                 var greenPen = new Pen(Color.Green);
                 var yellowPen = new Pen(Color.Yellow);
-                var textBrush = new SolidBrush(Color.White);
-                var font = new Font("Arial", 12);
 
                 var sampleFramePositions = new List<int>();
                 for (var n = 1; n < numberOfSymbols; n++)
@@ -67,6 +65,10 @@ namespace GuiControls
                     }
                 }
 
+                var textBrush = new SolidBrush(Color.White);
+                var mediumFont = new Font("Arial", 10);
+                var smallFont = new Font("Arial", 8);
+
                 if (analysisResult != null && analysisResult.AnalysisResult != null && analysisResult.AnalysisResult.AnalysisFrames != null)
                 {
                     var analysisFrames = new AnalysisFrame[analysisResult.AnalysisResult.AnalysisFrames.Count];
@@ -77,9 +79,20 @@ namespace GuiControls
                     {
                         if (x == 0 || sampleFramePositions.Contains(x))
                         {
-                            var line1 = $"{analysisFrames[frame].Frequency} Hz";
+                            var frequency = analysisFrames[frame].Frequency;
+                            var frequencyDifference = analysisFrames[frame].DifferenceFromExpectedFrequencies;
+                            var symbol = analysisFrames[frame].Bit.HasValue ? (analysisFrames[frame].Bit.Value == true ? "1" : "0") : "-";
+                            var currentTimeMicroseconds = analysisFrames[frame].TimeOffsetMicroseconds;
 
-                            g.DrawString(line1, font, textBrush, new PointF(x + 2, imageHeight - 20));
+                            var line1 = $"{frequency} Hz";
+                            var line2 = $"({frequencyDifference} Hz dev)";
+                            var line3 = $"@ {currentTimeMicroseconds:N1} μs";
+                            var line4 = $"{symbol}";
+
+                            g.DrawString(line1, mediumFont, textBrush, new PointF(x + 2, imageHeight - 65));
+                            g.DrawString(line2, smallFont, textBrush, new PointF(x + 2, imageHeight - 50));
+                            g.DrawString(line3, mediumFont, textBrush, new PointF(x + 2, imageHeight - 35));
+                            g.DrawString(line4, mediumFont, textBrush, new PointF(x + 2, imageHeight - 18));
 
                             frame++;
                         }
