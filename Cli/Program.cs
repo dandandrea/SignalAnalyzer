@@ -48,11 +48,14 @@ namespace Cli
             Console.WriteLine($"Window length start {binaryFskAnalyzerSettings.WindowLengthStartMicroseconds:N3} us, window length end {binaryFskAnalyzerSettings.WindowLengthEndMicroseconds:N3} us, window length increment {binaryFskAnalyzerSettings.WindowLengthIncrementMicroseconds:N3} us");
             Console.WriteLine();
 
-            var results = binaryFskAnalyzer.AnalyzeSignal();
+            var result = binaryFskAnalyzer.AnalyzeSignal();
             var bits = new List<bool>();
-            foreach (var result in results)
+            foreach (var frame in result.AnalysisFrames)
             {
-                bits.Add(result.Bit);
+                if (frame.Bit.HasValue == true)
+                {
+                    bits.Add(frame.Bit.Value);
+                }
             }
 
             Console.WriteLine("Rendering bytes");

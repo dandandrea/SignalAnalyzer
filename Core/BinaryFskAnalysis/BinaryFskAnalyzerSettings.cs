@@ -20,12 +20,6 @@
             BaudRate = sourceSettings.BaudRate;
             SpaceFrequency = sourceSettings.SpaceFrequency;
             MarkFrequency = sourceSettings.MarkFrequency;
-            WindowPositionStartMicroseconds = sourceSettings.WindowPositionStartMicroseconds;
-            WindowPositionIncrementMicroseconds = sourceSettings.WindowPositionIncrementMicroseconds;
-            WindowPositionEndMicroseconds = sourceSettings.WindowPositionEndMicroseconds;
-            WindowLengthStartMicroseconds = sourceSettings.WindowLengthStartMicroseconds;
-            WindowLengthIncrementMicroseconds = sourceSettings.WindowLengthIncrementMicroseconds;
-            WindowLengthEndMicroseconds = sourceSettings.WindowLengthEndMicroseconds;
             FrequencyDeviationTolerance = sourceSettings.FrequencyDeviationTolerance;
         }
     }

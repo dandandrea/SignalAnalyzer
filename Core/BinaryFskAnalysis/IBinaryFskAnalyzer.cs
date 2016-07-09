@@ -1,5 +1,4 @@
 ﻿using Core.AudioAnalysis;
-using System.Collections.Generic;
 
 namespace Core.BinaryFskAnalysis
 {
@@ -7,7 +6,7 @@ namespace Core.BinaryFskAnalysis
 
     public interface IBinaryFskAnalyzer
     {
-        ICollection<AnalysisResult> AnalyzeSignal(string testString = null);
+        AnalysisResult AnalyzeSignal(string testString = null);
         void Initialize(IAudioAnalyzer audioAnalyzer, IFrequencyDetector frequencyDetector,
             BinaryFskAnalyzerSettings binaryFskAnalzyerSettings);
 

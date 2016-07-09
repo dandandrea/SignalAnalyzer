@@ -62,7 +62,7 @@ namespace Gui
 
             dataGridView.Columns[columnNumber].Name = "# > tolerance";
             dataGridView.Columns[columnNumber].HeaderText = "# > tolerance";
-            dataGridView.Columns[columnNumber].DataPropertyName = "NumberOfMissedFrequencies";
+            dataGridView.Columns[columnNumber].DataPropertyName = "NumberOfFrequencyDifferences";
             dataGridView.Columns[columnNumber].Frozen = false;
             dataGridView.Columns[columnNumber].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridView.Columns[columnNumber].ToolTipText = "Number of times that the detected frequency was outside of the supplied frequency deviation tolerance";

@@ -70,10 +70,14 @@ namespace Tests
             var binaryFskAnalyzer = (IBinaryFskAnalyzer)new BinaryFskAnalyzer(audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
             var results = binaryFskAnalyzer.AnalyzeSignal();
 
+            var result = binaryFskAnalyzer.AnalyzeSignal();
             var bits = new List<bool>();
-            foreach (var result in results)
+            foreach (var frame in result.AnalysisFrames)
             {
-                bits.Add(result.Bit);
+                if (frame.Bit.HasValue == true)
+                {
+                    bits.Add(frame.Bit.Value);
+                }
             }
 
             var ascii = BitManipulator.BitsToString(bits);

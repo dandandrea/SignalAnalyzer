@@ -82,6 +82,7 @@
     <Compile Include="AudioGeneration\SamplingResultEventArgs.cs" />
     <Compile Include="BinaryData\BitManipulator.cs" />
     <Compile Include="BinaryFskAnalysis\AnalysisResult.cs" />
+    <Compile Include="BinaryFskAnalysis\AnalysisResultEventArgs.cs" />
     <Compile Include="BinaryFskAnalysis\Bell202BinaryFskAnalyzerSettings.cs" />
     <Compile Include="BinaryFskAnalysis\Bell103BinaryFskAnalyzerSettings.cs" />
     <Compile Include="BinaryFskAnalysis\BinaryFskAnalyzer.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="AudioAnalysis\SamplingResult.cs" />
     <Compile Include="FftSignalAnalysis\FftSignalAnalzyer.cs" />
     <Compile Include="FftSignalAnalysis\FftSignalAnalysisResult.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

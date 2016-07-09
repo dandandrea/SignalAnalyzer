@@ -3,7 +3,6 @@ using Core.AudioGeneration;
 using Core.BinaryData;
 using Core.BinaryFskAnalysis;
 using System;
-using System.Diagnostics;
 using System.IO;
 
 namespace Gui
