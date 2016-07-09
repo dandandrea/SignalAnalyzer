@@ -110,6 +110,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "SignalAnalyzerForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Signal Analyzer";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

@@ -166,7 +166,7 @@
             this.audioLengthMicrosecondsLabel.Name = "audioLengthMicrosecondsLabel";
             this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(114, 13);
             this.audioLengthMicrosecondsLabel.TabIndex = 107;
-            this.audioLengthMicrosecondsLabel.Text = "Last symbol length (us)";
+            this.audioLengthMicrosecondsLabel.Text = "Last symbol length in μs";
             // 
             // audioLengthMicroseconds
             // 

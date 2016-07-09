@@ -163,6 +163,8 @@ namespace Gui
 
         private void SetBelowDataGridToolTipText()
         {
+            // TODO: Centralize tool tip text to Resource strings
+
             var spaceFrequencyToolTipText = "FSK space (binary 0) frequency in Hz";
             var markFrequencyToolTipText = "FSK mark (binary 1) frequency in Hz";
             var toleranceToolTipText = "Maximum amount (in Hz) that a detected frequency can deviate from the space and mark frequencies and still be considered valid";

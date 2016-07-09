@@ -82,7 +82,7 @@ namespace Gui
             {
                 _analysisResult = (AnalysisResultEventArgs)e.UserState;
 
-                UpdateResultString();
+                UpdateAnalysisResults();
                 UpdateMatchIndicator();
             }
 
@@ -115,12 +115,17 @@ namespace Gui
             {
                 startButton.Enabled = false;
                 startButton.Text = "Analyzing...";
-                numberOfBitsLabel.Enabled = false;
-                numberOfBits.Enabled = false;
+                numberOfSymbolsLabel.Enabled = false;
+                numberOfSymbols.Enabled = false;
                 audioLengthMicrosecondsLabel.Enabled = false;
                 audioLengthMicroseconds.Enabled = false;
-                numberOfBits.Text = string.Empty;
+                numberOfSymbols.Text = string.Empty;
                 audioLengthMicroseconds.Text = string.Empty;
+                numberOfZeroFrequencies.Text = string.Empty;
+                numberOfFrequencyDifferences.Text = string.Empty;
+                averageFrequencyDifference.Text = string.Empty;
+                minimumFrequencyDifference.Text = string.Empty;
+                maximumFrequencyDifference.Text = string.Empty;
                 resultStringLabel.Enabled = false;
                 resultString.Enabled = false;
                 resultString.Text = string.Empty;
@@ -132,7 +137,6 @@ namespace Gui
                 markFrequency.ReadOnly = true;
                 tolerance.ReadOnly = true;
                 baudRate.ReadOnly = true;
-                boost.ReadOnly = true;
                 testString.ReadOnly = true;
                 writeWavFiles.Enabled = false;
                 playAudio.Enabled = false;
@@ -145,15 +149,34 @@ namespace Gui
                 markFrequency.ReadOnly = false;
                 tolerance.ReadOnly = false;
                 baudRate.ReadOnly = false;
-                boost.ReadOnly = false;
                 testString.ReadOnly = false;
                 writeWavFiles.Enabled = true;
                 playAudio.Enabled = true;
             }
         }
 
-        private void UpdateResultString()
+        private void UpdateAnalysisResults()
         {
+            numberOfFrequencyDifferencesLabel.Enabled = true;
+            numberOfFrequencyDifferences.Enabled = true;
+            numberOfFrequencyDifferences.Text = _analysisResult.NumberOfFrequencyDifferences.ToString();
+
+            numberOfZeroFrequenciesLabel.Enabled = true;
+            numberOfZeroFrequencies.Enabled = true;
+            numberOfZeroFrequencies.Text = _analysisResult.NumberOfZeroFrequencies.ToString();
+
+            averageFrequencyDifferenceLabel.Enabled = true;
+            averageFrequencyDifference.Enabled = true;
+            averageFrequencyDifference.Text = $"{_analysisResult.AverageFrequencyDifference:N1}";
+
+            minimumFrequencyDifferenceLabel.Enabled = true;
+            minimumFrequencyDifference.Enabled = true;
+            minimumFrequencyDifference.Text = $"{_analysisResult.MinimumFrequencyDifference:N1}";
+
+            maximumFrequencyDifferenceLabel.Enabled = true;
+            maximumFrequencyDifference.Enabled = true;
+            maximumFrequencyDifference.Text = $"{_analysisResult.MaximumFrequencyDifference:N1}";
+
             resultStringLabel.Enabled = true;
             resultString.Enabled = true;
             resultString.Text = _analysisResult.ResultingString;
@@ -178,21 +201,21 @@ namespace Gui
 
         private void UpdateSignalGenerationInformation(SignalGenerationResultEventArgs signalGenerationResult)
         {
-            numberOfBits.Text = signalGenerationResult.NumberOfBits.ToString();
+            numberOfSymbols.Text = signalGenerationResult.NumberOfBits.ToString();
             audioLengthMicroseconds.Text = (signalGenerationResult.AudioLengthInMicroseconds / signalGenerationResult.NumberOfBits).ToString();
-            numberOfBitsLabel.Enabled = true;
-            numberOfBits.Enabled = true;
+            numberOfSymbolsLabel.Enabled = true;
+            numberOfSymbols.Enabled = true;
             audioLengthMicrosecondsLabel.Enabled = true;
             audioLengthMicroseconds.Enabled = true;
             scopeControl1.DrawScope(signalGenerationResult.Samples, signalGenerationResult.SampleRate,
-                int.Parse(baudRate.Text), int.Parse(numberOfBits.Text), zoom.Value);
+                int.Parse(baudRate.Text), int.Parse(numberOfSymbols.Text), zoom.Value);
             _signalGenerationResult = signalGenerationResult;
         }
 
         private void zoom_ValueChanged(object sender, EventArgs e)
         {
             scopeControl1.DrawScope(_signalGenerationResult.Samples, _signalGenerationResult.SampleRate,
-                int.Parse(baudRate.Text), int.Parse(numberOfBits.Text), zoom.Value);
+                int.Parse(baudRate.Text), int.Parse(numberOfSymbols.Text), zoom.Value);
         }
 
         private void SingleSignalAnalyzerControl_Load(object sender, EventArgs e)
@@ -202,18 +225,28 @@ namespace Gui
 
         private void SetBelowDataGridToolTipText()
         {
+            // TODO: Centralize tool tip text to Resource strings
+
             var spaceFrequencyToolTipText = "FSK space (binary 0) frequency in Hz";
             var markFrequencyToolTipText = "FSK mark (binary 1) frequency in Hz";
             var toleranceToolTipText = "Maximum amount (in Hz) that a detected frequency can deviate from the space and mark frequencies and still be considered valid";
 
             var baudRateToolTipText = "Baud rate (symbols per second)";
-            var boostToolTipText = "Optional \"boost\" frequency (in Hz)";
 
             var startButtonToolTipText = "Begin analyzing FSK encoded signal";
 
             var writeWavFilesCheckboxToolTipText = "Save a WAV file";
             var playAudioCheckboxToolTipText = "Play generated signal audio";
-            var testStringToolTipText = "Test string for encoding/decoding";
+            var testStringToolTipText = "Test string to encode/decode";
+            var resultStringToolTipText = "Encoded/decoded test string";
+
+            var numberOfSymbolsToolTipText = "Number of symbols (typically bits)";
+            var symbolLengthToolTipText = "Length of each symbol (in microseconds)";
+            var numberOfFrequencyDifferencesToolTipText = "Number of times that the detected frequency was outside of the supplied frequency deviation tolerance";
+            var numberOfZeroFrequenciesToolTipText = "Number of times that the detected frequency was zero";
+            var averageFrequencyDifferenceToolTipText = "Average difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            var minimumFrequencyDifferenceToolTipText = "Minimum difference (in Hz) of expected space or mark frequency and actual detected frequency";
+            var maximumFrequencyDifferenceToolTipText = "Maximum difference (in Hz) of expected space or mark frequency and actual detected frequency";
 
             toolTip1.SetToolTip(spaceFrequency, spaceFrequencyToolTipText);
             toolTip1.SetToolTip(spaceFrequencyLabel, spaceFrequencyToolTipText);
@@ -227,9 +260,6 @@ namespace Gui
             toolTip1.SetToolTip(baudRate, baudRateToolTipText);
             toolTip1.SetToolTip(baudRateLabel, baudRateToolTipText);
 
-            toolTip1.SetToolTip(boost, boostToolTipText);
-            toolTip1.SetToolTip(boostLabel, boostToolTipText);
-
             toolTip1.SetToolTip(startButton, startButtonToolTipText);
 
             toolTip1.SetToolTip(writeWavFiles, writeWavFilesCheckboxToolTipText);
@@ -237,6 +267,30 @@ namespace Gui
 
             toolTip1.SetToolTip(testString, testStringToolTipText);
             toolTip1.SetToolTip(testStringLabel, testStringToolTipText);
+
+            toolTip1.SetToolTip(resultString, resultStringToolTipText);
+            toolTip1.SetToolTip(resultStringLabel, resultStringToolTipText);
+
+            toolTip1.SetToolTip(numberOfFrequencyDifferences, numberOfFrequencyDifferencesToolTipText);
+            toolTip1.SetToolTip(numberOfFrequencyDifferencesLabel, numberOfFrequencyDifferencesToolTipText);
+
+            toolTip1.SetToolTip(numberOfZeroFrequencies, numberOfZeroFrequenciesToolTipText);
+            toolTip1.SetToolTip(numberOfZeroFrequenciesLabel, numberOfZeroFrequenciesToolTipText);
+
+            toolTip1.SetToolTip(numberOfSymbols, numberOfSymbolsToolTipText);
+            toolTip1.SetToolTip(numberOfSymbolsLabel, numberOfSymbolsToolTipText);
+
+            toolTip1.SetToolTip(audioLengthMicroseconds, symbolLengthToolTipText);
+            toolTip1.SetToolTip(audioLengthMicrosecondsLabel, symbolLengthToolTipText);
+
+            toolTip1.SetToolTip(averageFrequencyDifference, averageFrequencyDifferenceToolTipText);
+            toolTip1.SetToolTip(averageFrequencyDifferenceLabel, averageFrequencyDifferenceToolTipText);
+
+            toolTip1.SetToolTip(minimumFrequencyDifference, minimumFrequencyDifferenceToolTipText);
+            toolTip1.SetToolTip(minimumFrequencyDifferenceLabel, minimumFrequencyDifferenceToolTipText);
+
+            toolTip1.SetToolTip(maximumFrequencyDifference, maximumFrequencyDifferenceToolTipText);
+            toolTip1.SetToolTip(maximumFrequencyDifferenceLabel, maximumFrequencyDifferenceToolTipText);
         }
 
         private void spaceFrequency_Enter(object sender, EventArgs e)
@@ -257,11 +311,6 @@ namespace Gui
         private void baudRate_Enter(object sender, EventArgs e)
         {
             baudRate.SelectAll();
-        }
-
-        private void boost_Enter(object sender, EventArgs e)
-        {
-            boost.SelectAll();
         }
 
         private void testString_Enter(object sender, EventArgs e)
