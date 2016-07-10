@@ -39,7 +39,7 @@ namespace Gui
 
             if (radioExistingFile.Checked == true)
             {
-                MessageBox.Show("Reading existing WAV files not supported just yet");
+                MessageBox.Show("Analyzing existing WAV files not supported just yet");
                 return;
             }
 
@@ -258,7 +258,7 @@ namespace Gui
 
             if (result == DialogResult.OK)
             {
-                MessageBox.Show(openFileDialog1.FileName);
+                filenameTextBox.Text = openFileDialog1.FileName;
             }
         }
 
