@@ -37,6 +37,12 @@ namespace Gui
                 return;
             }
 
+            if (radioExistingFile.Checked == true)
+            {
+                MessageBox.Show("Reading existing WAV files not supported just yet");
+                return;
+            }
+
             UpdateControls(true);
 
             backgroundWorker1.RunWorkerAsync();
@@ -230,6 +236,32 @@ namespace Gui
             startButton_Click(sender, e);
         }
 
+        private void radioGenerate_Click(object sender, EventArgs e)
+        {
+            existingFilePanel.Visible = false;
+            generationPanel.Visible = true;
+            openFileButton.Enabled = false;
+            openFileButton.Visible = false;
+        }
+
+        private void radioExistingFile_Click(object sender, EventArgs e)
+        {
+            generationPanel.Visible = false;
+            existingFilePanel.Visible = true;
+            openFileButton.Enabled = true;
+            openFileButton.Visible = true;
+        }
+
+        private void openFileButton_Click(object sender, EventArgs e)
+        {
+            var result = openFileDialog1.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                MessageBox.Show(openFileDialog1.FileName);
+            }
+        }
+
         private void SetBelowDataGridToolTipText()
         {
             // TODO: Centralize tool tip text to Resource strings
@@ -244,8 +276,8 @@ namespace Gui
 
             var writeWavFilesCheckboxToolTipText = "Save a WAV file";
             var playAudioCheckboxToolTipText = "Play generated signal audio";
-            var testStringToolTipText = "Test string to encode/decode";
-            var resultStringToolTipText = "Encoded/decoded test string";
+            var testStringToolTipText = "String to use for signal generation";
+            var resultStringToolTipText = "Decoded string";
 
             var numberOfSymbolsToolTipText = "Number of symbols (typically bits)";
             var symbolLengthToolTipText = "Length of each symbol (in microseconds)";

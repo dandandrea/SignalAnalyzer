@@ -64,12 +64,23 @@
             this.minimumFrequencyDifference = new System.Windows.Forms.TextBox();
             this.maximumFrequencyDifferenceLabel = new System.Windows.Forms.Label();
             this.maximumFrequencyDifference = new System.Windows.Forms.TextBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.openFileButton = new System.Windows.Forms.Button();
+            this.radioGenerate = new System.Windows.Forms.RadioButton();
+            this.radioExistingFile = new System.Windows.Forms.RadioButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.generationPanel = new System.Windows.Forms.Panel();
+            this.existingFilePanel = new System.Windows.Forms.Panel();
+            this.filenameTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.zoom)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.generationPanel.SuspendLayout();
+            this.existingFilePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // testString
             // 
-            this.testString.Location = new System.Drawing.Point(168, 476);
+            this.testString.Location = new System.Drawing.Point(74, 12);
             this.testString.Name = "testString";
             this.testString.Size = new System.Drawing.Size(164, 20);
             this.testString.TabIndex = 6;
@@ -80,7 +91,7 @@
             // testStringLabel
             // 
             this.testStringLabel.AutoSize = true;
-            this.testStringLabel.Location = new System.Drawing.Point(100, 479);
+            this.testStringLabel.Location = new System.Drawing.Point(6, 15);
             this.testStringLabel.Name = "testStringLabel";
             this.testStringLabel.Size = new System.Drawing.Size(56, 13);
             this.testStringLabel.TabIndex = 135;
@@ -89,7 +100,7 @@
             // playAudio
             // 
             this.playAudio.AutoSize = true;
-            this.playAudio.Location = new System.Drawing.Point(212, 509);
+            this.playAudio.Location = new System.Drawing.Point(635, 573);
             this.playAudio.Name = "playAudio";
             this.playAudio.Size = new System.Drawing.Size(75, 17);
             this.playAudio.TabIndex = 8;
@@ -99,7 +110,7 @@
             // writeWavFiles
             // 
             this.writeWavFiles.AutoSize = true;
-            this.writeWavFiles.Location = new System.Drawing.Point(103, 509);
+            this.writeWavFiles.Location = new System.Drawing.Point(250, 14);
             this.writeWavFiles.Name = "writeWavFiles";
             this.writeWavFiles.Size = new System.Drawing.Size(95, 17);
             this.writeWavFiles.TabIndex = 7;
@@ -108,7 +119,7 @@
             // 
             // baudRate
             // 
-            this.baudRate.Location = new System.Drawing.Point(168, 439);
+            this.baudRate.Location = new System.Drawing.Point(168, 484);
             this.baudRate.MaxLength = 5;
             this.baudRate.Name = "baudRate";
             this.baudRate.Size = new System.Drawing.Size(44, 20);
@@ -120,7 +131,7 @@
             // baudRateLabel
             // 
             this.baudRateLabel.AutoSize = true;
-            this.baudRateLabel.Location = new System.Drawing.Point(100, 442);
+            this.baudRateLabel.Location = new System.Drawing.Point(100, 487);
             this.baudRateLabel.Name = "baudRateLabel";
             this.baudRateLabel.Size = new System.Drawing.Size(53, 13);
             this.baudRateLabel.TabIndex = 134;
@@ -130,7 +141,7 @@
             // 
             this.audioLengthMicrosecondsLabel.AutoSize = true;
             this.audioLengthMicrosecondsLabel.Enabled = false;
-            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(503, 404);
+            this.audioLengthMicrosecondsLabel.Location = new System.Drawing.Point(503, 449);
             this.audioLengthMicrosecondsLabel.Name = "audioLengthMicrosecondsLabel";
             this.audioLengthMicrosecondsLabel.Size = new System.Drawing.Size(83, 13);
             this.audioLengthMicrosecondsLabel.TabIndex = 133;
@@ -139,7 +150,7 @@
             // audioLengthMicroseconds
             // 
             this.audioLengthMicroseconds.Enabled = false;
-            this.audioLengthMicroseconds.Location = new System.Drawing.Point(592, 401);
+            this.audioLengthMicroseconds.Location = new System.Drawing.Point(592, 446);
             this.audioLengthMicroseconds.Name = "audioLengthMicroseconds";
             this.audioLengthMicroseconds.ReadOnly = true;
             this.audioLengthMicroseconds.Size = new System.Drawing.Size(65, 20);
@@ -151,7 +162,7 @@
             // 
             this.numberOfSymbolsLabel.AutoSize = true;
             this.numberOfSymbolsLabel.Enabled = false;
-            this.numberOfSymbolsLabel.Location = new System.Drawing.Point(354, 404);
+            this.numberOfSymbolsLabel.Location = new System.Drawing.Point(354, 449);
             this.numberOfSymbolsLabel.Name = "numberOfSymbolsLabel";
             this.numberOfSymbolsLabel.Size = new System.Drawing.Size(54, 13);
             this.numberOfSymbolsLabel.TabIndex = 131;
@@ -160,7 +171,7 @@
             // numberOfSymbols
             // 
             this.numberOfSymbols.Enabled = false;
-            this.numberOfSymbols.Location = new System.Drawing.Point(414, 401);
+            this.numberOfSymbols.Location = new System.Drawing.Point(414, 446);
             this.numberOfSymbols.Name = "numberOfSymbols";
             this.numberOfSymbols.ReadOnly = true;
             this.numberOfSymbols.Size = new System.Drawing.Size(65, 20);
@@ -171,7 +182,7 @@
             // toleranceLabel
             // 
             this.toleranceLabel.AutoSize = true;
-            this.toleranceLabel.Location = new System.Drawing.Point(227, 442);
+            this.toleranceLabel.Location = new System.Drawing.Point(227, 487);
             this.toleranceLabel.Name = "toleranceLabel";
             this.toleranceLabel.Size = new System.Drawing.Size(55, 13);
             this.toleranceLabel.TabIndex = 129;
@@ -179,7 +190,7 @@
             // 
             // tolerance
             // 
-            this.tolerance.Location = new System.Drawing.Point(286, 439);
+            this.tolerance.Location = new System.Drawing.Point(286, 484);
             this.tolerance.MaxLength = 5;
             this.tolerance.Name = "tolerance";
             this.tolerance.Size = new System.Drawing.Size(44, 20);
@@ -191,7 +202,7 @@
             // markFrequencyLabel
             // 
             this.markFrequencyLabel.AutoSize = true;
-            this.markFrequencyLabel.Location = new System.Drawing.Point(227, 404);
+            this.markFrequencyLabel.Location = new System.Drawing.Point(227, 449);
             this.markFrequencyLabel.Name = "markFrequencyLabel";
             this.markFrequencyLabel.Size = new System.Drawing.Size(55, 13);
             this.markFrequencyLabel.TabIndex = 127;
@@ -200,7 +211,7 @@
             // spaceFrequencyLabel
             // 
             this.spaceFrequencyLabel.AutoSize = true;
-            this.spaceFrequencyLabel.Location = new System.Drawing.Point(100, 404);
+            this.spaceFrequencyLabel.Location = new System.Drawing.Point(100, 449);
             this.spaceFrequencyLabel.Name = "spaceFrequencyLabel";
             this.spaceFrequencyLabel.Size = new System.Drawing.Size(62, 13);
             this.spaceFrequencyLabel.TabIndex = 128;
@@ -208,7 +219,7 @@
             // 
             // spaceFrequency
             // 
-            this.spaceFrequency.Location = new System.Drawing.Point(168, 401);
+            this.spaceFrequency.Location = new System.Drawing.Point(168, 446);
             this.spaceFrequency.MaxLength = 5;
             this.spaceFrequency.Name = "spaceFrequency";
             this.spaceFrequency.Size = new System.Drawing.Size(44, 20);
@@ -219,7 +230,7 @@
             // 
             // markFrequency
             // 
-            this.markFrequency.Location = new System.Drawing.Point(286, 401);
+            this.markFrequency.Location = new System.Drawing.Point(286, 446);
             this.markFrequency.MaxLength = 5;
             this.markFrequency.Name = "markFrequency";
             this.markFrequency.Size = new System.Drawing.Size(44, 20);
@@ -231,7 +242,7 @@
             // startButton
             // 
             this.startButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            this.startButton.Location = new System.Drawing.Point(709, 510);
+            this.startButton.Location = new System.Drawing.Point(728, 555);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(111, 51);
             this.startButton.TabIndex = 9;
@@ -250,7 +261,7 @@
             // 
             this.resultString.BackColor = System.Drawing.SystemColors.Control;
             this.resultString.Enabled = false;
-            this.resultString.Location = new System.Drawing.Point(414, 476);
+            this.resultString.Location = new System.Drawing.Point(168, 414);
             this.resultString.Name = "resultString";
             this.resultString.ReadOnly = true;
             this.resultString.Size = new System.Drawing.Size(164, 20);
@@ -261,7 +272,7 @@
             // 
             this.resultStringLabel.AutoSize = true;
             this.resultStringLabel.Enabled = false;
-            this.resultStringLabel.Location = new System.Drawing.Point(346, 479);
+            this.resultStringLabel.Location = new System.Drawing.Point(100, 417);
             this.resultStringLabel.Name = "resultStringLabel";
             this.resultStringLabel.Size = new System.Drawing.Size(65, 13);
             this.resultStringLabel.TabIndex = 138;
@@ -271,7 +282,7 @@
             // 
             this.matchLabel.AutoSize = true;
             this.matchLabel.Enabled = false;
-            this.matchLabel.Location = new System.Drawing.Point(411, 510);
+            this.matchLabel.Location = new System.Drawing.Point(338, 417);
             this.matchLabel.Name = "matchLabel";
             this.matchLabel.Size = new System.Drawing.Size(62, 13);
             this.matchLabel.TabIndex = 139;
@@ -314,7 +325,7 @@
             // 
             this.numberOfFrequencyDifferencesLabel.AutoSize = true;
             this.numberOfFrequencyDifferencesLabel.Enabled = false;
-            this.numberOfFrequencyDifferencesLabel.Location = new System.Drawing.Point(354, 442);
+            this.numberOfFrequencyDifferencesLabel.Location = new System.Drawing.Point(354, 487);
             this.numberOfFrequencyDifferencesLabel.Name = "numberOfFrequencyDifferencesLabel";
             this.numberOfFrequencyDifferencesLabel.Size = new System.Drawing.Size(52, 13);
             this.numberOfFrequencyDifferencesLabel.TabIndex = 144;
@@ -323,7 +334,7 @@
             // numberOfFrequencyDifferences
             // 
             this.numberOfFrequencyDifferences.Enabled = false;
-            this.numberOfFrequencyDifferences.Location = new System.Drawing.Point(414, 439);
+            this.numberOfFrequencyDifferences.Location = new System.Drawing.Point(414, 484);
             this.numberOfFrequencyDifferences.Name = "numberOfFrequencyDifferences";
             this.numberOfFrequencyDifferences.ReadOnly = true;
             this.numberOfFrequencyDifferences.Size = new System.Drawing.Size(65, 20);
@@ -335,7 +346,7 @@
             // 
             this.numberOfZeroFrequenciesLabel.AutoSize = true;
             this.numberOfZeroFrequenciesLabel.Enabled = false;
-            this.numberOfZeroFrequenciesLabel.Location = new System.Drawing.Point(503, 442);
+            this.numberOfZeroFrequenciesLabel.Location = new System.Drawing.Point(503, 487);
             this.numberOfZeroFrequenciesLabel.Name = "numberOfZeroFrequenciesLabel";
             this.numberOfZeroFrequenciesLabel.Size = new System.Drawing.Size(63, 13);
             this.numberOfZeroFrequenciesLabel.TabIndex = 146;
@@ -344,7 +355,7 @@
             // numberOfZeroFrequencies
             // 
             this.numberOfZeroFrequencies.Enabled = false;
-            this.numberOfZeroFrequencies.Location = new System.Drawing.Point(592, 439);
+            this.numberOfZeroFrequencies.Location = new System.Drawing.Point(592, 484);
             this.numberOfZeroFrequencies.Name = "numberOfZeroFrequencies";
             this.numberOfZeroFrequencies.ReadOnly = true;
             this.numberOfZeroFrequencies.Size = new System.Drawing.Size(65, 20);
@@ -356,7 +367,7 @@
             // 
             this.averageFrequencyDifferenceLabel.AutoSize = true;
             this.averageFrequencyDifferenceLabel.Enabled = false;
-            this.averageFrequencyDifferenceLabel.Location = new System.Drawing.Point(685, 404);
+            this.averageFrequencyDifferenceLabel.Location = new System.Drawing.Point(685, 449);
             this.averageFrequencyDifferenceLabel.Name = "averageFrequencyDifferenceLabel";
             this.averageFrequencyDifferenceLabel.Size = new System.Drawing.Size(64, 13);
             this.averageFrequencyDifferenceLabel.TabIndex = 148;
@@ -365,7 +376,7 @@
             // averageFrequencyDifference
             // 
             this.averageFrequencyDifference.Enabled = false;
-            this.averageFrequencyDifference.Location = new System.Drawing.Point(774, 401);
+            this.averageFrequencyDifference.Location = new System.Drawing.Point(774, 446);
             this.averageFrequencyDifference.Name = "averageFrequencyDifference";
             this.averageFrequencyDifference.ReadOnly = true;
             this.averageFrequencyDifference.Size = new System.Drawing.Size(65, 20);
@@ -377,7 +388,7 @@
             // 
             this.minimumFrequencyDifferenceLabel.AutoSize = true;
             this.minimumFrequencyDifferenceLabel.Enabled = false;
-            this.minimumFrequencyDifferenceLabel.Location = new System.Drawing.Point(685, 442);
+            this.minimumFrequencyDifferenceLabel.Location = new System.Drawing.Point(685, 487);
             this.minimumFrequencyDifferenceLabel.Name = "minimumFrequencyDifferenceLabel";
             this.minimumFrequencyDifferenceLabel.Size = new System.Drawing.Size(62, 13);
             this.minimumFrequencyDifferenceLabel.TabIndex = 150;
@@ -386,7 +397,7 @@
             // minimumFrequencyDifference
             // 
             this.minimumFrequencyDifference.Enabled = false;
-            this.minimumFrequencyDifference.Location = new System.Drawing.Point(774, 439);
+            this.minimumFrequencyDifference.Location = new System.Drawing.Point(774, 484);
             this.minimumFrequencyDifference.Name = "minimumFrequencyDifference";
             this.minimumFrequencyDifference.ReadOnly = true;
             this.minimumFrequencyDifference.Size = new System.Drawing.Size(65, 20);
@@ -398,7 +409,7 @@
             // 
             this.maximumFrequencyDifferenceLabel.AutoSize = true;
             this.maximumFrequencyDifferenceLabel.Enabled = false;
-            this.maximumFrequencyDifferenceLabel.Location = new System.Drawing.Point(685, 479);
+            this.maximumFrequencyDifferenceLabel.Location = new System.Drawing.Point(685, 524);
             this.maximumFrequencyDifferenceLabel.Name = "maximumFrequencyDifferenceLabel";
             this.maximumFrequencyDifferenceLabel.Size = new System.Drawing.Size(65, 13);
             this.maximumFrequencyDifferenceLabel.TabIndex = 152;
@@ -407,7 +418,7 @@
             // maximumFrequencyDifference
             // 
             this.maximumFrequencyDifference.Enabled = false;
-            this.maximumFrequencyDifference.Location = new System.Drawing.Point(774, 476);
+            this.maximumFrequencyDifference.Location = new System.Drawing.Point(774, 521);
             this.maximumFrequencyDifference.Name = "maximumFrequencyDifference";
             this.maximumFrequencyDifference.ReadOnly = true;
             this.maximumFrequencyDifference.Size = new System.Drawing.Size(65, 20);
@@ -415,10 +426,91 @@
             this.maximumFrequencyDifference.TabStop = false;
             this.maximumFrequencyDifference.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Filter = "WAV Files (*.wav)|*.wav";
+            // 
+            // openFileButton
+            // 
+            this.openFileButton.Location = new System.Drawing.Point(3, 4);
+            this.openFileButton.Name = "openFileButton";
+            this.openFileButton.Size = new System.Drawing.Size(82, 23);
+            this.openFileButton.TabIndex = 153;
+            this.openFileButton.Text = "Browse";
+            this.openFileButton.UseVisualStyleBackColor = true;
+            this.openFileButton.Click += new System.EventHandler(this.openFileButton_Click);
+            // 
+            // radioGenerate
+            // 
+            this.radioGenerate.AutoSize = true;
+            this.radioGenerate.Checked = true;
+            this.radioGenerate.Location = new System.Drawing.Point(8, 8);
+            this.radioGenerate.Name = "radioGenerate";
+            this.radioGenerate.Size = new System.Drawing.Size(99, 17);
+            this.radioGenerate.TabIndex = 154;
+            this.radioGenerate.TabStop = true;
+            this.radioGenerate.Text = "Generate signal";
+            this.radioGenerate.UseVisualStyleBackColor = true;
+            this.radioGenerate.Click += new System.EventHandler(this.radioGenerate_Click);
+            // 
+            // radioExistingFile
+            // 
+            this.radioExistingFile.AutoSize = true;
+            this.radioExistingFile.Location = new System.Drawing.Point(112, 8);
+            this.radioExistingFile.Name = "radioExistingFile";
+            this.radioExistingFile.Size = new System.Drawing.Size(110, 17);
+            this.radioExistingFile.TabIndex = 155;
+            this.radioExistingFile.Text = "Use existing WAV";
+            this.radioExistingFile.UseVisualStyleBackColor = true;
+            this.radioExistingFile.Click += new System.EventHandler(this.radioExistingFile_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.radioExistingFile);
+            this.panel1.Controls.Add(this.radioGenerate);
+            this.panel1.Location = new System.Drawing.Point(96, 378);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(224, 31);
+            this.panel1.TabIndex = 156;
+            // 
+            // generationPanel
+            // 
+            this.generationPanel.Controls.Add(this.testString);
+            this.generationPanel.Controls.Add(this.writeWavFiles);
+            this.generationPanel.Controls.Add(this.testStringLabel);
+            this.generationPanel.Location = new System.Drawing.Point(324, 372);
+            this.generationPanel.Name = "generationPanel";
+            this.generationPanel.Size = new System.Drawing.Size(354, 38);
+            this.generationPanel.TabIndex = 157;
+            // 
+            // existingFilePanel
+            // 
+            this.existingFilePanel.Controls.Add(this.filenameTextBox);
+            this.existingFilePanel.Controls.Add(this.openFileButton);
+            this.existingFilePanel.Location = new System.Drawing.Point(324, 378);
+            this.existingFilePanel.Name = "existingFilePanel";
+            this.existingFilePanel.Size = new System.Drawing.Size(547, 32);
+            this.existingFilePanel.TabIndex = 158;
+            this.existingFilePanel.Visible = false;
+            // 
+            // filenameTextBox
+            // 
+            this.filenameTextBox.Enabled = false;
+            this.filenameTextBox.Location = new System.Drawing.Point(91, 5);
+            this.filenameTextBox.Name = "filenameTextBox";
+            this.filenameTextBox.ReadOnly = true;
+            this.filenameTextBox.Size = new System.Drawing.Size(438, 20);
+            this.filenameTextBox.TabIndex = 159;
+            this.filenameTextBox.TabStop = false;
+            this.filenameTextBox.Text = "File name";
+            // 
             // SingleSignalAnalyzerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.generationPanel);
+            this.Controls.Add(this.existingFilePanel);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.maximumFrequencyDifferenceLabel);
             this.Controls.Add(this.maximumFrequencyDifference);
             this.Controls.Add(this.minimumFrequencyDifferenceLabel);
@@ -431,15 +523,11 @@
             this.Controls.Add(this.numberOfFrequencyDifferences);
             this.Controls.Add(this.zoom);
             this.Controls.Add(this.zoomLabel);
-            this.Controls.Add(this.scopeControl1);
             this.Controls.Add(this.matchLabel);
             this.Controls.Add(this.resultString);
             this.Controls.Add(this.resultStringLabel);
             this.Controls.Add(this.startButton);
-            this.Controls.Add(this.testString);
-            this.Controls.Add(this.testStringLabel);
             this.Controls.Add(this.playAudio);
-            this.Controls.Add(this.writeWavFiles);
             this.Controls.Add(this.baudRate);
             this.Controls.Add(this.baudRateLabel);
             this.Controls.Add(this.audioLengthMicrosecondsLabel);
@@ -452,10 +540,17 @@
             this.Controls.Add(this.spaceFrequencyLabel);
             this.Controls.Add(this.spaceFrequency);
             this.Controls.Add(this.markFrequency);
+            this.Controls.Add(this.scopeControl1);
             this.Name = "SingleSignalAnalyzerControl";
-            this.Size = new System.Drawing.Size(943, 587);
+            this.Size = new System.Drawing.Size(943, 629);
             this.Load += new System.EventHandler(this.SingleSignalAnalyzerControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.zoom)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.generationPanel.ResumeLayout(false);
+            this.generationPanel.PerformLayout();
+            this.existingFilePanel.ResumeLayout(false);
+            this.existingFilePanel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -498,5 +593,13 @@
         private System.Windows.Forms.TextBox minimumFrequencyDifference;
         private System.Windows.Forms.Label maximumFrequencyDifferenceLabel;
         private System.Windows.Forms.TextBox maximumFrequencyDifference;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button openFileButton;
+        private System.Windows.Forms.RadioButton radioGenerate;
+        private System.Windows.Forms.RadioButton radioExistingFile;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel generationPanel;
+        private System.Windows.Forms.Panel existingFilePanel;
+        private System.Windows.Forms.TextBox filenameTextBox;
     }
 }

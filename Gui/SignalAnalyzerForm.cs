@@ -5,13 +5,16 @@ namespace Gui
 {
     public partial class SignalAnalyzerForm : Form
     {
+        /*
         private MultipleSignalAnalyzerControl _multipleSignalAnalyzerControl;
         private SingleSignalAnalyzerControl _singleSignalAnalyzerControl;
+        */
 
         public SignalAnalyzerForm()
         {
             InitializeComponent();
 
+            /*
             _multipleSignalAnalyzerControl = new MultipleSignalAnalyzerControl();
             _multipleSignalAnalyzerControl.Dock = DockStyle.Fill;
             this.Controls.Add(_multipleSignalAnalyzerControl);
@@ -19,12 +22,13 @@ namespace Gui
             _singleSignalAnalyzerControl = new SingleSignalAnalyzerControl();
             _singleSignalAnalyzerControl.Dock = DockStyle.Fill;
             this.Controls.Add(_singleSignalAnalyzerControl);
+            */
 
             multipleSignalsToolStripMenuItem.Checked = false;
-            _multipleSignalAnalyzerControl.Hide();
+            multipleSignalAnalyzerControl1.Hide();
 
             singleSignalToolStripMenuItem.Checked = true;
-            _singleSignalAnalyzerControl.Show();
+            singleSignalAnalyzerControl1.Show();
 
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             var versionString = $"v{version.Major}.{version.Minor}.{version.Build}";
@@ -34,15 +38,15 @@ namespace Gui
 
         private void multipleSignalsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _singleSignalAnalyzerControl.Hide();
-            _multipleSignalAnalyzerControl.Show();
+            singleSignalAnalyzerControl1.Hide();
+            multipleSignalAnalyzerControl1.Show();
             singleSignalToolStripMenuItem.Checked = false;
         }
 
         private void singleSignalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _multipleSignalAnalyzerControl.Hide();
-            _singleSignalAnalyzerControl.Show();
+            multipleSignalAnalyzerControl1.Hide();
+            singleSignalAnalyzerControl1.Show();
             multipleSignalsToolStripMenuItem.Checked = false;
         }
     }
