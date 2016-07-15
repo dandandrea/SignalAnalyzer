@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Gui
@@ -15,10 +16,13 @@ namespace Gui
         private Color _defaultMatchLabelBackColor;
         private string _defaultStartButtonText;
 
+        private static readonly string _defaultFilenameText = "File name";
+
         public SingleSignalAnalyzerControl()
         {
             InitializeComponent();
 
+            filenameTextBox.Text = _defaultFilenameText;
             matchLabel.Text = string.Empty;
 
             SetBelowDataGridToolTipText();
@@ -37,12 +41,6 @@ namespace Gui
                 return;
             }
 
-            if (radioExistingFile.Checked == true)
-            {
-                MessageBox.Show("Analyzing existing WAV files not supported just yet");
-                return;
-            }
-
             UpdateControls(true);
 
             backgroundWorker1.RunWorkerAsync();
@@ -50,37 +48,67 @@ namespace Gui
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            TestRunnerArguments testRunnerArguments = null;
-            try
+            string filename = null;
+            if (radioExistingFile.Checked == true)
             {
-                testRunnerArguments = ArgumentProcessor.ProcessArguments(
-                    new FormInput
+                if (string.IsNullOrEmpty(filenameTextBox.Text) || filenameTextBox.Text == _defaultFilenameText)
+                {
+                    MessageBox.Show("Please select a file", "No file specified");
+                    return;
+                }
+
+                try
+                {
+                    using (var fileStream = File.Open(filenameTextBox.Text, FileMode.Open, FileAccess.Read, FileShare.None))
                     {
-                        SpaceFrequency = spaceFrequency.Text,
-                        MarkFrequency = markFrequency.Text,
-                        Tolerance = tolerance.Text,
-                        BaudStart = baudRate.Text,
-                        BaudIncrement = "1",
-                        BaudEnd = baudRate.Text,
-                        BoostStart = string.Empty,
-                        BoostIncrement = string.Empty,
-                        BoostEnd = string.Empty,
-                        WriteWavFiles = writeWavFiles.Checked,
-                        PlayAudio = playAudio.Checked,
-                        TestString = testString.Text
+                        filename = filenameTextBox.Text;
                     }
-                );
-            }
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(ex.Message, "Input validation");
-                return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error opening file ({ex.Message})", "File error");
+                    return;
+                }
             }
 
-            var testRunner = new TestRunner();
-            testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
-            testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
-            testRunner.Run(testRunnerArguments);
+            if (radioExistingFile.Checked == true)
+            {
+                FileBasedFormInput formInput = null;
+                try
+                {
+                    formInput = new FileBasedFormInput(spaceFrequency.Text, markFrequency.Text, tolerance.Text, baudRate.Text, "1", baudRate.Text,
+                        string.Empty, string.Empty, string.Empty, filename, playAudio.Checked);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message, "Input validation");
+                    return;
+                }
+
+                var testRunner = new TestRunner();
+                testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
+                testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
+                testRunner.Run(formInput);
+            }
+            else
+            {
+                SignalGenerationBasedFormInput formInput = null;
+                try
+                {
+                    formInput = new SignalGenerationBasedFormInput(spaceFrequency.Text, markFrequency.Text, tolerance.Text, baudRate.Text, "1", baudRate.Text,
+                        string.Empty, string.Empty, string.Empty, writeWavFiles.Checked, playAudio.Checked, testString.Text);
+                }
+                catch (ArgumentException ex)
+                {
+                    MessageBox.Show(ex.Message, "Input validation");
+                    return;
+                }
+
+                var testRunner = new TestRunner();
+                testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
+                testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
+                testRunner.Run(formInput);
+            }
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -208,7 +236,11 @@ namespace Gui
             matchLabel.Enabled = true;
             matchLabel.ForeColor = Color.White;
 
-            if (_analysisResult.Matched == true)
+            if (_analysisResult.Matched.HasValue == false)
+            {
+                matchLabel.Visible = false;
+            }
+            else if (_analysisResult.Matched == true)
             {
                 matchLabel.Text = "Matched";
                 matchLabel.BackColor = Color.Green;

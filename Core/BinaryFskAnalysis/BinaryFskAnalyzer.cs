@@ -109,14 +109,13 @@ namespace Core.BinaryFskAnalysis
                 AverageFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Average() : 0
             };
 
+            var bits = new List<bool>();
+            analysisFrames.Where(x => x.Bit.HasValue == true).Select(x => x).ForEach(x => bits.Add(x.Bit.Value));
+            var resultingString = BitManipulator.BitsToString(bits);
+
             bool? match = null;
-            string resultingString = null;
             if (testString != null)
             {
-                var bits = new List<bool>();
-                analysisFrames.Where(x => x.Bit.HasValue == true).Select(x => x).ForEach(x => bits.Add(x.Bit.Value));
-
-                resultingString = BitManipulator.BitsToString(bits);
                 match = false;
                 if (resultingString == testString)
                 {

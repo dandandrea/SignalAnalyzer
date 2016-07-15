@@ -502,7 +502,6 @@
             this.filenameTextBox.Size = new System.Drawing.Size(438, 20);
             this.filenameTextBox.TabIndex = 159;
             this.filenameTextBox.TabStop = false;
-            this.filenameTextBox.Text = "File name";
             // 
             // SingleSignalAnalyzerControl
             // 

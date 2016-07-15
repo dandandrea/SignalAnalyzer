@@ -47,9 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentProcessor.cs" />
     <Compile Include="CsvExporter.cs" />
     <Compile Include="DataGridColumnInitializer.cs" />
+    <Compile Include="FileBasedFormInput.cs" />
     <Compile Include="FormInput.cs" />
     <Compile Include="MultipleSignalAnalyzerControl.cs">
       <SubType>UserControl</SubType>
@@ -65,6 +65,7 @@
     <Compile Include="SignalAnalyzerForm.Designer.cs">
       <DependentUpon>SignalAnalyzerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SignalGenerationBasedFormInput.cs" />
     <Compile Include="SingleSignalAnalyzerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,7 +73,6 @@
       <DependentUpon>SingleSignalAnalyzerControl.cs</DependentUpon>
     </Compile>
     <Compile Include="TestRunner.cs" />
-    <Compile Include="TestRunnerArguments.cs" />
     <EmbeddedResource Include="MultipleSignalAnalyzerControl.resx">
       <DependentUpon>MultipleSignalAnalyzerControl.cs</DependentUpon>
       <SubType>Designer</SubType>

@@ -5,24 +5,9 @@ namespace Gui
 {
     public partial class SignalAnalyzerForm : Form
     {
-        /*
-        private MultipleSignalAnalyzerControl _multipleSignalAnalyzerControl;
-        private SingleSignalAnalyzerControl _singleSignalAnalyzerControl;
-        */
-
         public SignalAnalyzerForm()
         {
             InitializeComponent();
-
-            /*
-            _multipleSignalAnalyzerControl = new MultipleSignalAnalyzerControl();
-            _multipleSignalAnalyzerControl.Dock = DockStyle.Fill;
-            this.Controls.Add(_multipleSignalAnalyzerControl);
-
-            _singleSignalAnalyzerControl = new SingleSignalAnalyzerControl();
-            _singleSignalAnalyzerControl.Dock = DockStyle.Fill;
-            this.Controls.Add(_singleSignalAnalyzerControl);
-            */
 
             multipleSignalsToolStripMenuItem.Checked = false;
             multipleSignalAnalyzerControl1.Hide();

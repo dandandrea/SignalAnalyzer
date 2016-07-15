@@ -54,26 +54,12 @@ namespace Gui
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
-            TestRunnerArguments testRunnerArguments = null;
+            SignalGenerationBasedFormInput formInput = null;
             try
             {
-                testRunnerArguments = ArgumentProcessor.ProcessArguments(
-                    new FormInput
-                    {
-                        SpaceFrequency = spaceFrequency.Text,
-                        MarkFrequency = markFrequency.Text,
-                        Tolerance = tolerance.Text,
-                        BaudStart = baudStart.Text,
-                        BaudIncrement = baudIncrement.Text,
-                        BaudEnd = baudEnd.Text,
-                        BoostStart = boostStart.Text,
-                        BoostIncrement = boostIncrement.Text,
-                        BoostEnd = boostEnd.Text,
-                        WriteWavFiles = writeWavFiles.Checked,
-                        PlayAudio = playAudio.Checked,
-                        TestString = testString.Text
-                    }
-                );
+                formInput = new SignalGenerationBasedFormInput(spaceFrequency.Text, markFrequency.Text, tolerance.Text, baudStart.Text,
+                    baudIncrement.Text, baudEnd.Text, boostStart.Text, boostIncrement.Text, boostEnd.Text, writeWavFiles.Checked,
+                    playAudio.Checked, testString.Text);
             }
             catch (ArgumentException ex)
             {
@@ -84,7 +70,7 @@ namespace Gui
             var testRunner = new TestRunner();
             testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
             testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
-            testRunner.Run(testRunnerArguments);
+            testRunner.Run(formInput);
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
