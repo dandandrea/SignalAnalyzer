@@ -4,6 +4,7 @@ using Core.BinaryData;
 using Core.BinaryFskAnalysis;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Gui
 {
@@ -126,7 +127,11 @@ namespace Gui
                         _audioAnalyzer = new AudioAnalyzer(_audioStream, _audioGenerator, (int)loopBoostFrequency);
 
                         FskAnalyzer.Initialize(_audioAnalyzer, new ZeroCrossingsFrequencyDetector(), _binaryFskAnalyzerSettings);
-                        FskAnalyzer.AnalyzeSignal();
+                        var analysisResult = FskAnalyzer.AnalyzeSignal();
+
+                        var numberOfBits = analysisResult.AnalysisFrames.Where(x => x.Bit.HasValue).Count();
+
+                        SignalGenerationComplete(numberOfBits, (int)(_audioAnalyzer.FileLengthInMicroseconds / Math.Pow(10, 3)), _audioAnalyzer.GetSamples().Samples.ToArray(), _audioAnalyzer.SampleRate);
 
                         if (input.PlayAudio == true)
                         {
