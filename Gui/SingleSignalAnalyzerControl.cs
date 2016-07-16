@@ -10,8 +10,6 @@ namespace Gui
 {
     public partial class SingleSignalAnalyzerControl : UserControl
     {
-        private AnalysisResultEventArgs _analysisResult;
-        private SignalGenerationResultEventArgs _signalGenerationResult;
         private Color _defaultMatchLabelForeColor;
         private Color _defaultMatchLabelBackColor;
         private string _defaultStartButtonText;
@@ -41,7 +39,7 @@ namespace Gui
                 return;
             }
 
-            UpdateControls(true);
+            DisableControls();
 
             backgroundWorker1.RunWorkerAsync();
         }
@@ -86,9 +84,8 @@ namespace Gui
                 }
 
                 var testRunner = new TestRunner();
-                testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
-                testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
-                testRunner.Run(formInput);
+                var analysisResult = testRunner.Run(formInput);
+                backgroundWorker1.ReportProgress(0, analysisResult);
             }
             else
             {
@@ -105,142 +102,132 @@ namespace Gui
                 }
 
                 var testRunner = new TestRunner();
-                testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
-                testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
-                testRunner.Run(formInput);
+                var analysisResult = testRunner.Run(formInput);
+                backgroundWorker1.ReportProgress(0, analysisResult);
             }
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (e.UserState is AnalysisResultEventArgs)
+            var analysisResult = (AnalysisResult)e.UserState;
+
+            UpdateScope(analysisResult);
+            UpdateAnalysisResults(analysisResult);
+            UpdateMatchIndicator(analysisResult);
+
+            if (analysisResult.SignalGenerationInformation != null)
             {
-                _analysisResult = (AnalysisResultEventArgs)e.UserState;
+                Debug.WriteLine("Updating signal generation information");
 
-                UpdateScope();
-                UpdateAnalysisResults();
-                UpdateMatchIndicator();
-            }
-
-            if (e.UserState is SignalGenerationResultEventArgs)
-            {
-                var signalGenerationResult = (SignalGenerationResultEventArgs)e.UserState;
-
-                UpdateSignalGenerationInformation(signalGenerationResult);
+                // TODO: Update signal generation information
+                Debug.WriteLine("TODO: UPDATE SIGNAL GENERATION INFORMATION");
             }
         }
 
         private void backgroundWorker1_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            UpdateControls(false);
+            EnableControls();
         }
 
-        private void AnalysisCompletedHandler(object sender, AnalysisResultEventArgs e)
+        private void DisableControls()
         {
-            backgroundWorker1.ReportProgress(0, e);
+            startButton.Enabled = false;
+            startButton.Text = "Analyzing...";
+            numberOfSymbolsLabel.Enabled = false;
+            numberOfSymbols.Enabled = false;
+            audioLengthMicrosecondsLabel.Enabled = false;
+            audioLengthMicroseconds.Enabled = false;
+            numberOfSymbols.Text = string.Empty;
+            audioLengthMicroseconds.Text = string.Empty;
+            numberOfZeroFrequencies.Text = string.Empty;
+            numberOfFrequencyDifferences.Text = string.Empty;
+            averageFrequencyDifference.Text = string.Empty;
+            minimumFrequencyDifference.Text = string.Empty;
+            maximumFrequencyDifference.Text = string.Empty;
+            resultStringLabel.Enabled = false;
+            resultString.Enabled = false;
+            resultString.Text = string.Empty;
+            matchLabel.Enabled = false;
+            matchLabel.Text = string.Empty;
+            matchLabel.ForeColor = _defaultMatchLabelForeColor;
+            matchLabel.BackColor = _defaultMatchLabelBackColor;
+            spaceFrequency.ReadOnly = true;
+            markFrequency.ReadOnly = true;
+            tolerance.ReadOnly = true;
+            baudRate.ReadOnly = true;
+            testString.ReadOnly = true;
+            writeWavFiles.Enabled = false;
+            playAudio.Enabled = false;
         }
 
-       private void SignalGenerationCompletedHandler(object sender, SignalGenerationResultEventArgs e)
+        public void EnableControls()
         {
-            backgroundWorker1.ReportProgress(0, e);
+            startButton.Enabled = true;
+            startButton.Text = _defaultStartButtonText;
+            spaceFrequency.ReadOnly = false;
+            markFrequency.ReadOnly = false;
+            tolerance.ReadOnly = false;
+            baudRate.ReadOnly = false;
+            testString.ReadOnly = false;
+            writeWavFiles.Enabled = true;
+            playAudio.Enabled = true;
         }
 
-        private void UpdateControls(bool running)
+        private void UpdateScope(AnalysisResult analysisResult)
         {
-            if (running == true)
-            {
-                startButton.Enabled = false;
-                startButton.Text = "Analyzing...";
-                numberOfSymbolsLabel.Enabled = false;
-                numberOfSymbols.Enabled = false;
-                audioLengthMicrosecondsLabel.Enabled = false;
-                audioLengthMicroseconds.Enabled = false;
-                numberOfSymbols.Text = string.Empty;
-                audioLengthMicroseconds.Text = string.Empty;
-                numberOfZeroFrequencies.Text = string.Empty;
-                numberOfFrequencyDifferences.Text = string.Empty;
-                averageFrequencyDifference.Text = string.Empty;
-                minimumFrequencyDifference.Text = string.Empty;
-                maximumFrequencyDifference.Text = string.Empty;
-                resultStringLabel.Enabled = false;
-                resultString.Enabled = false;
-                resultString.Text = string.Empty;
-                matchLabel.Enabled = false;
-                matchLabel.Text = string.Empty;
-                matchLabel.ForeColor = _defaultMatchLabelForeColor;
-                matchLabel.BackColor = _defaultMatchLabelBackColor;
-                spaceFrequency.ReadOnly = true;
-                markFrequency.ReadOnly = true;
-                tolerance.ReadOnly = true;
-                baudRate.ReadOnly = true;
-                testString.ReadOnly = true;
-                writeWavFiles.Enabled = false;
-                playAudio.Enabled = false;
-            }
-            else
-            {
-                startButton.Enabled = true;
-                startButton.Text = _defaultStartButtonText;
-                spaceFrequency.ReadOnly = false;
-                markFrequency.ReadOnly = false;
-                tolerance.ReadOnly = false;
-                baudRate.ReadOnly = false;
-                testString.ReadOnly = false;
-                writeWavFiles.Enabled = true;
-                playAudio.Enabled = true;
-            }
-        }
+            Debug.WriteLine("Updating scope");
 
-        private void UpdateScope()
-        {
-            numberOfSymbols.Text = _signalGenerationResult.NumberOfBits.ToString();
-            audioLengthMicroseconds.Text = (_signalGenerationResult.AudioLengthInMicroseconds / _signalGenerationResult.NumberOfBits).ToString();
+            numberOfSymbols.Text = analysisResult.SignalGenerationInformation.NumberOfBits.ToString();
+            audioLengthMicroseconds.Text =
+                (analysisResult.SignalGenerationInformation.AudioLengthInMicroseconds / analysisResult.SignalGenerationInformation.NumberOfBits).ToString();
             numberOfSymbolsLabel.Enabled = true;
             numberOfSymbols.Enabled = true;
             audioLengthMicrosecondsLabel.Enabled = true;
             audioLengthMicroseconds.Enabled = true;
-            scopeControl1.DrawScope(_signalGenerationResult.Samples, _analysisResult, _signalGenerationResult.SampleRate,
-                int.Parse(baudRate.Text), int.Parse(numberOfSymbols.Text), zoom.Value);
+            float[] samples = new float[analysisResult.SignalGenerationInformation.Samples.Count];
+            analysisResult.SignalGenerationInformation.Samples.CopyTo(samples, 0);
+            scopeControl1.DrawScope(samples, analysisResult, analysisResult.SignalGenerationInformation.SampleRate, int.Parse(baudRate.Text),
+                int.Parse(numberOfSymbols.Text), zoom.Value);
 
         }
 
-        private void UpdateAnalysisResults()
+        private void UpdateAnalysisResults(AnalysisResult analysisResult)
         {
             numberOfFrequencyDifferencesLabel.Enabled = true;
             numberOfFrequencyDifferences.Enabled = true;
-            numberOfFrequencyDifferences.Text = _analysisResult.NumberOfFrequencyDifferences.ToString();
+            numberOfFrequencyDifferences.Text = analysisResult.NumberOfFrequencyDifferences.ToString();
 
             numberOfZeroFrequenciesLabel.Enabled = true;
             numberOfZeroFrequencies.Enabled = true;
-            numberOfZeroFrequencies.Text = _analysisResult.NumberOfZeroFrequencies.ToString();
+            numberOfZeroFrequencies.Text = analysisResult.NumberOfZeroFrequencies.ToString();
 
             averageFrequencyDifferenceLabel.Enabled = true;
             averageFrequencyDifference.Enabled = true;
-            averageFrequencyDifference.Text = $"{_analysisResult.AverageFrequencyDifference:N1}";
+            averageFrequencyDifference.Text = $"{analysisResult.AverageFrequencyDifference:N1}";
 
             minimumFrequencyDifferenceLabel.Enabled = true;
             minimumFrequencyDifference.Enabled = true;
-            minimumFrequencyDifference.Text = $"{_analysisResult.MinimumFrequencyDifference:N1}";
+            minimumFrequencyDifference.Text = $"{analysisResult.MinimumFrequencyDifference:N1}";
 
             maximumFrequencyDifferenceLabel.Enabled = true;
             maximumFrequencyDifference.Enabled = true;
-            maximumFrequencyDifference.Text = $"{_analysisResult.MaximumFrequencyDifference:N1}";
+            maximumFrequencyDifference.Text = $"{analysisResult.MaximumFrequencyDifference:N1}";
 
             resultStringLabel.Enabled = true;
             resultString.Enabled = true;
-            resultString.Text = _analysisResult.ResultingString;
+            resultString.Text = analysisResult.ResultingString;
         }
 
-        private void UpdateMatchIndicator()
+        private void UpdateMatchIndicator(AnalysisResult analysisResult)
         {
             matchLabel.Enabled = true;
             matchLabel.ForeColor = Color.White;
 
-            if (_analysisResult.Matched.HasValue == false)
+            if (analysisResult.Match.HasValue == false)
             {
                 matchLabel.Visible = false;
             }
-            else if (_analysisResult.Matched == true)
+            else if (analysisResult.Match == true)
             {
                 matchLabel.Text = "Matched";
                 matchLabel.BackColor = Color.Green;
@@ -252,14 +239,11 @@ namespace Gui
             }
         }
 
-        private void UpdateSignalGenerationInformation(SignalGenerationResultEventArgs signalGenerationResult)
-        {
-            _signalGenerationResult = signalGenerationResult;
-        }
-
         private void zoom_ValueChanged(object sender, EventArgs e)
         {
-            scopeControl1.DrawScope(_signalGenerationResult.Samples, _analysisResult, _signalGenerationResult.SampleRate,
+            float[] samples = new float[scopeControl1.AnalysisResult.SignalGenerationInformation.Samples.Count];
+            scopeControl1.AnalysisResult.SignalGenerationInformation.Samples.CopyTo(samples, 0);
+            scopeControl1.DrawScope(samples, scopeControl1.AnalysisResult, scopeControl1.AnalysisResult.SignalGenerationInformation.SampleRate,
                 int.Parse(baudRate.Text), int.Parse(numberOfSymbols.Text), zoom.Value);
         }
 

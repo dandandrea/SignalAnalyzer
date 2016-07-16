@@ -10,6 +10,8 @@ namespace GuiControls
 {
     public partial class ScopeControl : UserControl
     {
+        public AnalysisResult AnalysisResult { get; private set; }
+
         // TODO: Is there a better way to set this?
         private static double _imageHeightFactor = 0.8;
 
@@ -24,8 +26,10 @@ namespace GuiControls
             _pictureBoxOriginalHeight = scopePictureBox.Height;
         }
 
-        public void DrawScope(float[] samples, AnalysisResultEventArgs analysisResult, int sampleRate, int baudRate, int numberOfSymbols, int desiredSamplesPerSymbol = 100)
+        public void DrawScope(float[] samples, AnalysisResult analysisResult, int sampleRate, int baudRate, int numberOfSymbols, int desiredSamplesPerSymbol = 100)
         {
+            AnalysisResult = analysisResult;
+
             var samplesPerSymbol = sampleRate / baudRate;
 
             // Debug.WriteLine($"[ScopeControl] Samples per symbol: {samplesPerSymbol}, desired samples per symbol: {desiredSamplesPerSymbol}");
@@ -69,10 +73,10 @@ namespace GuiControls
                 var mediumFont = new Font("Arial", 10);
                 var smallFont = new Font("Arial", 8);
 
-                if (analysisResult != null && analysisResult.AnalysisResult != null && analysisResult.AnalysisResult.AnalysisFrames != null)
+                if (analysisResult != null && analysisResult.AnalysisFrames != null)
                 {
-                    var analysisFrames = new AnalysisFrame[analysisResult.AnalysisResult.AnalysisFrames.Count];
-                    analysisResult.AnalysisResult.AnalysisFrames.CopyTo(analysisFrames, 0);
+                    var analysisFrames = new AnalysisFrame[analysisResult.AnalysisFrames.Count];
+                    analysisResult.AnalysisFrames.CopyTo(analysisFrames, 0);
 
                     var frame = 0;
                     for (int x = 0; x < imageWidth - 1; x++)

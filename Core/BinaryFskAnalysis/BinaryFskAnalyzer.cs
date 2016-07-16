@@ -8,7 +8,7 @@ using Core.Linq;
 
 namespace Core.BinaryFskAnalysis
 {
-    public class BinaryFskAnalyzer : BinaryFskAnalyzerEventSource, IBinaryFskAnalyzer
+    public class BinaryFskAnalyzer : IBinaryFskAnalyzer
     {
         private IAudioAnalyzer _audioAnalyzer;
         private IFrequencyDetector _frequencyDetector;
@@ -99,16 +99,6 @@ namespace Core.BinaryFskAnalysis
                 );
             }
 
-            var analysisResult = new AnalysisResult
-            {
-                AnalysisFrames = analysisFrames,
-                NumberOfFrequencyDifferences = frequencyDifferences.Count(),
-                NumberOfZeroFrequencies = numberOfZeroFrequencies,
-                MinimumFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Min() : 0,
-                MaximumFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Max() : 0,
-                AverageFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Average() : 0
-            };
-
             var bits = new List<bool>();
             analysisFrames.Where(x => x.Bit.HasValue == true).Select(x => x).ForEach(x => bits.Add(x.Bit.Value));
             var resultingString = BitManipulator.BitsToString(bits);
@@ -123,9 +113,30 @@ namespace Core.BinaryFskAnalysis
                 }
             }
 
-            // Debug.WriteLine($"Boost freq.: {_audioAnalyzer.BoostFrequencyAmount} Hz, avg. freq. diff.: {averageFrequencyDifference}, # missed freqs.: {missedFrequencies}");
+            var signalGenerationInformation = new SignalGenerationInformation
+            {
+                AudioLengthInMicroseconds = (int)_audioAnalyzer.FileLengthInMicroseconds,
+                NumberOfBits = bits.Count,
+                SampleRate = _audioAnalyzer.SampleRate,
+                Samples = _audioAnalyzer.GetSamples().Samples
+            };
 
-            AnalysisComplete((int)_settings.BaudRate, _audioAnalyzer.BoostFrequencyAmount, analysisResult, resultingString, match);
+            var analysisResult = new AnalysisResult
+            {
+                SignalGenerationInformation = signalGenerationInformation,
+                AnalysisFrames = analysisFrames,
+                NumberOfFrequencyDifferences = frequencyDifferences.Count(),
+                NumberOfZeroFrequencies = numberOfZeroFrequencies,
+                BaudRate = (int)_settings.BaudRate,
+                BoostFrequencyAmount = _audioAnalyzer.BoostFrequencyAmount,
+                ResultingString = resultingString,
+                Match = match,
+                MinimumFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Min() : 0,
+                MaximumFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Max() : 0,
+                AverageFrequencyDifference = frequencyDifferences.Count() > 0 ? frequencyDifferences.Average() : 0
+            };
+
+            // Debug.WriteLine($"Boost freq.: {_audioAnalyzer.BoostFrequencyAmount} Hz, avg. freq. diff.: {averageFrequencyDifference}, # missed freqs.: {missedFrequencies}");
 
             return analysisResult;
         }

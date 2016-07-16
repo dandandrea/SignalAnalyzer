@@ -11,7 +11,7 @@ namespace Gui
 {
     public partial class MultipleSignalAnalyzerControl : UserControl
     {
-        private IList<AnalysisResultEventArgs> _analysisResults;
+        private IList<AnalysisResult> _analysisResults;
 
         public MultipleSignalAnalyzerControl()
         {
@@ -21,7 +21,7 @@ namespace Gui
 
             SetBelowDataGridToolTipText();
 
-            _analysisResults = new BindingList<AnalysisResultEventArgs>();
+            _analysisResults = new BindingList<AnalysisResult>();
             mainDataGrid.DataSource = _analysisResults;
 
             backgroundWorker1.ProgressChanged += BackgroundWorker1_ProgressChanged;
@@ -68,19 +68,17 @@ namespace Gui
             }
 
             var testRunner = new TestRunner();
-            testRunner.FskAnalyzer.AnalysisCompleted += AnalysisCompletedHandler;
-            testRunner.SignalGenerationCompleted += SignalGenerationCompletedHandler;
             testRunner.Run(formInput);
         }
 
         private void BackgroundWorker1_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            if (e.UserState is AnalysisResultEventArgs)
+            if (e.UserState is AnalysisResult)
             {
-                var analysisResult = (AnalysisResultEventArgs)e.UserState;
+                var analysisResult = (AnalysisResult)e.UserState;
                 _analysisResults.Add(analysisResult);
 
-                if (analysisResult.Matched == true)
+                if (analysisResult.Match == true)
                 {
                     mainDataGrid.Rows[mainDataGrid.RowCount - 1].Cells[mainDataGrid.ColumnCount - 1].Style.BackColor = Color.Green;
                 }
@@ -94,7 +92,7 @@ namespace Gui
                 return;
             }
 
-            var signalGenerationResult = (SignalGenerationResultEventArgs)e.UserState;
+            var signalGenerationResult = ((AnalysisResult)e.UserState).SignalGenerationInformation;
             numberOfBits.Text = signalGenerationResult.NumberOfBits.ToString();
             audioLengthMicroseconds.Text = (signalGenerationResult.AudioLengthInMicroseconds / signalGenerationResult.NumberOfBits).ToString();
             numberOfBitsLabel.Enabled = true;
@@ -112,16 +110,6 @@ namespace Gui
             }
 
             startButton.Enabled = true;
-        }
-
-        private void AnalysisCompletedHandler(object sender, AnalysisResultEventArgs e)
-        {
-            backgroundWorker1.ReportProgress(0, e);
-        }
-
-        private void SignalGenerationCompletedHandler(object sender, SignalGenerationResultEventArgs e)
-        {
-            backgroundWorker1.ReportProgress(0, e);
         }
 
         private void exportToCsvButton_Click(object sender, EventArgs e)
