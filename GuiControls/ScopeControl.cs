@@ -26,6 +26,19 @@ namespace GuiControls
             _pictureBoxOriginalHeight = scopePictureBox.Height;
         }
 
+        public void Clear()
+        {
+            var image = new Bitmap(scopePictureBox.Width, scopePictureBox.Height);
+
+            using (Graphics g = Graphics.FromImage(image))
+            {
+                g.Clear(Color.Black);
+            }
+
+            scopePictureBox.Image = image;
+            scopePictureBox.Refresh();
+        }
+
         public void DrawScope(float[] samples, AnalysisResult analysisResult, int sampleRate, int baudRate, int numberOfSymbols, int desiredSamplesPerSymbol = 100)
         {
             AnalysisResult = analysisResult;

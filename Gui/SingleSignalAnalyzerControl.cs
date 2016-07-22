@@ -177,18 +177,25 @@ namespace Gui
         {
             Debug.WriteLine("Updating scope");
 
-            numberOfSymbols.Text = analysisResult.SignalGenerationInformation.NumberOfBits.ToString();
-            audioLengthMicroseconds.Text =
-                (analysisResult.SignalGenerationInformation.AudioLengthInMicroseconds / analysisResult.SignalGenerationInformation.NumberOfBits).ToString();
+            numberOfSymbols.Text = "N/A";
+            audioLengthMicroseconds.Text = "N/A";
             numberOfSymbolsLabel.Enabled = true;
             numberOfSymbols.Enabled = true;
             audioLengthMicrosecondsLabel.Enabled = true;
             audioLengthMicroseconds.Enabled = true;
-            float[] samples = new float[analysisResult.SignalGenerationInformation.Samples.Count];
-            analysisResult.SignalGenerationInformation.Samples.CopyTo(samples, 0);
-            scopeControl1.DrawScope(samples, analysisResult, analysisResult.SignalGenerationInformation.SampleRate, int.Parse(baudRate.Text),
-                int.Parse(numberOfSymbols.Text), zoom.Value);
 
+            scopeControl1.Clear();
+
+            if (analysisResult.SignalGenerationInformation.NumberOfBits > 0)
+            {
+                numberOfSymbols.Text = analysisResult.SignalGenerationInformation.NumberOfBits.ToString();
+                audioLengthMicroseconds.Text =
+                    (analysisResult.SignalGenerationInformation.AudioLengthInMicroseconds / analysisResult.SignalGenerationInformation.NumberOfBits).ToString();
+                float[] samples = new float[analysisResult.SignalGenerationInformation.Samples.Count];
+                analysisResult.SignalGenerationInformation.Samples.CopyTo(samples, 0);
+                scopeControl1.DrawScope(samples, analysisResult, analysisResult.SignalGenerationInformation.SampleRate, int.Parse(baudRate.Text),
+                    int.Parse(numberOfSymbols.Text), zoom.Value);
+            }
         }
 
         private void UpdateAnalysisResults(AnalysisResult analysisResult)
